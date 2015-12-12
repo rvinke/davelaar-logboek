@@ -63,6 +63,8 @@ class LogController extends Controller
         $log->brandklep_id = \Input::get('brandklep_id');
         $log->commentaar = \Input::get('commentaar');
 
+        $code = $this->genereer_tekeningnummer($log->project_id);
+        $log->code = $code;
 
         $log->save();
 
@@ -77,6 +79,8 @@ class LogController extends Controller
             $passthrough->save();
 
         }
+
+        return redirect()->route('projecten.show', ['id' => $log->project_id])->with('status', 'Logboek-item opgeslagen.');
 
     }
 
@@ -140,6 +144,39 @@ class LogController extends Controller
         $log->delete();
 
         return redirect()->route('projecten.show', ['id' => $project_id])->with('status', 'Log-item verwijderd.');
+
+    }
+
+
+    private function genereer_tekeningnummer($project_id)
+    {
+        //controleer wat het laaste getal is
+        $nummers = Log::where('project_id', $project_id)->select('code')->get();
+        $max_nummer = $nummers->max();
+
+
+        if(!empty($max_nummer->code)){
+
+            $code = $max_nummer->code;
+
+            $vervolgcijfer = $code + 1;
+            if(strlen($vervolgcijfer) === 1) $vervolgcijfer = '0'.$vervolgcijfer;
+
+            /*while(array_key_exists($vervolgcijfer, $nummers)){
+                //code bestaat al, andere code maken
+                $vervolgcijfer++;
+                if(strlen($vervolgcijfer) === 1) $vervolgcijfer = '0'.$vervolgcijfer;
+            }*/
+
+            //return $vervolgletter.$vervolgcijfer;
+
+            return $vervolgcijfer;
+
+        }
+
+
+        return '01';//beginpunt
+
 
     }
 }
