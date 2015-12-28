@@ -78,6 +78,8 @@ class LogController extends Controller
 
         }
 
+        return redirect()->route('log.map', [$log->id, $log->bouwlaag_id]);
+
     }
 
     /**
@@ -124,7 +126,77 @@ class LogController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $log = Log::findOrFail($id);
+
+        $log->project_id = $request->input('project_id');
+        $log->locatie_id = $request->input('locatie_id');
+        $log->bouwlaag_id = $request->input('bouwlaag_id');
+        $log->product_id = $request->input('product_id');
+        $log->brandklep_id = $request->input('brandklep_id');
+        $log->commentaar = $request->input('commentaar');
+
+        /*list($lat, $lng)  = explode("|", $request->input('position'));
+
+        $log->lat = $lat;
+        $log->lng = $lng;*/
+
+        $log->save();
+
+        $passthroughs = $log->passthroughs;
+
+
+        foreach($passthroughs as $passthrough) {
+            $passthrough->delete();
+        }
+
+        foreach(\Input::get('passthroughs')['passthrough_type_id'] as $key => $pt_id) {
+
+            $passthrough = new Passthrough();
+
+            $passthrough->log_id = $log->id;
+            $passthrough->passthrough_type_id = $pt_id;
+            $passthrough->count = (\Input::get('passthroughs')['count'][$key] + 1);
+
+            $passthrough->save();
+
+        }
+
+        return redirect()->route('log.map', [$log->id, $log->bouwlaag_id]);
+
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function updateMap(Request $request, $id)
+    {
+        $log = Log::findOrFail($id);
+
+
+        list($lat, $lng)  = explode("|", $request->input('position'));
+
+        $log->lat = $lat;
+        $log->lng = $lng;
+
+        $log->save();
+
+
+        return redirect()->route('projecten.show', $log->project_id)->with('status', 'Log opgeslagen.');
+
+    }
+
+    public function map($id, $floor_id) {
+
+        $log = Log::findOrFail($id);
+
+        return \View::make('logboek.map')
+            ->withLog($log)
+            ->withProject($log->project)
+            ->withFloor($floor_id);
     }
 
     /**

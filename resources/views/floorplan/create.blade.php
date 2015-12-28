@@ -14,8 +14,8 @@
             @endif
             --}}
 
-            {!! Form::model($log, array('route' => ['log.update', $log->id], 'method' => 'PATCH', 'autocomplete'=>'off', 'class' => 'form-horizontal')) !!}
-            @include('logboek.form', array('is_new'=>false, 'is_profile'=>false) )
+            {!! Form::open(array('route' => ['floorplan.store', $project_id], 'autocomplete'=>'off', 'class' => 'form-horizontal', 'files' => true)) !!}
+            @include('floorplan.form', array('is_new'=>true, 'is_profile'=>false) )
             {!! Form::close() !!}
 
         </div>
@@ -23,9 +23,8 @@
 @stop
 
 @push('styles')
-<link rel="stylesheet" href="/css/plugins/sweetalert/sweetalert.css" />
+<link rel="stylesheet" href="/css/plugins/datapicker/datepicker3.css" />
 <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.6.4/leaflet.css" />
 @endpush
-
 
 

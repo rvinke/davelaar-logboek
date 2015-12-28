@@ -16,6 +16,7 @@
     <link href="/css/app.css" rel="stylesheet">
 
     @stack('styles')
+
 </head>
 
 <body>

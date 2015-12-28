@@ -32,18 +32,23 @@ Route::group(['middleware' => 'auth'], function() {
     Route::get('api/v1/user', ['as' => 'api.user.v1', 'uses' => 'Auth\UserController@getDatatable']);
 
     Route::group(['middleware' => ['role:admin|medewerker']], function () {
-        Route::get('projecten', ['as' => 'projecten.index', 'uses' => 'Logboek\ProjectController@index']);
-        Route::get('projecten/create', ['as' => 'projecten.create', 'uses' => 'Logboek\ProjectController@create']);
-        Route::post('projecten/create', ['as' => 'projecten.store', 'uses' => 'Logboek\ProjectController@store']);
+        Route::get('project', ['as' => 'projecten.index', 'uses' => 'Logboek\ProjectController@index']);
+        Route::get('project/create', ['as' => 'projecten.create', 'uses' => 'Logboek\ProjectController@create']);
+        Route::post('project/create', ['as' => 'projecten.store', 'uses' => 'Logboek\ProjectController@store']);
 
-        Route::get('projecten/{id}/edit', ['as' => 'projecten.edit', 'uses' => 'Logboek\ProjectController@edit']);
-        Route::patch('projecten/{id}/update', ['as' => 'projecten.update', 'uses' => 'Logboek\ProjectController@update']);
-        Route::get('projecten/{id}', ['as' => 'projecten.show', 'uses' => 'Logboek\ProjectController@show']);
+        Route::get('project/{id}/edit', ['as' => 'projecten.edit', 'uses' => 'Logboek\ProjectController@edit']);
+        Route::patch('project/{id}/update', ['as' => 'projecten.update', 'uses' => 'Logboek\ProjectController@update']);
+        Route::get('project/{id}', ['as' => 'projecten.show', 'uses' => 'Logboek\ProjectController@show']);
+
+        Route::get('project/{id}/add-floorplan', ['as' => 'floorplan.create', 'uses' => 'FloorplanController@create']);
+        Route::post('project/{id}/add-floorplan', ['as' => 'floorplan.store', 'uses' => 'FloorplanController@store']);
 
     });
 
     Route::get('rapporten', ['as' => 'projecten.rapporten', 'uses' => 'Logboek\ProjectController@indexRapporten']);
-    Route::get('projecten/{id}/rapport', ['as' => 'rapport.show', 'uses' => 'Logboek\ProjectController@rapport']);
+    Route::get('project/{id}/rapport', ['as' => 'rapport.show', 'uses' => 'Logboek\ProjectController@rapport']);
+    Route::get('project/{id}/plattegrond/{floor}', ['as' => 'rapport.floorplan', 'uses' => 'Logboek\ProjectController@floorplan']);
+    Route::get('plattegrond-js/{projectId}/{floor}/{editable?}', ['as' => 'rapport.floorplan-js', 'uses' => 'Logboek\ProjectController@floorplanJavascript']);
 
     Route::group(['middleware' => ['role:admin|medewerker']], function () {
         Route::get('logboek/create/{project_id}', ['as' => 'log.create', 'uses' => 'Logboek\LogController@create']);
@@ -51,6 +56,9 @@ Route::group(['middleware' => 'auth'], function() {
         Route::get('logboek/{id}/edit', ['as' => 'log.edit', 'uses' => 'Logboek\LogController@edit']);
         Route::patch('logboek/{id}/update', ['as' => 'log.update', 'uses' => 'Logboek\LogController@update']);
         Route::get('logboek/{id}/delete', ['as' => 'log.delete', 'uses' => 'Logboek\LogController@destroy']);
+
+        Route::get('logboek/{id}/map/{floor}', ['as' => 'log.map', 'uses' => 'Logboek\LogController@map']);
+        Route::patch('logboek/{id}/update-map', ['as' => 'log.update-map', 'uses' => 'Logboek\LogController@updateMap']);
     });
 
     Route::group(['middleware' => ['role:admin|medewerker']], function () {

@@ -23,8 +23,8 @@ class MenuMiddleware
             Menu::make('example', function($menu) use ($user) {
                 $menu->add('Home', '')->icon('fa fa-th')->active('');
                 $menu->add('Logboek', 'logboek')->icon('fa fa-archive')->active('projecten/*');
-                if($user->hasRole('admin')) $menu->logboek->add('Projecten', 'projecten')->active('projecten');
-                $menu->logboek->add('Rapporten', 'rapporten')->active('projecten/rapporten');
+                if($user->hasRole('admin')) $menu->logboek->add('Projecten', \URL::route('projecten.index'))->active('projecten');
+                $menu->logboek->add('Rapporten', \URL::route('projecten.rapporten'))->active('projecten/rapporten');
 
                 if($user->hasRole(['admin', 'medewerker'])) {
                     $menu->add('Subdatabase', 'subdatabase')->icon('fa fa-archive')->active('subdatabase/*');

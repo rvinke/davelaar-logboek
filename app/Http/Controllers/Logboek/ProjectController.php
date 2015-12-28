@@ -5,12 +5,15 @@ namespace App\Http\Controllers\Logboek;
 use App\Models\Client;
 use App\Models\Location;
 
+use App\Models\Log;
 use App\Models\Project;
+use Barryvdh\Debugbar\LaravelDebugbar;
+use DebugBar\DebugBar;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
-use yajra\Datatables\Datatables;
+use Yajra\Datatables\Datatables;
 
 
 class ProjectController extends Controller
@@ -35,12 +38,12 @@ class ProjectController extends Controller
     public function getDatatable()
     {
 
-        $projecten = Project::select(['naam', 'id']);
+        $projecten = Project::select(['naam', 'id', 'created_at'])->orderBy('naam');
 
 
         return Datatables::of($projecten)
 
-            ->addColumn('action', function($project){
+            ->addColumn('action', function($project) {
                 return '<a href="'.\URL::route('projecten.show', ['id' => $project->id]).'"><i class="fa fa-search"></i></a>';
             })
             ->addColumn('status', function($project){
@@ -53,6 +56,7 @@ class ProjectController extends Controller
             ->addColumn('count_logs', function($project){
                 return $project->logs->count();
             })
+
             ->make(true);
     }
 
@@ -141,6 +145,66 @@ class ProjectController extends Controller
         return \View::make('project.projectdetails')->withProject($project);
     }
 
+    /**
+ * Display the specified resource.
+ *
+ * @param  int  $id
+ * @return \Illuminate\Http\Response
+ */
+    public function floorplan($id, $floor_id)
+    {
+        $project = Project::with('logs')
+            ->with('logs.passthroughs')
+            ->with('logs.passthroughs.passthrough_type')
+            ->with('logs.floor')
+            ->with('logs.system')
+            ->with('logs.location')
+            ->findOrFail($id);
+
+        $floorplan = $project->maps()->where('floor_id', $floor_id)->first();
+
+        return \View::make('project.projectplattegrond')
+            ->withProject($project)
+            ->withFloorplan($floorplan)
+            ->withFloor($floor_id);
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function floorplanJavascript($id, $floor_id, $editable = false)
+    {
+
+        \Debugbar::disable();
+
+        $project = Project::with('logs')
+            ->with('logs.passthroughs')
+            ->with('logs.passthroughs.passthrough_type')
+            ->with('logs.floor')
+            ->with('logs.system')
+            ->with('logs.location')
+            ->findOrFail($id);
+
+        $floorplan = $project->maps()->where('floor_id', $floor_id)->first();
+
+        $year = date("Y", strtotime($project->created_at));
+
+        if($editable) {
+            $log = Log::findOrFail($editable);
+        }
+
+        return \View::make('project.floorplanJS')->withProject($project)
+            ->withFloorplan($floorplan)
+            ->withFloor($floor_id)
+            ->withYear($year)
+            ->withEditable($editable)
+            ->withLog($log);
+
+    }
+
 
     public function rapport($id)
     {
@@ -151,9 +215,12 @@ class ProjectController extends Controller
             ->with('logs.system')
             ->with('logs.location')
             ->with('logs.photo')
+            ->with('floorplans')
             ->findOrFail($id);
 
-        return \View::make('project.rapport')->withProject($project);
+        $year = date("Y", strtotime($project->created_at));
+
+        return \View::make('project.rapport')->withProject($project)->withYear($year);
     }
 
     /**

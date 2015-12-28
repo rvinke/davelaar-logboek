@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
-use yajra\Datatables\Datatables;
+use Yajra\Datatables\Datatables;
 
 class UserController extends Controller
 {

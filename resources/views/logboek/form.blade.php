@@ -53,11 +53,12 @@
 
         <div class="clone-wrapper">
 
-            <div class="toclone">
+
                 @if(!$is_new)
 
                     @forelse($log->passthroughs as $passthrough)
-                        <div class="form-group">
+                    <div class="toclone">
+                    <div class="form-group">
                             <label class="col-lg-2 control-label">Doorvoertype</label>
                             <div class="col-lg-4">
                                 {!! Form::select('passthroughs[passthrough_type_id][]', $passthroughs, $passthrough->passthrough_type_id, ['class' => 'form-control']) !!}
@@ -80,8 +81,9 @@
 
                         <i class="clone fa fa-plus-circle"></i>
                         <i class="delete fa fa-minus-circle"></i>
-
+                    </div>
                     @empty
+                    <div class="toclone">
                         <div class="form-group">
                             <label class="col-lg-2 control-label">Doorvoertype</label>
                             <div class="col-lg-4">
@@ -105,9 +107,10 @@
 
                         <i class="clone fa fa-plus-circle"></i>
                         <i class="delete fa fa-minus-circle"></i>
+                    </div>
                     @endforelse
                 @else
-
+                <div class="toclone">
                     <div class="form-group">
                         <label class="col-lg-2 control-label">Doorvoertype</label>
                         <div class="col-lg-4">
@@ -131,12 +134,17 @@
 
                     <i class="clone fa fa-plus-circle"></i>
                     <i class="delete fa fa-minus-circle"></i>
+                </div>
                 @endif
-            </div>
+
 
 
         </div>
     </div>
+
+
+
+
 
     <div class="ibox-footer">
 
@@ -157,6 +165,79 @@
 </div>
 
 
+
+@push('scripts')
+<script src="/js/plugins/sweetalert/sweetalert.min.js"></script>
+<script src="/js/plugins/cloneya/jquery-cloneya.min.js"></script>
+<script src="http://cdn.leafletjs.com/leaflet-0.6.4/leaflet.js"></script>
+<script>
+    var mapMinZoom = 0;
+    var mapMaxZoom = 4;
+    var map = L.map('map', {
+        maxZoom: mapMaxZoom,
+        minZoom: mapMinZoom,
+        crs: L.CRS.Simple
+    }).setView([0, 0], 2);
+
+    var mapBounds = new L.LatLngBounds(
+            map.unproject([0, 3584], mapMaxZoom),
+            map.unproject([2560, 0], mapMaxZoom));
+
+    map.fitBounds(mapBounds);
+    L.tileLayer('/documenten/2015/134/plattegrond/{z}/{x}/{y}.png', {
+        minZoom: mapMinZoom, maxZoom: mapMaxZoom,
+        bounds: mapBounds,
+        noWrap: true,
+        tms: false
+    }).addTo(map);
+
+
+    @if(!$is_new && !empty($log->lat))
+        var marker = L.marker([{{ $log->lat }}, {{ $log->lng }}]).addTo(map);
+    @endif
+
+
+    map.on('click', function(e){
+        //alert(e.latlng);
+        $('#position').val(e.latlng.lat + '|' + e.latlng.lng);
+        var marker = new L.marker(e.latlng, {draggable: 'true'});
+        map.addLayer(marker);
+
+        marker.on('dragend', function(e){
+            var marker = e.target;
+            var position = marker.getLatLng();
+            $('#position').val(position.lat + '|' + position.lng);
+            //alert(position);
+        });
+    });
+
+
+
+    @if(!$is_new)
+    $('.delete-button').click(function () {
+        swal({
+            title: "Bevestiging",
+            text: "Weet u zeker dat dit log-item verwijderd moet worden?",
+            type: "warning",
+            showCancelButton: true,
+            cancelButtonText: 'Nee',
+            confirmButtonColor: "#DD6B55",
+            confirmButtonText: "Ja",
+            closeOnConfirm: false
+        }, function () {
+            //swal("Verwijderd", "Het item is verwijderd", "success");
+            window.location.replace('{!! URL::route('log.delete', ['id' => $log->id]) !!}');
+        });
+    });
+    @endif
+
+    $('.clone-wrapper').cloneya({
+        cloneButton     : '.clone',
+        deleteButton    : '.delete'
+    });
+
+</script>
+@endpush
 
 
 
