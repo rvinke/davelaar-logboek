@@ -48,7 +48,11 @@ Route::group(['middleware' => 'auth'], function() {
     Route::get('rapporten', ['as' => 'projecten.rapporten', 'uses' => 'Logboek\ProjectController@indexRapporten']);
     Route::get('project/{id}/rapport', ['as' => 'rapport.show', 'uses' => 'Logboek\ProjectController@rapport']);
     Route::get('project/{id}/plattegrond/{floor}', ['as' => 'rapport.floorplan', 'uses' => 'Logboek\ProjectController@floorplan']);
-    Route::get('plattegrond-js/{projectId}/{floor}/{editable?}', ['as' => 'rapport.floorplan-js', 'uses' => 'Logboek\ProjectController@floorplanJavascript']);
+    Route::get('project/{id}/plattegrond/{floor}/download', ['as' => 'rapport.floorplan.download', 'uses' => 'FloorplanController@download']);
+    Route::get('plattegrond-js/{projectId}/{floor}/{editable?}/{lat?}/{lng?}', ['as' => 'rapport.floorplan-js', 'uses' => 'FloorplanController@javascript']);
+
+    Route::get('logboek/{id}/map-show/{floor}', ['as' => 'log.map-show', 'uses' => 'Logboek\LogController@mapShow']);
+
 
     Route::group(['middleware' => ['role:admin|medewerker']], function () {
         Route::get('logboek/create/{project_id}', ['as' => 'log.create', 'uses' => 'Logboek\LogController@create']);
@@ -107,6 +111,19 @@ Route::group(['middleware' => 'auth'], function() {
             [
                 'w' => 50,
                 'h' => 50,
+                'fit' => 'crop',
+            ]
+        );
+    });
+
+    Route::get('photoM/{id}', function($id) use ($server) {
+        $file = \App\Models\File::findOrFail($id);
+
+        $server->outputImage(
+            date("Y", strtotime($file->project->created_at)).'/'.$file->project_id.'/'.$file->naam,
+            [
+                'w' => 200,
+                'h' => 200,
                 'fit' => 'crop',
             ]
         );

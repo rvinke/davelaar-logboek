@@ -158,6 +158,7 @@ return [
         GrahamCampbell\Flysystem\FlysystemServiceProvider::class,
         Zizaco\Entrust\EntrustServiceProvider::class,
         Nathanmac\Utilities\Parser\ParserServiceProvider::class,
+        Intervention\Image\ImageServiceProvider::class,
     ],
 
     /*
@@ -217,8 +218,10 @@ return [
         'Flysystem' => GrahamCampbell\Flysystem\Facades\Flysystem::class,
         'Entrust' => Zizaco\Entrust\EntrustFacade::class,
         'Parser' => Nathanmac\Utilities\Parser\Facades\Parser::class,
+        'Image' => Intervention\Image\Facades\Image::class,
 
         'Debugbar' => Barryvdh\Debugbar\Facade::class,
+
 
 
     ],

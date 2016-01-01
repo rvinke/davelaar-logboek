@@ -59,10 +59,14 @@ class LogController extends Controller
         $log->project_id = \Input::get('project_id');
         $log->locatie_id = \Input::get('locatie_id');
         $log->bouwlaag_id = \Input::get('bouwlaag_id');
+        $log->oppervlak_type_id = $request->input('oppervlak_type_id');
+        $log->eis = $request->input('eis');
         $log->product_id = \Input::get('product_id');
         $log->brandklep_id = \Input::get('brandklep_id');
         $log->commentaar = \Input::get('commentaar');
 
+        $code = $this->genereer_tekeningnummer($log->project_id);
+        $log->code = $code;
 
         $log->save();
 
@@ -131,6 +135,8 @@ class LogController extends Controller
         $log->project_id = $request->input('project_id');
         $log->locatie_id = $request->input('locatie_id');
         $log->bouwlaag_id = $request->input('bouwlaag_id');
+        $log->oppervlak_type_id = $request->input('oppervlak_type_id');
+        $log->eis = $request->input('eis');
         $log->product_id = $request->input('product_id');
         $log->brandklep_id = $request->input('brandklep_id');
         $log->commentaar = $request->input('commentaar');
@@ -199,6 +205,16 @@ class LogController extends Controller
             ->withFloor($floor_id);
     }
 
+
+    public function mapShow($id, $floor_id) {
+        $log = Log::findOrFail($id);
+
+        return \View::make('project.logitemplattegrond')
+            ->withLog($log)
+            ->withProject($log->project)
+            ->withFloor($floor_id);
+    }
+
     /**
      * Remove the specified resource from storage.
      *
@@ -212,6 +228,38 @@ class LogController extends Controller
         $log->delete();
 
         return redirect()->route('projecten.show', ['id' => $project_id])->with('status', 'Log-item verwijderd.');
+
+    }
+
+    private function genereer_tekeningnummer($project_id)
+    {
+        //controleer wat het laaste getal is
+        $nummers = Log::where('project_id', $project_id)->select('code')->get();
+        $max_nummer = $nummers->max();
+
+
+        if(!empty($max_nummer->code)){
+
+            $code = $max_nummer->code;
+
+            $vervolgcijfer = $code + 1;
+            if(strlen($vervolgcijfer) === 1) $vervolgcijfer = '0'.$vervolgcijfer;
+
+            /*while(array_key_exists($vervolgcijfer, $nummers)){
+                //code bestaat al, andere code maken
+                $vervolgcijfer++;
+                if(strlen($vervolgcijfer) === 1) $vervolgcijfer = '0'.$vervolgcijfer;
+            }*/
+
+            //return $vervolgletter.$vervolgcijfer;
+
+            return $vervolgcijfer;
+
+        }
+
+
+        return '01';//beginpunt
+
 
     }
 }

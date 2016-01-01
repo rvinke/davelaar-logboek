@@ -169,41 +169,7 @@ class ProjectController extends Controller
             ->withFloor($floor_id);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function floorplanJavascript($id, $floor_id, $editable = false)
-    {
 
-        \Debugbar::disable();
-
-        $project = Project::with('logs')
-            ->with('logs.passthroughs')
-            ->with('logs.passthroughs.passthrough_type')
-            ->with('logs.floor')
-            ->with('logs.system')
-            ->with('logs.location')
-            ->findOrFail($id);
-
-        $floorplan = $project->maps()->where('floor_id', $floor_id)->first();
-
-        $year = date("Y", strtotime($project->created_at));
-
-        if($editable) {
-            $log = Log::findOrFail($editable);
-        }
-
-        return \View::make('project.floorplanJS')->withProject($project)
-            ->withFloorplan($floorplan)
-            ->withFloor($floor_id)
-            ->withYear($year)
-            ->withEditable($editable)
-            ->withLog($log);
-
-    }
 
 
     public function rapport($id)

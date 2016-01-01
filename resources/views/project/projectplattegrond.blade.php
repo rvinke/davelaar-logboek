@@ -27,10 +27,11 @@
 
         <div class="col-lg-12">
             <div class="ibox">
-                <div class="ibox-content">
+                <div class="ibox-content float-e-margins">
                     <a href="{!! \URL::route('rapport.show', ['id' => $project->id]) !!}" class="btn btn-primary btn-xs pull-right">Terug naar het rapport</a>
+                    <a href="{!! \URL::route('rapport.floorplan.download', ['id' => $project->id, 'floor_id' => $floorplan->floor_id]) !!}" style="margin-right: 10px;" class="btn btn-info btn-xs pull-right">Download plattegrond</a>
                     <h2>{{ $project->naam }}</h2>
-                    <p>Plattegrond verdieping <b>{{ \App\Models\Floor::findOrFail($floorplan->floor_id)->naam }}</b></p>
+                    <p>Plattegrond <b>verdieping {{ \App\Models\Floor::findOrFail($floorplan->floor_id)->naam }}</b></p>
                 </div>
             </div>
         </div>

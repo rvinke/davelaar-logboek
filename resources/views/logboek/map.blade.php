@@ -1,5 +1,9 @@
 @extends('app')
 
+@section('title')
+    Geef locatie aan van het logitem (stap 2 van 2)
+@stop
+
 {{-- Content --}}
 @section('content')
     {!! Form::model($log, array('route' => ['log.update-map', $log->id], 'method' => 'PATCH', 'autocomplete'=>'off', 'class' => 'form-horizontal')) !!}

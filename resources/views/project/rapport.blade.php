@@ -60,7 +60,13 @@
 
 
                                 </td>
-                                <td>{{ $log->code }}</td>
+                                <td>
+                                    @if(!empty($log->lat) && !empty($log->lng))
+                                        <a href="{{ URL::route('log.map-show', ['id' => $log->id, 'floor' => $log->bouwlaag_id]) }}">{{ $log->code }}</a></td>
+                                    @else
+                                        {{ $log->code }}
+                                    @endif
+
                                 <td>{{ $log->location->naam }}</td>
                                 <td>{{ $log->floor->naam }}</td>
                                 <td>

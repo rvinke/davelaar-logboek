@@ -28,16 +28,18 @@
 
     <div class="row">
         <div class="col-lg-12">
-            <div class="ibox">
+            <div class="ibox float-e-margins">
                 <div class="ibox-title">
                     <h5>Opties</h5>
                 </div>
                 <div class="ibox-content">
+                    <p>
                     <a href="{!! URL::route('log.create', ['project_id' => $project->id]) !!}" class="btn btn-primary">Voeg een logboek-item toe</a>
-                    <a href="#totalen" class="btn btn-default">Bekijk totalen</a>
+                    <a href="#totalen" class="btn btn-info">Bekijk totalen</a>
 
-                    <a href="{!! URL::route('file.create', ['project_id' => $project->id]) !!}" class="btn btn-default">Bestanden toevoegen</a>
-                    <a href="{!! URL::route('floorplan.create', ['project_id' => $project->id]) !!}" class="btn btn-default">Plattegrond toevoegen</a>
+                    <a href="{!! URL::route('file.create', ['project_id' => $project->id]) !!}" class="btn btn-info">Bestanden toevoegen</a>
+                    <a href="{!! URL::route('floorplan.create', ['project_id' => $project->id]) !!}" class="btn btn-info">Plattegrond toevoegen</a>
+                    </p>
                 </div>
             </div>
         </div>

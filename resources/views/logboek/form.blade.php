@@ -25,6 +25,20 @@
             </div>
         </div>
 
+        <div class="form-group">
+            <label class="col-lg-2 control-label">Wand/vloer</label>
+            <div class="col-lg-4">
+                {!! Form::select('oppervlak_type_id', ['Wand', 'Vloer'], NULL, array('class' => 'form-control')) !!}
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-lg-2 control-label">Eis (minuten)</label>
+            <div class="col-lg-4">
+                {!! Form::select('eis', [20 => '20', 30 => '30', 60 => '60', 90 => '90'], NULL, array('class' => 'form-control')) !!}
+            </div>
+        </div>
+
 
         <div class="form-group">
             <label class="col-lg-2 control-label">Product</label>
@@ -152,7 +166,7 @@
             <div class="col-lg-offset-2 col-lg-10">
 
                 <span class="pull-right">
-                    <button class="btn btn-primary" type="submit">Bewaar</button>
+                    <button class="btn btn-primary" type="submit">Bewaar en naar stap 2</button>
                     @if(!$is_new)
                         <button class="btn btn-outline btn-danger delete-button" type="button">Verwijder dit log-item</button>
                     @endif

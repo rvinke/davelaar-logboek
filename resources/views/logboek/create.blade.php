@@ -1,5 +1,10 @@
 @extends('app')
 
+
+@section('title')
+    Maak log-item aan (stap 1 van 2)
+@stop
+
 {{-- Content --}}
 @section('content')
 

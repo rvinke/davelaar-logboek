@@ -70,7 +70,7 @@
 
 
         <div class="row wrapper border-bottom white-bg page-heading">
-            <div class="col-sm-4">
+            <div class="col-sm-6">
                 <h2>@yield('title')</h2>
                 <ol class="breadcrumb">
                     @yield('breadcrumb')

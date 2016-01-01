@@ -1,5 +1,9 @@
 @extends('app')
 
+@section('title')
+    Bewerk log-item (stap 1 van 2)
+@stop
+
 {{-- Content --}}
 @section('content')
 
