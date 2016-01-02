@@ -53,7 +53,7 @@ class FloorplanController extends Controller
         $project = Project::findOrFail($project_id);
         $year = date("Y", strtotime($project->created_at));
 
-        Flysystem::put($year.'/'.$project_id.'/plattegrond/'.$floor_id.'/'.$file->getClientOriginalName(), $stream);
+        Flysystem::put($year.'/'.$project_id.'/plattegrond/'.$floor_id.'/'.$file->getClientOriginalName(), $stream, ['visibility' => 'public']);
         $floorplan = new Floorplan();
 
         $floorplan->filename = $file->getClientOriginalName();
