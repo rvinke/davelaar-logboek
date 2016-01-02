@@ -66,6 +66,10 @@ class FloorplanController extends Controller
         //$filesystem->writeStream('documenten/uploads/'.$file->getClientOriginalName(), $stream);
         fclose($stream);
 
+        //set file permissions
+        chmod(public_path().'/documenten/'.$year.'/'.$project_id.'/plattegrond/'.$floor_id, 0777);
+        chmod(public_path().'/documenten/'.$year.'/'.$project_id.'/plattegrond/'.$floor_id.'/'.$file->getClientOriginalName(), 0777);
+
         return redirect()->route('projecten.show', ['id' => $project_id])->with('status', 'Plattegrond toegevoegd.');
     }
 
