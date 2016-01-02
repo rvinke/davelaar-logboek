@@ -92,7 +92,7 @@ class HandleFloorplans extends Command
             //leaflet bestanden genereren
             $this->info('Gdal2Tiles uitvoeren');
             //$this->info('Command: gdal2tiles.py -p raster -z 0-6 '.$file_dir.'plattegrond.png '.$file_dir);
-            exec(base_path().'gdal2tiles.py -l -p raster -z 0-6 '.$file_dir.'plattegrond.png '.$file_dir);
+            exec(base_path().'/gdal2tiles.py -l -p raster -z 0-6 '.$file_dir.'plattegrond.png '.$file_dir);
 
             if($filesystem->has($year.'/'.$floorplan->project_id.'/plattegrond/'.$floorplan->floor_id.'/0/0/0.png')){
                 //als dit bestand bestaat dan is de generatie succesvol geweest
