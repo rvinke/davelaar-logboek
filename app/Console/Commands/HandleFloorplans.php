@@ -53,10 +53,10 @@ class HandleFloorplans extends Command
             $project = Project::findOrFail($floorplan->project_id);
             $year = date("Y", strtotime($project->created_at));
 
-            $adapter = new Local(__DIR__.'/../../../public/documenten');
+            $adapter = new Local(base_path().'/public/documenten');
             $filesystem = new Filesystem($adapter);
 
-            $file_dir = __DIR__.'/../../../public/documenten/'.$year.'/'.$floorplan->project_id.'/plattegrond/'.$floorplan->floor_id.'/';
+            $file_dir = base_path().'/public/documenten/'.$year.'/'.$floorplan->project_id.'/plattegrond/'.$floorplan->floor_id.'/';
             $file_location = $file_dir.$floorplan->filename;
 
             //eerst opruimen
