@@ -39,6 +39,7 @@
 
                     <a href="{!! URL::route('file.create', ['project_id' => $project->id]) !!}" class="btn btn-info">Bestanden toevoegen</a>
                     <a href="{!! URL::route('floorplan.create', ['project_id' => $project->id]) !!}" class="btn btn-info">Plattegrond toevoegen</a>
+                    <a href="{!! URL::route('project.users', ['project_id' => $project->id]) !!}" class="btn btn-info">Gebruikers koppelen</a>
                     </p>
                 </div>
             </div>

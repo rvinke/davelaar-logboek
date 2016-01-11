@@ -18,7 +18,7 @@
             @endif
             --}}
 
-            {!! Form::model($log, array('route' => ['log.update', $log->id], 'method' => 'PATCH', 'autocomplete'=>'off', 'class' => 'form-horizontal')) !!}
+            {!! Form::model($log, array('route' => ['log.update', $log->id], 'method' => 'PATCH', 'autocomplete'=>'off', 'class' => 'form-horizontal', 'files' => true)) !!}
             @include('logboek.form', array('is_new'=>false, 'is_profile'=>false) )
             {!! Form::close() !!}
 

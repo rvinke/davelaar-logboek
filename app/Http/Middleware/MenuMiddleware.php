@@ -27,7 +27,7 @@ class MenuMiddleware
                 $menu->logboek->add('Rapporten', \URL::route('projecten.rapporten'))->active('projecten/rapporten');
 
                 if($user->hasRole(['admin', 'medewerker'])) {
-                    $menu->add('Subdatabase', 'subdatabase')->icon('fa fa-archive')->active('subdatabase/*');
+                    $menu->add('Subdatabase', 'subdatabase')->icon('fa fa-cubes')->active('subdatabase/*');
                     $menu->subdatabase->add('Klanten', 'subdatabase/client')->active('subdatabase/client');
                     $menu->subdatabase->add('Brandkleppen', 'subdatabase/firedamper')->active('subdatabase/firedamper');
                     $menu->subdatabase->add('Bouwlagen', 'subdatabase/floor')->active('subdatabase/floor');

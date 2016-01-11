@@ -43,10 +43,14 @@ Route::group(['middleware' => 'auth'], function() {
         Route::get('project/{id}/add-floorplan', ['as' => 'floorplan.create', 'uses' => 'FloorplanController@create']);
         Route::post('project/{id}/add-floorplan', ['as' => 'floorplan.store', 'uses' => 'FloorplanController@store']);
 
+        Route::get('project/{id}/users', ['as' => 'project.users', 'uses' => 'Logboek\ProjectController@users']);
+        Route::post('project/{id}/users/store', ['as' => 'project.users.store', 'uses' => 'Logboek\ProjectController@storeUsers']);
     });
 
     Route::get('rapporten', ['as' => 'projecten.rapporten', 'uses' => 'Logboek\ProjectController@indexRapporten']);
-    Route::get('project/{id}/rapport', ['as' => 'rapport.show', 'uses' => 'Logboek\ProjectController@rapport']);
+    Route::group(['middleware' => ['projectlink']], function () {
+        Route::get('project/{id}/rapport', ['as' => 'rapport.show', 'uses' => 'Logboek\ProjectController@rapport']);
+    });
     Route::get('project/{id}/plattegrond/{floor}', ['as' => 'rapport.floorplan', 'uses' => 'Logboek\ProjectController@floorplan']);
     Route::get('project/{id}/plattegrond/{floor}/download', ['as' => 'rapport.floorplan.download', 'uses' => 'FloorplanController@download']);
     Route::get('plattegrond-js/{projectId}/{floor}/{editable?}/{lat?}/{lng?}', ['as' => 'rapport.floorplan-js', 'uses' => 'FloorplanController@javascript']);

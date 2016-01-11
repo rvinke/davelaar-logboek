@@ -7,6 +7,7 @@ use App\Models\Location;
 
 use App\Models\Log;
 use App\Models\Project;
+use App\User;
 use Barryvdh\Debugbar\LaravelDebugbar;
 use DebugBar\DebugBar;
 use Illuminate\Http\Request;
@@ -67,7 +68,8 @@ class ProjectController extends Controller
         if(\Auth::user()->hasRole(['admin', 'medewerker'])) {
             $projecten = Project::select(['naam', 'id']);
         } else {
-            $projecten = Project::select(['naam', 'id'])->where('opdrachtgever_id', \Auth::user()->client_id)->get();
+            //$projecten = Project::select(['naam', 'id'])->where('opdrachtgever_id', \Auth::user()->client_id)->get();
+            $projecten = \Auth::user()->projects();
         }
 
 
@@ -146,11 +148,11 @@ class ProjectController extends Controller
     }
 
     /**
- * Display the specified resource.
- *
- * @param  int  $id
- * @return \Illuminate\Http\Response
- */
+    * Display the specified resource.
+    *
+    * @param  int  $id
+    *  @return \Illuminate\Http\Response
+    */
     public function floorplan($id, $floor_id)
     {
         $project = Project::with('logs')
@@ -222,33 +224,33 @@ class ProjectController extends Controller
         $project->adres = \Input::get('adres');
         $project->datum_oplevering = date("Y-m-d", strtotime(\Input::get('datum_oplevering')));
 
-        if($project->save()) {
-
-            /*dd(\Input::get('locations')['naam']);
-
-
-            foreach($project->locations as $location) {
-                $location->delete();
-            }
-
-            foreach(\Input::get('locations')['naam'] as $location_naam) {
-
-
-                if(!empty($location_naam)) {
-                    $location = new Location();
-
-                    $location->project_id = $project->id;
-                    $location->naam = $location_naam;
-
-                    $location->save();
-                }
-
-
-            }*/
-
-        }
+        $project->save();
 
         return redirect()->route('projecten.index')->with('status', 'Project opgeslagen.');
+
+    }
+
+    public function users($id) {
+
+        $project = Project::findOrFail($id);
+        $users = User::all();
+
+        return \View::make('project.users')->withProject($project)->withUsers($users);
+
+    }
+
+    public function storeUsers(Request $request, $id) {
+
+        $project = Project::findOrFail($id);
+
+        if(empty($request->switch)){
+            $project->users()->detach();
+        }else{
+            $project->users()->sync($request->switch);
+        }
+
+
+        return redirect()->route('projecten.show', $project->id)->with('status', 'Gebruikers gekoppeld');
 
     }
 

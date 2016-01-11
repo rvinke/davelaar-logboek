@@ -32,7 +32,7 @@
                             <span class="clear"> <span class="block m-t-xs" style="color: #FFDB00"> <strong class="font-bold">{{ Auth::user()->first_name.' '.Auth::user()->last_name }}</strong>
                              </span> <span class="text-muted text-xs block">{!! Auth::user()->roles->first()->display_name !!} <b class="caret"></b></span> </span> </a>
                             <ul class="dropdown-menu m-t-xs">
-                                <li><a href="#">Logout</a></li>
+                                <li><a href="{!! URL::route('logout') !!}">Uitloggen</a></li>
                             </ul>
                     </div>
                     <div class="logo-element">

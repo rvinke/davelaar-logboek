@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Logboek;
 
+use App\Models\File;
 use App\Models\FireDamper;
 use App\Models\Log;
 use App\Models\Passthrough;
@@ -10,8 +11,10 @@ use App\Models\Project;
 use App\Models\System;
 use Illuminate\Http\Request;
 
+
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
+use Intervention\Image\Facades\Image;
 
 class LogController extends Controller
 {
@@ -141,12 +144,45 @@ class LogController extends Controller
         $log->brandklep_id = $request->input('brandklep_id');
         $log->commentaar = $request->input('commentaar');
 
-        /*list($lat, $lng)  = explode("|", $request->input('position'));
-
-        $log->lat = $lat;
-        $log->lng = $lng;*/
-
         $log->save();
+
+        //handle the file upload als het bestand aanwezig is
+        if(!empty($request->file('foto'))) {
+
+            $file = $request->file('foto');
+
+            //$stream = fopen($file->getRealPath(), 'r+');
+
+            //dd($stream);
+
+            $project = Project::findOrFail($log->project_id);
+            $year = date("Y", strtotime($project->created_at));
+            $extension = $file->getClientOriginalExtension();
+
+            //Flysystem::put($year.'/'.$project->id.'/'.$log->code.'.'.$extension, $stream);
+
+            //$request->file('foto')->move(public_path().'/documenten/'.$year.'/'.$project->id.'/', $log->code.'.'.$extension);
+
+            if(file_exists(public_path().'/documenten/'.$year.'/'.$project->id.'/'.$log->code.'.'.$extension)){
+                unlink(public_path().'/documenten/'.$year.'/'.$project->id.'/'.$log->code.'.'.$extension);
+            }
+            $image = $request->file('foto');
+            Image::make($image->getRealPath())->resize(1200, null, function ($constraint) {
+                $constraint->aspectRatio();
+            })->save(public_path('documenten/'.$year.'/'.$project->id.'/').$log->code.'.'.$extension);
+
+            $filedb = new File();
+
+            $filedb->naam = $log->code.'.'.$extension;
+            $filedb->project_id = $project->id;
+            $filedb->type = 'foto';
+            $filedb->log_id = $log->id;
+
+            $filedb->save();
+
+            //$filesystem->writeStream('documenten/uploads/'.$file->getClientOriginalName(), $stream);
+            //fclose($stream);
+        }
 
         $passthroughs = $log->passthroughs;
 

@@ -62,6 +62,14 @@
             </div>
         </div>
 
+
+        <div class="form-group">
+            <label class="col-lg-2 control-label">Foto</label>
+            <div class="col-lg-4">
+                {!! Form::file('foto', ['accept' => 'image/*', 'capture' => 'camera']) !!}
+            </div>
+        </div>
+
         <div class="hr-line-dashed"></div>
         <h4>Doorvoeren</h4>
 
