@@ -29,7 +29,7 @@ var markers = new L.FeatureGroup();
 map_{{ $floor }}.addLayer(markers);
 
 // the tile layer containing the image generated with gdal2tiles --leaflet ...
-L.tileLayer('/documenten/{{ $year }}/{{ $project->id }}/plattegrond/{{ $floor }}/{z}/{x}/{y}.png', {
+L.tileLayer('/documenten/{{ $year }}/{{ $project->id }}/plattegrond/{{ $floorplan->location_id }}/{{ $floor }}/{z}/{x}/{y}.png', {
 noWrap: true,
 attribution: 'Plattegrond (c) Davelaarbouw B.V.',
 }).addTo(map_{{ $floor }});

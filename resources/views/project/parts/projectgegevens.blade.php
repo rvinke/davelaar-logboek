@@ -8,7 +8,7 @@
                         <div class="m-b-md">
                             @if(isset($show_edit_link))
                                 <a href="{!! \URL::route('projecten.edit', ['id' => $project->id]) !!}" class="btn btn-primary btn-xs pull-right">Bewerk project</a>
-                                <a href="{!! \URL::route('rapport.show', ['id' => $project->id]) !!}" class="btn btn-default btn-xs pull-right">Bekijk rapport</a>
+                                <a href="{!! \URL::route('rapport.show', ['id' => $project->id]) !!}" style="margin-right: 10px;" class="btn btn-default btn-xs pull-right">Bekijk rapport</a>
                             @endif
 
 

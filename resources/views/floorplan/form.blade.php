@@ -9,11 +9,19 @@
     <div class="ibox-content">
 
         <div class="form-group">
+            <label class="col-lg-2 control-label">Locatie</label>
+            <div class="col-lg-4">
+                {!! Form::select('location_id', \App\Models\Location::where('project_id', $project_id)->lists('naam', 'id'), NULL, array('class' => 'form-control')) !!}
+            </div>
+        </div>
+
+        <div class="form-group">
             <label class="col-lg-2 control-label">Verdieping</label>
             <div class="col-lg-4">
                 {!! Form::select('floor_id', \App\Models\Floor::lists('naam', 'id'), NULL, array('class' => 'form-control')) !!}
             </div>
         </div>
+
 
 
 

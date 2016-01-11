@@ -12,6 +12,8 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Intervention\Image\Facades\Image;
 use Intervention\Image\ImageManager;
+use League\Flysystem\Adapter\Local;
+use League\Flysystem\Filesystem;
 
 class FloorplanController extends Controller
 {
@@ -45,6 +47,7 @@ class FloorplanController extends Controller
     {
         $file = $request->file('file');
         $floor_id = $request->input('floor_id');
+        $location_id = $request->input('location_id');
 
         $stream = fopen($file->getRealPath(), 'r+');
 
@@ -53,22 +56,41 @@ class FloorplanController extends Controller
         $project = Project::findOrFail($project_id);
         $year = date("Y", strtotime($project->created_at));
 
-        Flysystem::put($year.'/'.$project_id.'/plattegrond/'.$floor_id.'/'.$file->getClientOriginalName(), $stream, ['visibility' => 'public']);
+        $adapter = new Local(base_path().'/public/documenten');
+        $filesystem = new Filesystem($adapter);
+
+
+        $file_dir = '/'.$year.'/'.$project_id.'/plattegrond/'.$location_id.'/'.$floor_id.'/';
+        $file_location = $file_dir.$file->getClientOriginalName();
+
+        //eerst opruimen
+        if($filesystem->has($file_location)){
+            $filesystem->delete($file_location);
+        }
+
+        $stream = fopen($file->getRealPath(), 'r+');
+        $filesystem->writeStream($file_location, $stream);
+        fclose($stream);
+
+        //controleren of deze combinatie voorkomt
+        $existing_floorplan = Floorplan::where('project_id', $project_id)->where('floor_id', $floor_id)->first();
+
+        if(!empty($existing_floorplan)) {
+            $existing_floorplan->delete();
+        }
+
         $floorplan = new Floorplan();
 
         $floorplan->filename = $file->getClientOriginalName();
         $floorplan->project_id = $project_id;
         $floorplan->floor_id = $floor_id;
+        $floorplan->location_id = $location_id;
 
         $floorplan->save();
 
-
-        //$filesystem->writeStream('documenten/uploads/'.$file->getClientOriginalName(), $stream);
-        fclose($stream);
-
         //set file permissions
-        chmod(public_path().'/documenten/'.$year.'/'.$project_id.'/plattegrond/'.$floor_id, 0777);
-        chmod(public_path().'/documenten/'.$year.'/'.$project_id.'/plattegrond/'.$floor_id.'/'.$file->getClientOriginalName(), 0777);
+        chmod(public_path().'/documenten/'.$year.'/'.$project_id.'/plattegrond/'.$location_id.'/'.$floor_id, 0777);
+        chmod(public_path().'/documenten/'.$year.'/'.$project_id.'/plattegrond/'.$location_id.'/'.$floor_id.'/'.$file->getClientOriginalName(), 0777);
 
         return redirect()->route('projecten.show', ['id' => $project_id])->with('status', 'Plattegrond toegevoegd.');
     }
@@ -84,7 +106,7 @@ class FloorplanController extends Controller
         //
     }
 
-    public function download($project_id, $floor_id) {
+    public function download($project_id, $location_id, $floor_id) {
         $project = Project::with('logs')
             ->with('logs.passthroughs')
             ->with('logs.passthroughs.passthrough_type')
@@ -93,11 +115,11 @@ class FloorplanController extends Controller
             ->with('logs.location')
             ->findOrFail($project_id);
 
-        $floorplan = $project->maps()->where('floor_id', $floor_id)->first();
+        $floorplan = $project->maps()->where('location_id', $location_id)->where('floor_id', $floor_id)->first();
 
         $year = date("Y", strtotime($project->created_at));
 
-        $location = public_path().'/documenten/'.$year.'/'.$project_id.'/plattegrond/'.$floor_id.'/plattegrond.png';
+        $location = public_path().'/documenten/'.$year.'/'.$project_id.'/plattegrond/'.$location_id.'/'.$floor_id.'/plattegrond.png';
         //dd($location);
         $img = Image::make($location);
 
@@ -138,7 +160,7 @@ class FloorplanController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function javascript($id, $floor_id, $editable = false, $log_id = '')
+    public function javascript($id, $location_id, $floor_id, $editable = false, $log_id = '')
     {
 
         \Debugbar::disable();
@@ -151,7 +173,7 @@ class FloorplanController extends Controller
             ->with('logs.location')
             ->findOrFail($id);
 
-        $floorplan = $project->maps()->where('floor_id', $floor_id)->first();
+        $floorplan = $project->maps()->where('location_id', $location_id)->where('floor_id', $floor_id)->first();
 
         $year = date("Y", strtotime($project->created_at));
 

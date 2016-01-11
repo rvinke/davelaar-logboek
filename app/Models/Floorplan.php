@@ -12,4 +12,9 @@ class Floorplan extends Model
         return $this->belongsTo('App\Models\Floor');
     }
 
+    public function location()
+    {
+        return $this->belongsTo('App\Models\Location');
+    }
+
 }

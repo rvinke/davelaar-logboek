@@ -51,9 +51,9 @@ Route::group(['middleware' => 'auth'], function() {
     Route::group(['middleware' => ['projectlink']], function () {
         Route::get('project/{id}/rapport', ['as' => 'rapport.show', 'uses' => 'Logboek\ProjectController@rapport']);
     });
-    Route::get('project/{id}/plattegrond/{floor}', ['as' => 'rapport.floorplan', 'uses' => 'Logboek\ProjectController@floorplan']);
-    Route::get('project/{id}/plattegrond/{floor}/download', ['as' => 'rapport.floorplan.download', 'uses' => 'FloorplanController@download']);
-    Route::get('plattegrond-js/{projectId}/{floor}/{editable?}/{lat?}/{lng?}', ['as' => 'rapport.floorplan-js', 'uses' => 'FloorplanController@javascript']);
+    Route::get('project/{id}/plattegrond/{location}/{floor}', ['as' => 'rapport.floorplan', 'uses' => 'Logboek\ProjectController@floorplan']);
+    Route::get('project/{id}/plattegrond/{location}/{floor}/download', ['as' => 'rapport.floorplan.download', 'uses' => 'FloorplanController@download']);
+    Route::get('plattegrond-js/{projectId}/{location}/{floor}/{editable?}/{lat?}/{lng?}', ['as' => 'rapport.floorplan-js', 'uses' => 'FloorplanController@javascript']);
 
     Route::get('logboek/{id}/map-show/{floor}', ['as' => 'log.map-show', 'uses' => 'Logboek\LogController@mapShow']);
 
