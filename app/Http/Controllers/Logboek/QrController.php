@@ -127,7 +127,11 @@ class QrController extends Controller
         $col = collect($selected);
         $total = $col->sum('number');
         $total_rows = $col->count();
-        $average = $total/$total_rows;
+        if($total_rows > 0) {
+            $average = $total / $total_rows;
+        } else {
+            $average = "onbekend";
+        }
 
         return \View::make('qr.create-form')->withAverage($average);
 
