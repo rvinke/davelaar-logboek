@@ -78,6 +78,10 @@ Route::group(['middleware' => 'auth'], function() {
     });
 
     Route::group(['middleware' => ['role:admin|medewerker']], function () {
+        Route::post('subdatabase/generate-qr/', ['as' => 'qr-code.generate', 'uses' => 'Logboek\QrController@generateCodes']);
+        Route::get('subdatabase/generate-qr/', ['as' => 'qr-code.select-number', 'uses' => 'Logboek\QrController@selectNumberOfCodes']);
+
+
         Route::get('subdatabase/{subdatabase}/create', ['as' => 'subdatabase.create', 'uses' => 'SubdatabaseController@create']);
         Route::post('subdatabase/{subdatabase}/create', ['as' => 'subdatabase.store', 'uses' => 'SubdatabaseController@store']);
         Route::get('subdatabase/{subdatabase}', ['as' => 'subdatabase.index', 'uses' => 'SubdatabaseController@index']);
@@ -86,8 +90,6 @@ Route::group(['middleware' => 'auth'], function() {
         Route::get('subdatabase/{subdatabase}/{id}/delete', ['as' => 'subdatabase.delete', 'uses' => 'SubdatabaseController@destroy']);
 
 
-        Route::post('subdatabase/generate-qr/', ['as' => 'qr-code.generate', 'uses' => 'Logboek\QrController@generateCodes']);
-        Route::get('subdatabase/generate-qr/', ['as' => 'qr-code.select-number', 'uses' => 'Logboek\QrController@selectNumberOfCodes']);
 
     });
 
