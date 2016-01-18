@@ -32,9 +32,6 @@ Route::post('qr/{code}/start', ['as' => 'qr-code.start-log', 'uses' => 'Logboek\
 Route::get('qr/{code}/report', ['as' => 'qr-code.report', 'uses' => 'Logboek\QrController@report']);
 Route::post('qr/{code}/report', ['as' => 'qr-code.report.store', 'uses' => 'Logboek\QrController@storeReport']);
 
-Route::post('generate-qr/', ['as' => 'qr-code.generate', 'uses' => 'Logboek\QrController@generateCodes']);
-Route::get('generate-qr/', ['as' => 'qr-code.select-number', 'uses' => 'Logboek\QrController@selectNumberOfCodes']);
-
 Route::group(['middleware' => 'auth'], function() {
 
     Route::get('api/v1/projecten', ['as' => 'api.projecten.v1', 'uses' => 'Logboek\ProjectController@getDatatable']);
@@ -87,6 +84,11 @@ Route::group(['middleware' => 'auth'], function() {
         Route::get('subdatabase/{subdatabase}/{id}/edit', ['as' => 'subdatabase.edit', 'uses' => 'SubdatabaseController@edit']);
         Route::patch('subdatabase/{subdatabase}/{id}/update', ['as' => 'subdatabase.update', 'uses' => 'SubdatabaseController@update']);
         Route::get('subdatabase/{subdatabase}/{id}/delete', ['as' => 'subdatabase.delete', 'uses' => 'SubdatabaseController@destroy']);
+
+
+        Route::post('subdatabase/generate-qr/', ['as' => 'qr-code.generate', 'uses' => 'Logboek\QrController@generateCodes']);
+        Route::get('subdatabase/generate-qr/', ['as' => 'qr-code.select-number', 'uses' => 'Logboek\QrController@selectNumberOfCodes']);
+
     });
 
     Route::group(['middleware' => ['role:admin']], function () {

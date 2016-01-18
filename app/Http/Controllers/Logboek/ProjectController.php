@@ -39,7 +39,7 @@ class ProjectController extends Controller
     public function getDatatable()
     {
 
-        $projecten = Project::select(['naam', 'id', 'created_at'])->orderBy('naam');
+        $projecten = Project::select(['naam', 'id', 'datum_oplevering', 'created_at'])->orderBy('naam');
 
 
         return Datatables::of($projecten)
@@ -49,7 +49,7 @@ class ProjectController extends Controller
             })
             ->addColumn('status', function($project){
                 if($project->datum_oplevering < date("Y-m-d")) {
-                    return '<span class="label label-primary">Afgerond</span>';
+                    return '<span class="label">Afgerond</span>';
                 }else{
                     return '<span class="label label-primary">Actief</span>';
                 }
@@ -66,7 +66,7 @@ class ProjectController extends Controller
 
 
         if(\Auth::user()->hasRole(['admin', 'medewerker'])) {
-            $projecten = Project::select(['naam', 'id']);
+            $projecten = Project::select(['naam', 'id', 'datum_oplevering']);
         } else {
             //$projecten = Project::select(['naam', 'id'])->where('opdrachtgever_id', \Auth::user()->client_id)->get();
             $projecten = \Auth::user()->projects();
@@ -81,7 +81,7 @@ class ProjectController extends Controller
             })
             ->addColumn('status', function($project){
                 if($project->datum_oplevering < date("Y-m-d")) {
-                    return '<span class="label label-primary">Afgerond</span>';
+                    return '<span class="label">Afgerond</span>';
                 }else{
                     return '<span class="label label-primary">Actief</span>';
                 }

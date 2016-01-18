@@ -34,6 +34,7 @@ class MenuMiddleware
                     $menu->subdatabase->add('Doorvoertypes', 'subdatabase/passthroughType')->active('subdatabase/passthroughType');
                     $menu->subdatabase->add('Systemen', 'subdatabase/system')->active('subdatabase/system');
                     $menu->subdatabase->add('Locaties', 'subdatabase/location')->active('subdatabase/location');
+                    $menu->subdatabase->add('QR-codes', 'subdatabase/generate-qr')->active('subdatbase/generate-qr');
                 }
 
                 if($user->hasRole('admin')) {

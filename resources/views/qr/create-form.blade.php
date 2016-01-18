@@ -34,7 +34,7 @@
                         <div class="col-lg-offset-2 col-lg-10">
 
                             <span class="pull-right">
-                                <button class="btn btn-primary" type="submit">Bewaar</button>
+                                <button class="btn btn-primary" type="submit" id="save">Bewaar</button>
                             </span>
                         </div>
                     </div>
@@ -50,11 +50,7 @@
 
 
 @push('scripts')
-<script>
-    $('.btn').one('submit', function() {
-        $(this).attr('disabled','disabled');
-    });
-</script>
+
 @endpush
 
 

@@ -18,7 +18,7 @@
                             <dt>Status:</dt>
                             <dd>
                                 @if($project->datum_oplevering < date("Y-m-d"))
-                                    <span class="label label-primary">Afgerond</span>
+                                    <span class="label">Afgerond</span>
                                 @else
                                     <span class="label label-primary">Actief</span>
                                 @endif
