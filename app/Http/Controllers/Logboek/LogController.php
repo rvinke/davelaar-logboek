@@ -67,6 +67,7 @@ class LogController extends Controller
         $log->product_id = \Input::get('product_id');
         $log->brandklep_id = \Input::get('brandklep_id');
         $log->commentaar = \Input::get('commentaar');
+        $log->qrcode = $request->input('qrcode');
 
         $code = $this->genereer_tekeningnummer($log->project_id);
         $log->code = $code;
@@ -143,6 +144,7 @@ class LogController extends Controller
         $log->product_id = $request->input('product_id');
         $log->brandklep_id = $request->input('brandklep_id');
         $log->commentaar = $request->input('commentaar');
+        $log->qrcode = $request->input('qrcode');
 
         $log->save();
 

@@ -62,7 +62,7 @@
                     <table class="table table-striped">
                         <thead>
                             <tr>
-                                <th></th>
+                                <th colspan="2"></th>
                                 <th>Code</th>
                                 <th>Locatie</th>
                                 <th>Bouwlaag</th>
@@ -74,7 +74,15 @@
                         <tbody>
                             @foreach($project->logs as $log)
                             <tr>
-                                <td><a href="{!! URL::route('log.edit', ['id' => $log->id]) !!}"><i style="font-size: 1.2em;" class="fa fa-edit fa-large"></i></a></td>
+                                <td>
+                                    @if($log->reports->count() > 0)
+                                        <i class="fa fa-exclamation-triangle" style="color: #f00"></i>
+                                    @endif
+                                </td>
+                                <td>
+
+                                    <a href="{!! URL::route('log.edit', ['id' => $log->id]) !!}"><i style="font-size: 1.2em;" class="fa fa-edit fa-large"></i></a>
+                                </td>
                                 <td>{{ $log->code }}</td>
                                 <td>{{ $log->location->naam }}</td>
                                 <td>{{ $log->floor->naam }}</td>

@@ -64,6 +64,17 @@
 
 
         <div class="form-group">
+            <label class="col-lg-2 control-label">QR-code</label>
+            <div class="col-lg-4">
+                @if($is_new && Session::has('qrcode'))
+                    {!! Form::text('qrcode', Session::get('qrcode'), array('class' => 'form-control')) !!}
+                @else
+                    {!! Form::text('qrcode', null, array('class' => 'form-control')) !!}
+                @endif
+            </div>
+        </div>
+
+        <div class="form-group">
             <label class="col-lg-2 control-label">Foto</label>
             <div class="col-lg-4">
                 {!! Form::file('foto', ['accept' => 'image/*', 'capture' => 'camera']) !!}

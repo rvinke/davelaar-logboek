@@ -18,11 +18,22 @@
 
 Route::get('', ['middleware' => 'auth', 'as' => 'home', 'uses' => 'Generic\HomeController@index']);
 
+//Login routes
 Route::get('login', ['as' => 'login', 'uses' => 'Auth\AuthController@getLogin']);
 Route::post('login', ['as' => 'login.post', 'uses' => 'Auth\AuthController@postLogin']);
 Route::get('logout', ['as' => 'logout', 'uses' => 'Auth\AuthController@getLogout']);
 Route::get('reset', ['as' => 'auth.password_reset', 'uses' => 'Auth\UserController@resetPassword']);
 Route::post('reset', ['as' => 'auth.reset', 'uses' => 'Auth\UserController@storeResetPassword']);
+
+//QR-code routes
+Route::get('qr/{code}', ['as' => 'qr-code.start', 'uses' => 'Logboek\QrController@start']);
+Route::get('qr/{code}/create', ['as' => 'qr-code.enter', 'uses' => 'Logboek\QrController@create']);
+Route::post('qr/{code}/start', ['as' => 'qr-code.start-log', 'uses' => 'Logboek\QrController@store']);
+Route::get('qr/{code}/report', ['as' => 'qr-code.report', 'uses' => 'Logboek\QrController@report']);
+Route::post('qr/{code}/report', ['as' => 'qr-code.report.store', 'uses' => 'Logboek\QrController@storeReport']);
+
+Route::post('generate-qr/', ['as' => 'qr-code.generate', 'uses' => 'Logboek\QrController@generateCodes']);
+Route::get('generate-qr/', ['as' => 'qr-code.select-number', 'uses' => 'Logboek\QrController@selectNumberOfCodes']);
 
 Route::group(['middleware' => 'auth'], function() {
 

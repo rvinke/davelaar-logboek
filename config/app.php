@@ -13,7 +13,7 @@ return [
     |
     */
 
-    'app_version' => '1.0.0',
+    'app_version' => '1.1.0',
     'debug' => env('APP_DEBUG', false),
 
     /*
@@ -159,6 +159,7 @@ return [
         Zizaco\Entrust\EntrustServiceProvider::class,
         Nathanmac\Utilities\Parser\ParserServiceProvider::class,
         Intervention\Image\ImageServiceProvider::class,
+        SimpleSoftwareIO\QrCode\QrCodeServiceProvider::class
     ],
 
     /*
@@ -219,6 +220,7 @@ return [
         'Entrust' => Zizaco\Entrust\EntrustFacade::class,
         'Parser' => Nathanmac\Utilities\Parser\Facades\Parser::class,
         'Image' => Intervention\Image\Facades\Image::class,
+        'QrCode' => SimpleSoftwareIO\QrCode\Facades\QrCode::class,
 
         'Debugbar' => Barryvdh\Debugbar\Facade::class,
 

@@ -39,4 +39,9 @@ class Log extends Model
         return $this->hasOne('App\Models\File');
     }
 
+    public function reports()
+    {
+        return $this->hasMany('App\Models\Report')->where('completed', 0);
+    }
+
 }

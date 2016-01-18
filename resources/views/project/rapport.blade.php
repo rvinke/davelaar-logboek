@@ -50,6 +50,7 @@
                         </thead>
                         <tbody>
                             @foreach($project->logs as $log)
+
                             <tr>
                                 <td>
                                     @if(isset($log->photo->id))
