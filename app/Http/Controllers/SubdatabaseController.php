@@ -26,7 +26,7 @@ class SubdatabaseController extends Controller
     {
 
         $model = 'App\\Models\\'.ucfirst($subdatabase);
-        if($subdatabase == 'Firedamper') {
+        if($subdatabase == 'firedamper') {
             $model = 'App\\Models\\FireDamper';
         }
 
