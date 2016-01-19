@@ -32,7 +32,7 @@ class SubdatabaseController extends Controller
         if($subdatabase == 'location') {
             return Datatables::of($objects)
                 ->addColumn('naam', function($object) {
-                    if(!empty($object->project)) {
+                    if(isset($object->project->naam)) {
                         return $object->naam . ' (' . $object->project->naam . ')';
                     } else {
                         return $object->naam . ' (Onbekend)';
