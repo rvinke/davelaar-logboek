@@ -56,15 +56,15 @@ class HandleFloorplans extends Command
             $adapter = new Local(base_path().'/public/documenten');
             $filesystem = new Filesystem($adapter);
 
-            $file_dir = base_path().'/public/documenten/'.$year.'/'.$floorplan->project_id.'/plattegrond/'.$floorplan->floor_id.'/';
+            $file_dir = base_path().'/public/documenten/'.$year.'/'.$floorplan->project_id.'/plattegrond/'.$floorplan->location_id.'/'.$floorplan->floor_id.'/';
             $file_location = $file_dir.$floorplan->filename;
 
             //eerst opruimen
-            if($filesystem->has($year.'/'.$floorplan->project_id.'/plattegrond/'.$floorplan->floor_id.'/plattegrond.png')){
+            if($filesystem->has($year.'/'.$floorplan->project_id.'/plattegrond/'.$floorplan->location_id.'/'.$floorplan->floor_id.'/plattegrond.png')){
                 $this->info('Plattegrond.png bestaat al, verwijderen');
-                $filesystem->delete($year.'/'.$floorplan->project_id.'/plattegrond/'.$floorplan->floor_id.'/plattegrond.png');
+                $filesystem->delete($year.'/'.$floorplan->project_id.'/plattegrond/'.$floorplan->location_id.'/'.$floorplan->floor_id.'/plattegrond.png');
             }
-            $filetype = $filesystem->getMimetype($year.'/'.$floorplan->project_id.'/plattegrond/'.$floorplan->floor_id.'/'.$floorplan->filename);
+            $filetype = $filesystem->getMimetype($year.'/'.$floorplan->project_id.'/plattegrond/'.$floorplan->location_id.'/'.$floorplan->floor_id.'/'.$floorplan->filename);
 
             //eerst checken of het een pdf is
             if($filetype == 'application/pdf') {
@@ -73,7 +73,7 @@ class HandleFloorplans extends Command
                 exec('convert -density 150 '.$file_location.' -quality 90 '.$file_dir.'plattegrond.png');
             }
 
-            if($filesystem->has($year.'/'.$floorplan->project_id.'/plattegrond/'.$floorplan->floor_id.'/plattegrond.png')){
+            if($filesystem->has($year.'/'.$floorplan->project_id.'/plattegrond/'.$floorplan->location_id.'/'.$floorplan->floor_id.'/plattegrond.png')){
                 $this->info('Plattegrond.png gemaakt');
             }else{
                 $this->info('Plattegrond.png niet gevonden.');
@@ -82,8 +82,8 @@ class HandleFloorplans extends Command
 
             //eventuele folders met oud kaartmateriaal verwijderen
             for($i = 0; $i < 7; $i++) {
-                if($filesystem->has($year.'/'.$floorplan->project_id.'/plattegrond/'.$floorplan->floor_id.'/'.$i)){
-                    $filesystem->deleteDir($year.'/'.$floorplan->project_id.'/plattegrond/'.$floorplan->floor_id.'/'.$i);
+                if($filesystem->has($year.'/'.$floorplan->project_id.'/plattegrond/'.$floorplan->location_id.'/'.$floorplan->floor_id.'/'.$i)){
+                    $filesystem->deleteDir($year.'/'.$floorplan->project_id.'/plattegrond/'.$floorplan->location_id.'/'.$floorplan->floor_id.'/'.$i);
                     $this->info('Map '.$i.' verwijderd');
                 }
             }
@@ -94,9 +94,9 @@ class HandleFloorplans extends Command
             //$this->info('Command: gdal2tiles.py -p raster -z 0-6 '.$file_dir.'plattegrond.png '.$file_dir);
             exec(base_path().'/gdal2tiles.py -l -p raster -z 0-6 '.$file_dir.'plattegrond.png '.$file_dir);
 
-            if($filesystem->has($year.'/'.$floorplan->project_id.'/plattegrond/'.$floorplan->floor_id.'/0/0/0.png')){
+            if($filesystem->has($year.'/'.$floorplan->project_id.'/plattegrond/'.$floorplan->location_id.'/'.$floorplan->floor_id.'/0/0/0.png')){
                 //als dit bestand bestaat dan is de generatie succesvol geweest
-                $xml = $filesystem->read($year.'/'.$floorplan->project_id.'/plattegrond/'.$floorplan->floor_id.'/tilemapresource.xml');
+                $xml = $filesystem->read($year.'/'.$floorplan->project_id.'/plattegrond/'.$floorplan->location_id.'/'.$floorplan->floor_id.'/tilemapresource.xml');
                 $xml_array = Parser::xml($xml);
 
                 $floorplan->ymax = round($xml_array['BoundingBox']['@attributes']['miny'], 0);
