@@ -31,8 +31,12 @@ class SubdatabaseController extends Controller
 
         if($subdatabase == 'location') {
             return Datatables::of($objects)
-                ->addColumn('naam', function($object){
-                    return $object->naam.' ('.$object->project->naam.')';
+                ->addColumn('naam', function($object) {
+                    if(!empty($object->project)) {
+                        return $object->naam . ' (' . $object->project->naam . ')';
+                    } else {
+                        return $object->naam . ' (Onbekend)';
+                    }
                 })
                 ->addColumn('action', function($object) use ($subdatabase){
                     return '<a href="'.\URL::route('subdatabase.edit', ['subdatabase' => $subdatabase, 'id' => $object->id]).'"><i class="fa fa-search"></i></a>';
