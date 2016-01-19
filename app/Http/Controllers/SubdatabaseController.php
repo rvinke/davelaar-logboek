@@ -26,6 +26,9 @@ class SubdatabaseController extends Controller
     {
 
         $model = 'App\\Models\\'.ucfirst($subdatabase);
+        if($subdatabase == 'Firedamper') {
+            $model = 'App\\Models\\FireDamper';
+        }
 
         $objects = $model::all();
 
