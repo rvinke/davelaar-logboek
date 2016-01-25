@@ -17,7 +17,7 @@
                 <table class="main" width="100%" cellpadding="0" cellspacing="0">
                     <tr>
                         <td class="alert alert-good">
-                            Nieuw wachtwoord
+                            Verbroken brandscheiding
                         </td>
                     </tr>
                     <tr>
@@ -25,17 +25,22 @@
                             <table width="100%" cellpadding="0" cellspacing="0">
                                 <tr>
                                     <td class="content-block">
-                                        U heeft een nieuw wachtwoord aangevraagd voor het Logboek van Davelaarbouw B.V.
+                                        Er is aangegeven dat er een brandscheiding verbroken is.
                                     </td>
                                 </tr>
                                 <tr>
                                     <td class="content-block">
-                                        Nieuw wachtwoord: {{ $password }}
+                                        <b>Project:</b> {{ $project->naam }}
                                     </td>
                                 </tr>
                                 <tr>
                                     <td class="content-block">
-                                        <a href="{!! URL::route('login') !!}" class="btn-primary">Log nu in</a>
+                                        <b>Brandscheiding:</b> {{ $log->code }}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="content-block">
+                                        <b>Door:</b> {{ $report->naam }}, {{ $report->organisatie }}
                                     </td>
                                 </tr>
                                 <tr>

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Logboek;
 
+use Mail;
 use App\Models\Log;
 use App\Models\Project;
 use App\Models\Qrcode;
@@ -107,6 +108,7 @@ class QrController extends Controller
     public function storeReport(Request $request, $code)
     {
         $log = Log::where('qrcode', $code)->first();
+        $project = $log->project;
 
         $report = new Report();
         $report->log_id = $log->id;
@@ -114,6 +116,12 @@ class QrController extends Controller
         $report->organisatie = $request->input('organisatie');
 
         if($report->save()) {
+
+            Mail::send('emails.report', ['project' => $project, 'log' => $log, 'report' => $report], function($m){
+                $m->from('info@davelaar.nl', 'Logboekapplicatie');
+                $m->to('erik@davelaar.nl')->subject('Er is een brandscheiding verbroken');
+            });
+
             return \View::make('qr.thanks');
         } else {
             return redirect()->route('qr-code.report', $code)->with('error', 'Niet alle velden zijn juist ingevoerd.');

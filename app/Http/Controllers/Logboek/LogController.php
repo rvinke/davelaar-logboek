@@ -153,17 +153,9 @@ class LogController extends Controller
 
             $file = $request->file('foto');
 
-            //$stream = fopen($file->getRealPath(), 'r+');
-
-            //dd($stream);
-
             $project = Project::findOrFail($log->project_id);
             $year = date("Y", strtotime($project->created_at));
             $extension = $file->getClientOriginalExtension();
-
-            //Flysystem::put($year.'/'.$project->id.'/'.$log->code.'.'.$extension, $stream);
-
-            //$request->file('foto')->move(public_path().'/documenten/'.$year.'/'.$project->id.'/', $log->code.'.'.$extension);
 
             if(file_exists(public_path().'/documenten/'.$year.'/'.$project->id.'/'.$log->code.'.'.$extension)){
                 unlink(public_path().'/documenten/'.$year.'/'.$project->id.'/'.$log->code.'.'.$extension);
@@ -182,8 +174,6 @@ class LogController extends Controller
 
             $filedb->save();
 
-            //$filesystem->writeStream('documenten/uploads/'.$file->getClientOriginalName(), $stream);
-            //fclose($stream);
         }
 
         $passthroughs = $log->passthroughs;
