@@ -106,10 +106,12 @@ Route::group(['middleware' => 'auth'], function() {
     Route::post('project/{project_id}/file/create', ['as' => 'file.store', 'uses' => 'Logboek\FileController@store']);
     Route::get('user', ['as' => 'user.index', 'uses' => 'Auth\UserController@index']);
 
+
     Route::get('file/download/{id}', ['as' => 'file.download', 'uses' => 'Logboek\FileController@show']);
     Route::get('file/edit/{id}', ['as' => 'file.edit', 'uses' => 'Logboek\FileController@edit']);
     Route::patch('file/edit/{id}', ['as' => 'file.update', 'uses' => 'Logboek\FileController@update']);
 
+    Route::get('file/download-documentatie/{id}', ['as' => 'documentatie.download', 'uses' => 'SubdatabaseController@downloadDocumentatie']);
 
 
 

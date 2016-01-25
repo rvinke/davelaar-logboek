@@ -72,7 +72,11 @@
                                 <td>{{ $log->floor->naam }}</td>
                                 <td>
                                     @if($log->product_id != 0)
-                                        <abbr title="{{ $log->system->naam }}">{{ $log->system->leverancier.' '.$log->system->productnummer }}</abbr></td>
+                                        @if(!empty($log->system->documentatie))
+                                            <a href="{!! URL::route('documentatie.download', $log->system->id) !!}" title="{{ $log->system->naam }}">{{ $log->system->leverancier.' '.$log->system->productnummer }}</a>
+                                        @else
+                                            <abbr title="{{ $log->system->naam }}">{{ $log->system->leverancier.' '.$log->system->productnummer }}</abbr>
+                                         @endif
                                     @endif
                                 <td>
                                     @foreach($log->passthroughs as $passthrough)

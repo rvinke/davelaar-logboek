@@ -42,7 +42,7 @@
                     {!! Form::file('documentatie', ['class' => 'form-control']) !!}
                     <span class="help-block m-b-none">
                         @if(!empty($model->documentatie))
-                            <i><a href="/documenten/documentatie/{{ $model->documentatie }}" target="_blank">Document aanwezig</a></i>
+                            <i><a href="{!! \Illuminate\Support\Facades\URL::route('documentatie.download', $model->id) !!}" target="_blank">Document aanwezig</a></i>
                         @endif
                     </span>
                 </div>

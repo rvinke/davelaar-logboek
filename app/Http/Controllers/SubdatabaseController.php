@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\System;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
@@ -116,6 +117,16 @@ class SubdatabaseController extends Controller
      */
     public function show($id)
     {
+
+    }
+
+
+    public function downloadDocumentatie($system_id) {
+        $system = System::findOrFail($system_id);
+
+        $filename = 'documenten/documentatie/'.$system->documentatie;
+
+        return \Response::download($filename);
 
     }
 
