@@ -116,12 +116,12 @@ class ProjectController extends Controller
     {
         $project = new Project();
 
-        $project->naam = Input::get('naam');
-        $project->projectnummer = Input::get('projectnummer');
-        $project->opdrachtgever_id = Input::get('opdrachtgever_id');
-        $project->onderwerp = Input::get('onderwerp');
-        $project->referentie = Input::get('referentie');
-        $project->adres = Input::get('adres');
+        $project->naam = $request->input('naam');
+        $project->projectnummer = $request->input('projectnummer');
+        $project->opdrachtgever_id = $request->input('opdrachtgever_id');
+        $project->onderwerp = $request->input('onderwerp');
+        $project->referentie = $request->input('referentie');
+        $project->adres = $request->input('adres');
 
         if($project->save()) {
             return redirect()->route('projecten.index')->with('status', 'Project opgeslagen.');

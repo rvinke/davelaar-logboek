@@ -36,6 +36,18 @@
             </div>
 
 
+            <div class="form-group">
+                <label class="col-lg-2 control-label">Documentatie</label>
+                <div class="col-lg-4">
+                    {!! Form::file('documentatie', ['class' => 'form-control']) !!}
+                    <span class="help-block m-b-none">
+                        @if(!empty($model->documentatie))
+                            <i><a href="/documenten/documentatie/{{ $model->documentatie }}" target="_blank">Document aanwezig</a></i>
+                        @endif
+                    </span>
+                </div>
+            </div>
+
         @endif
 
 

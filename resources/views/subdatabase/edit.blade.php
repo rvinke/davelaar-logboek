@@ -14,7 +14,7 @@
                     @endif
                     --}}
 
-                    {!! Form::model($model, array('route' => ['subdatabase.update', $subdatabase, $model->id], 'method' => 'PATCH', 'autocomplete'=>'off', 'class' => 'form-horizontal')) !!}
+                    {!! Form::model($model, array('route' => ['subdatabase.update', $subdatabase, $model->id], 'method' => 'PATCH', 'autocomplete'=>'off', 'class' => 'form-horizontal', 'files' => TRUE)) !!}
                     @include('subdatabase.form', array('is_new'=>false) )
                     {!! Form::close() !!}
 

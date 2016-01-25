@@ -93,6 +93,14 @@ class SubdatabaseController extends Controller
         if(strtolower($subdatabase) == 'system') {
             $object->leverancier = \Input::get('leverancier');
             $object->productnummer = \Input::get('productnummer');
+
+            //Documentatie opslaan
+            if(!empty($request->file('documentatie'))) {
+
+                $file = $request->file('documentatie');
+                $file->move(public_path('documenten/documentatie'), $file->getClientOriginalName());
+                $object->documentatie = $file->getClientOriginalName();
+            }
         }
 
         $object->save();
@@ -155,6 +163,14 @@ class SubdatabaseController extends Controller
         if(strtolower($subdatabase) == 'system') {
             $object->leverancier = \Input::get('leverancier');
             $object->productnummer = \Input::get('productnummer');
+
+            //Documentatie opslaan
+            if(!empty($request->file('documentatie'))) {
+
+                $file = $request->file('documentatie');
+                $file->move(public_path('documenten/documentatie'), $file->getClientOriginalName());
+                $object->documentatie = $file->getClientOriginalName();
+            }
         }
 
         $object->save();

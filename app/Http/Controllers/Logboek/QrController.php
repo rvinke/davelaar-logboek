@@ -117,7 +117,7 @@ class QrController extends Controller
             return \View::make('qr.thanks');
         } else {
             return redirect()->route('qr-code.report', $code)->with('error', 'Niet alle velden zijn juist ingevoerd.');
-        };
+        }
     }
 
     public function selectNumberOfCodes()
