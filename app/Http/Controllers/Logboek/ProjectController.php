@@ -10,6 +10,7 @@ use App\Models\Project;
 use App\User;
 use Barryvdh\Debugbar\LaravelDebugbar;
 use DebugBar\DebugBar;
+use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
@@ -230,6 +231,12 @@ class ProjectController extends Controller
 
     }
 
+    /**
+     * Shows an option page to set the users that have access to the project
+     *
+     * @param $id
+     * @return View
+     */
     public function users($id) {
 
         $project = Project::findOrFail($id);
@@ -239,6 +246,13 @@ class ProjectController extends Controller
 
     }
 
+    /**
+     * Stores the associated users
+     *
+     * @param Request $request
+     * @param $id
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function storeUsers(Request $request, $id) {
 
         $project = Project::findOrFail($id);

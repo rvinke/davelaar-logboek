@@ -115,12 +115,9 @@ class FloorplanController extends Controller
             ->with('logs.location')
             ->findOrFail($project_id);
 
-        $floorplan = $project->maps()->where('location_id', $location_id)->where('floor_id', $floor_id)->first();
-
         $year = date("Y", strtotime($project->created_at));
 
         $location = public_path().'/documenten/'.$year.'/'.$project_id.'/plattegrond/'.$location_id.'/'.$floor_id.'/plattegrond.png';
-        //dd($location);
         $img = Image::make($location);
 
         //bepaal de grootte van de marker
