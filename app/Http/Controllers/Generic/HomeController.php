@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Generic;
 
+use App\Models\Report;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
@@ -16,7 +17,9 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('welcome');
+        $reports = Report::where('completed', 0)->get();
+
+        return view('welcome')->withReports($reports);
     }
 
     /**

@@ -33,9 +33,13 @@
                 </div>
             @endif
 
-            @if (session('error'))
+            @if (count($errors) > 0)
                 <div class="alert alert-danger">
-                    {{ session('error') }}
+
+                    @foreach ($errors->all() as $error)
+                        {{ $error }}
+                    @endforeach
+
                 </div>
             @endif
 

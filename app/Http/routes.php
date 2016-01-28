@@ -25,6 +25,8 @@ Route::get('logout', ['as' => 'logout', 'uses' => 'Auth\AuthController@getLogout
 Route::get('reset', ['as' => 'auth.password_reset', 'uses' => 'Auth\UserController@resetPassword']);
 Route::post('reset', ['as' => 'auth.reset', 'uses' => 'Auth\UserController@storeResetPassword']);
 
+Route::get('qr-adhoc', ['uses' => 'Logboek\QrController@generateAdHoc']);
+
 //QR-code routes
 Route::get('qr/{code}', ['as' => 'qr-code.start', 'uses' => 'Logboek\QrController@start']);
 Route::get('qr/{code}/create', ['as' => 'qr-code.enter', 'uses' => 'Logboek\QrController@create']);
@@ -53,6 +55,8 @@ Route::group(['middleware' => 'auth'], function() {
 
         Route::get('project/{id}/users', ['as' => 'project.users', 'uses' => 'Logboek\ProjectController@users']);
         Route::post('project/{id}/users/store', ['as' => 'project.users.store', 'uses' => 'Logboek\ProjectController@storeUsers']);
+
+        Route::get('qr/{code}/restore', ['as' => 'qr-code.restore', 'uses' => 'Logboek\QrController@restore']);
     });
 
     Route::get('rapporten', ['as' => 'projecten.rapporten', 'uses' => 'Logboek\ProjectController@indexRapporten']);
@@ -63,7 +67,7 @@ Route::group(['middleware' => 'auth'], function() {
     Route::get('project/{id}/plattegrond/{location}/{floor}/download', ['as' => 'rapport.floorplan.download', 'uses' => 'FloorplanController@download']);
     Route::get('plattegrond-js/{projectId}/{location}/{floor}/{editable?}/{lat?}/{lng?}', ['as' => 'rapport.floorplan-js', 'uses' => 'FloorplanController@javascript']);
 
-    Route::get('logboek/{id}/map-show/{floor}', ['as' => 'log.map-show', 'uses' => 'Logboek\LogController@mapShow']);
+    Route::get('logboek/{id}/map-show', ['as' => 'log.map-show', 'uses' => 'Logboek\LogController@mapShow']);
 
 
     Route::group(['middleware' => ['role:admin|medewerker']], function () {
@@ -89,8 +93,6 @@ Route::group(['middleware' => 'auth'], function() {
         Route::patch('subdatabase/{subdatabase}/{id}/update', ['as' => 'subdatabase.update', 'uses' => 'SubdatabaseController@update']);
         Route::get('subdatabase/{subdatabase}/{id}/delete', ['as' => 'subdatabase.delete', 'uses' => 'SubdatabaseController@destroy']);
 
-
-
     });
 
     Route::group(['middleware' => ['role:admin']], function () {
@@ -105,7 +107,6 @@ Route::group(['middleware' => 'auth'], function() {
     Route::get('project/{project_id}/file/create', ['as' => 'file.create', 'uses' => 'Logboek\FileController@create']);
     Route::post('project/{project_id}/file/create', ['as' => 'file.store', 'uses' => 'Logboek\FileController@store']);
     Route::get('user', ['as' => 'user.index', 'uses' => 'Auth\UserController@index']);
-
 
     Route::get('file/download/{id}', ['as' => 'file.download', 'uses' => 'Logboek\FileController@show']);
     Route::get('file/edit/{id}', ['as' => 'file.edit', 'uses' => 'Logboek\FileController@edit']);

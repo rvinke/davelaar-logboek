@@ -217,13 +217,38 @@ class QrController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
-     * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function restore($code)
     {
-        //
+        $log = Log::where('qrcode', $code)->first();
+
+        $report = $log->reports->last();
+
+        $report->completed = 1;
+
+        if($report->save()) {
+            return redirect()->route('qr-code.start', $code)->with('status', 'Deze brandscheiding is als hersteld gemeld');
+        } else {
+            return redirect()->route('qr-code.start', $code)
+                ->with('error', 'Deze brandscheiding kon niet als hersteld gemeld worden. Als deze
+                    foutmelding terug blijft komen, neem dan contact op met kantoor');
+        }
+
+    }
+
+    public function generateAdHoc() {
+
+        $string = 'http://www.davelaar.nl/specialisme/brandveiligheid';
+
+        $file = storage_path('app/temp-qr-codes/adhoc.eps');
+
+        QrGenerator::size(100)
+            ->format('eps')
+            ->errorCorrection('H')
+            ->generate($string, $file);
+
+
     }
 
     /**

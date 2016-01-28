@@ -98,7 +98,10 @@ class LogController extends Controller
      */
     public function show($id)
     {
-        //
+        $log = Log::findOrFail($id);
+
+        return \View::make('logboek.log')->withLog($log);
+
     }
 
     /**
@@ -234,13 +237,12 @@ class LogController extends Controller
     }
 
 
-    public function mapShow($id, $floor_id) {
+    public function mapShow($id) {
         $log = Log::findOrFail($id);
 
         return \View::make('project.logitemplattegrond')
             ->withLog($log)
-            ->withProject($log->project)
-            ->withFloor($floor_id);
+            ->withProject($log->project);
     }
 
     /**

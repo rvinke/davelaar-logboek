@@ -22,7 +22,7 @@
     <div class="middle-box text-center loginscreen animated fadeInDown">
         <div>
             <div>
-                <img src="http://www.davelaar.nl/assets/logo-davelaarbouw.png" class="login-image" />
+                <img src="http://www.davelaar.nl/assets/logo-davelaarbouw.png" class="login-image less-margin" />
                 <!--<h1 class="logo-name">Log</h1>-->
 
             </div>
@@ -65,7 +65,8 @@
                 <tr><th>Commentaar</th><td>{{ $log->commentaar }}</td></tr>
             </table>
             @if($log->reports->count() > 0)
-                <div class="alert alert-danger"><b>Er zijn al meldingen dat deze brandscheiding verbroken is.</b></div>
+                <div class="alert alert-danger"><b>Er is gemeld dat deze brandscheiding verbroken is.</b></div>
+                <a href="{!! URL::route('qr-code.restore', $code) !!}" class="btn btn-primary">Meld herstel</a>
             @else
                 <a href="{!! URL::route('qr-code.report', $code) !!}" class="btn btn-primary">Meld verbroken brandscheiding</a>
             @endif
