@@ -12,7 +12,8 @@ server('acceptatie', 'mijn-boetiek.nl', 22)
     ->user('logboek')
     ->password('rvmmdnw1')
     ->stage('acceptatie')
-    ->env('deploy_path', '/home/logboek/public_html'); // Define the base path to deploy your project to.
+    ->env('deploy_path', '/home/logboek/public_html') // Define the base path to deploy your project to.
+    ->env('branch', 'acceptatie');
 
 // Specify the repository from which to download your project's code.
 // The server needs to have git installed for this to work.
@@ -44,9 +45,9 @@ set('writable_dirs', ['storage', 'vendor', 'public/documenten', 'public/.cache']
 /**
  * Run migrations
  */
-/*task('migration', function() {
+task('migration', function() {
     run('php {{release_path}}/artisan migrate --force');
-})->desc('Artisan migrations');*/
+})->desc('Artisan migrations');
 /**
  * Main task (deploy)
  */
@@ -58,7 +59,7 @@ task('deploy', [
     'deploy:writable',
     'deploy:shared',
     'deploy:symlink',
-    //'migration',
+    'migration',
     'cleanup'
 ])->desc('Deploy the app');
 after('deploy', 'success');
