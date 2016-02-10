@@ -30,6 +30,14 @@
         </div>
 
         <div class="form-group">
+            <label class="col-lg-2 control-label">E-mailadressen</label>
+            <div class="col-lg-4">
+                {!! Form::textarea('email', NULL, array('class' => 'form-control', 'style' => 'height: 100px;')) !!}
+                <span class="help-block m-b-none">Scheid meerdere mailadressen met een komma (,) of puntkomma (;).</span>
+            </div>
+        </div>
+
+        <div class="form-group">
             <label class="col-lg-2 control-label">Adres</label>
             <div class="col-lg-4">
                 {!! Form::textarea('adres', NULL, array('class' => 'form-control', 'style' => 'height: 50px;')) !!}

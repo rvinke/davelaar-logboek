@@ -115,12 +115,18 @@ class QrController extends Controller
         $report->naam = $request->input('naam');
         $report->organisatie = $request->input('organisatie');
 
+        $mailAddresses = preg_split("/(,|;)/", $project->email);
+
         if($report->save()) {
 
-            Mail::send('emails.report', ['project' => $project, 'log' => $log, 'report' => $report], function($m){
-                $m->from('info@davelaar.nl', 'Logboekapplicatie');
-                $m->to('erik@davelaar.nl')->subject('Er is een brandscheiding verbroken');
-            });
+            foreach($mailAddresses as $to) {
+                $to = trim($to);
+
+                Mail::send('emails.report', ['project' => $project, 'log' => $log, 'report' => $report], function ($m) use ($to) {
+                    $m->from('info@davelaar.nl', 'Davelaarbouw B.V.');
+                    $m->to($to)->subject('Er is een brandscheiding verbroken');
+                });
+            }
 
             return \View::make('qr.thanks');
         } else {

@@ -112,8 +112,8 @@
 
                         </div>
 
-                        <i class="clone fa fa-plus-circle"></i>
-                        <i class="delete fa fa-minus-circle"></i>
+                        <a class="clone btn btn-primary btn-bitbucket"><i class="fa fa-plus"></i></a>&nbsp;&nbsp;&nbsp;
+                        <a class="delete btn btn-default btn-bitbucket"><i class="fa fa-minus"></i></a>
                     </div>
                     @empty
                     <div class="toclone">
@@ -138,8 +138,8 @@
 
                         </div>
 
-                        <i class="clone fa fa-plus-circle"></i>
-                        <i class="delete fa fa-minus-circle"></i>
+                        <a class="clone btn btn-primary btn-bitbucket"><i class="fa fa-plus"></i></a>&nbsp;&nbsp;&nbsp;
+                        <a class="delete btn btn-default btn-bitbucket"><i class="fa fa-minus"></i></a>
                     </div>
                     @endforelse
                 @else
@@ -165,8 +165,8 @@
 
                     </div>
 
-                    <i class="clone fa fa-plus-circle"></i>
-                    <i class="delete fa fa-minus-circle"></i>
+                    <a class="clone btn btn-primary btn-bitbucket"><i class="fa fa-plus"></i></a>&nbsp;&nbsp;&nbsp;
+                    <a class="delete btn btn-default btn-bitbucket"><i class="fa fa-minus"></i></a>
                 </div>
                 @endif
 
@@ -202,50 +202,7 @@
 @push('scripts')
 <script src="/js/plugins/sweetalert/sweetalert.min.js"></script>
 <script src="/js/plugins/cloneya/jquery-cloneya.min.js"></script>
-<script src="http://cdn.leafletjs.com/leaflet-0.6.4/leaflet.js"></script>
 <script>
-    var mapMinZoom = 0;
-    var mapMaxZoom = 4;
-    var map = L.map('map', {
-        maxZoom: mapMaxZoom,
-        minZoom: mapMinZoom,
-        crs: L.CRS.Simple
-    }).setView([0, 0], 2);
-
-    var mapBounds = new L.LatLngBounds(
-            map.unproject([0, 3584], mapMaxZoom),
-            map.unproject([2560, 0], mapMaxZoom));
-
-    map.fitBounds(mapBounds);
-    L.tileLayer('/documenten/2015/134/plattegrond/{z}/{x}/{y}.png', {
-        minZoom: mapMinZoom, maxZoom: mapMaxZoom,
-        bounds: mapBounds,
-        noWrap: true,
-        tms: false
-    }).addTo(map);
-
-
-    @if(!$is_new && !empty($log->lat))
-        var marker = L.marker([{{ $log->lat }}, {{ $log->lng }}]).addTo(map);
-    @endif
-
-
-    map.on('click', function(e){
-        //alert(e.latlng);
-        $('#position').val(e.latlng.lat + '|' + e.latlng.lng);
-        var marker = new L.marker(e.latlng, {draggable: 'true'});
-        map.addLayer(marker);
-
-        marker.on('dragend', function(e){
-            var marker = e.target;
-            var position = marker.getLatLng();
-            $('#position').val(position.lat + '|' + position.lng);
-            //alert(position);
-        });
-    });
-
-
-
     @if(!$is_new)
     $('.delete-button').click(function () {
         swal({

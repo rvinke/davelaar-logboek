@@ -28,7 +28,7 @@
         <div class="form-group">
             <label class="col-lg-2 control-label">Bestand (PDF/PNG)</label>
             <div class="col-lg-4">
-                {!! Form::file('file', NULL, array('class' => 'form-control')) !!}
+                {!! Form::file('file', NULL, array('class' => 'form-control', 'accept' => 'image/*', 'capture' => 'camera')) !!}
             </div>
         </div>
 

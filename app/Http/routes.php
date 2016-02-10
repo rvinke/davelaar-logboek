@@ -40,6 +40,9 @@ Route::group(['middleware' => 'auth'], function() {
     Route::get('api/v1/rapporten', ['as' => 'api.rapporten.v1', 'uses' => 'Logboek\ProjectController@getDatatableRapporten']);
     Route::get('api/v1/subdatabase/{subdatabase}', ['as' => 'api.subdatabase.v1', 'uses' => 'SubdatabaseController@getDatatable']);
     Route::get('api/v1/user', ['as' => 'api.user.v1', 'uses' => 'Auth\UserController@getDatatable']);
+    Route::get('api/v1/logs/{project_id}', ['as' => 'api.logs.v1', 'uses' => 'Logboek\LogController@getDatatable']);
+
+
 
     Route::group(['middleware' => ['role:admin|medewerker']], function () {
         Route::get('project', ['as' => 'projecten.index', 'uses' => 'Logboek\ProjectController@index']);

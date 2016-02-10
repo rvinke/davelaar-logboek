@@ -15,6 +15,8 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Intervention\Image\Facades\Image;
+use Yajra\Datatables\Datatables;
+
 
 class LogController extends Controller
 {
@@ -26,6 +28,57 @@ class LogController extends Controller
     public function index()
     {
         //
+    }
+
+
+    public function getDatatable($project_id)
+    {
+
+        $logs = Log::where('project_id', $project_id)
+            ->with('passthroughs')
+            ->with('passthroughs.passthrough_type')
+            ->with('floor')
+            ->with('system')
+            ->with('location')
+            ->orderBy('logs.id', 'desc')
+            ->get();
+
+        return Datatables::of($logs)
+
+            ->addColumn('verbroken', function($log){
+                if($log->reports->count() > 0) {
+                    return '<i class="fa fa-exclamation-triangle" style = "color: #f00" ></i>';
+                } else {
+                    return '';
+                }
+            })
+            ->addColumn('action', function($log){
+                return '<a href="'.\URL::route('log.edit', ['id' => $log->id]).'"><i style="font-size: 1.2em;" class="fa fa-edit fa-large"></i></a>';
+            })
+
+            ->editColumn('system', function($log){
+                if($log->product_id != 0) {
+                    if(!empty($log->system->documentatie)) {
+                        return '<a href="' . \URL::route('documentatie.download', $log->system->id) . '" title="' . $log->system->naam . '">' . $log->system->leverancier . ' ' . $log->system->productnummer . '</a>';
+                    } else {
+                        return '<abbr title="'.$log->system->naam.'">'.$log->system->leverancier.' '.$log->system->productnummer.'</abbr>';
+                    }
+                }else{
+                    return 'Onbekend';
+                }
+            })
+            ->editColumn('passthroughs', function($log){
+                $return = '';
+                foreach($log->passthroughs as $passthrough) {
+                    if($passthrough->passthrough_type_id != 0) {
+                        $return .= $passthrough->count.'x '.$passthrough->passthrough_type->naam.'<br />';
+                    }
+
+                }
+
+                return $return;
+            })
+            ->make(true);
     }
 
     /**
@@ -73,6 +126,13 @@ class LogController extends Controller
         $log->code = $code;
 
         $log->save();
+
+        //handle the file upload als het bestand aanwezig is
+        if(!empty($request->file('foto'))) {
+
+            $this->storePhoto($request, $log);
+
+        }
 
         foreach(\Input::get('passthroughs')['passthrough_type_id'] as $key => $pt_id) {
 
@@ -154,33 +214,11 @@ class LogController extends Controller
         //handle the file upload als het bestand aanwezig is
         if(!empty($request->file('foto'))) {
 
-            $file = $request->file('foto');
-
-            $project = Project::findOrFail($log->project_id);
-            $year = date("Y", strtotime($project->created_at));
-            $extension = $file->getClientOriginalExtension();
-
-            if(file_exists(public_path().'/documenten/'.$year.'/'.$project->id.'/'.$log->code.'.'.$extension)){
-                unlink(public_path().'/documenten/'.$year.'/'.$project->id.'/'.$log->code.'.'.$extension);
-            }
-            $image = $request->file('foto');
-            Image::make($image->getRealPath())->resize(1200, null, function ($constraint) {
-                $constraint->aspectRatio();
-            })->save(public_path('documenten/'.$year.'/'.$project->id.'/').$log->code.'.'.$extension);
-
-            $filedb = new File();
-
-            $filedb->naam = $log->code.'.'.$extension;
-            $filedb->project_id = $project->id;
-            $filedb->type = 'foto';
-            $filedb->log_id = $log->id;
-
-            $filedb->save();
+            $this->storePhoto($request, $log);
 
         }
 
         $passthroughs = $log->passthroughs;
-
 
         foreach($passthroughs as $passthrough) {
             $passthrough->delete();
@@ -200,6 +238,32 @@ class LogController extends Controller
 
         return redirect()->route('log.map', [$log->id, $log->bouwlaag_id]);
 
+    }
+
+
+    private function storePhoto(Request $request, $log) {
+        $file = $request->file('foto');
+
+        $project = Project::findOrFail($log->project_id);
+        $year = date("Y", strtotime($project->created_at));
+        $extension = $file->getClientOriginalExtension();
+
+        if(file_exists(public_path().'/documenten/'.$year.'/'.$project->id.'/'.$log->code.'.'.$extension)){
+            unlink(public_path().'/documenten/'.$year.'/'.$project->id.'/'.$log->code.'.'.$extension);
+        }
+        $image = $request->file('foto');
+        Image::make($image->getRealPath())->resize(1200, null, function ($constraint) {
+            $constraint->aspectRatio();
+        })->save(public_path('documenten/'.$year.'/'.$project->id.'/').$log->code.'.'.$extension);
+
+        $filedb = new File();
+
+        $filedb->naam = $log->code.'.'.$extension;
+        $filedb->project_id = $project->id;
+        $filedb->type = 'foto';
+        $filedb->log_id = $log->id;
+
+        $filedb->save();
     }
 
     /**

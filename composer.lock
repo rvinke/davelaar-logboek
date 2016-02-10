@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "3a497b1f5308108d36bc729017158695",
-    "content-hash": "b0bb242883634cdec37b0037838c2325",
+    "hash": "1e98e2167366f6910a761d4bdc04a270",
+    "content-hash": "46a8a9d55425f4f823ede20d9b0c0780",
     "packages": [
         {
             "name": "bacon/bacon-qr-code",
@@ -524,16 +524,16 @@
         },
         {
             "name": "graham-campbell/flysystem",
-            "version": "v3.3.0",
+            "version": "v3.3.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/GrahamCampbell/Laravel-Flysystem.git",
-                "reference": "b36a2b2a5a136347235ab003cdd21f5d1f0147e3"
+                "reference": "8aae9406db895a0a505867a0ba6023a09f267a99"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/GrahamCampbell/Laravel-Flysystem/zipball/b36a2b2a5a136347235ab003cdd21f5d1f0147e3",
-                "reference": "b36a2b2a5a136347235ab003cdd21f5d1f0147e3",
+                "url": "https://api.github.com/repos/GrahamCampbell/Laravel-Flysystem/zipball/8aae9406db895a0a505867a0ba6023a09f267a99",
+                "reference": "8aae9406db895a0a505867a0ba6023a09f267a99",
                 "shasum": ""
             },
             "require": {
@@ -609,20 +609,20 @@
                 "laravel",
                 "s3"
             ],
-            "time": "2015-11-14 11:54:30"
+            "time": "2016-01-30 14:40:08"
         },
         {
             "name": "graham-campbell/manager",
-            "version": "v2.3.0",
+            "version": "v2.3.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/GrahamCampbell/Laravel-Manager.git",
-                "reference": "fd643e56c99cc80cd8019be1bbaeb4f4f66ebb8e"
+                "reference": "35c0abf7679a0f48d61dcd7fb11894036e81f1f2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/GrahamCampbell/Laravel-Manager/zipball/fd643e56c99cc80cd8019be1bbaeb4f4f66ebb8e",
-                "reference": "fd643e56c99cc80cd8019be1bbaeb4f4f66ebb8e",
+                "url": "https://api.github.com/repos/GrahamCampbell/Laravel-Manager/zipball/35c0abf7679a0f48d61dcd7fb11894036e81f1f2",
+                "reference": "35c0abf7679a0f48d61dcd7fb11894036e81f1f2",
                 "shasum": ""
             },
             "require": {
@@ -668,20 +668,20 @@
                 "laravel",
                 "manager"
             ],
-            "time": "2015-11-14 11:41:39"
+            "time": "2016-01-30 14:13:56"
         },
         {
             "name": "guzzlehttp/psr7",
-            "version": "1.2.1",
+            "version": "1.2.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/guzzle/psr7.git",
-                "reference": "4d0bdbe1206df7440219ce14c972aa57cc5e4982"
+                "reference": "f5d04bdd2881ac89abde1fb78cc234bce24327bb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/guzzle/psr7/zipball/4d0bdbe1206df7440219ce14c972aa57cc5e4982",
-                "reference": "4d0bdbe1206df7440219ce14c972aa57cc5e4982",
+                "url": "https://api.github.com/repos/guzzle/psr7/zipball/f5d04bdd2881ac89abde1fb78cc234bce24327bb",
+                "reference": "f5d04bdd2881ac89abde1fb78cc234bce24327bb",
                 "shasum": ""
             },
             "require": {
@@ -726,7 +726,7 @@
                 "stream",
                 "uri"
             ],
-            "time": "2015-11-03 01:34:55"
+            "time": "2016-01-23 01:23:02"
         },
         {
             "name": "hashids/hashids",
@@ -994,16 +994,16 @@
         },
         {
             "name": "laravel/framework",
-            "version": "v5.1.28",
+            "version": "v5.1.29",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "3f0fd27939dfdafb1e50058423cd24e640894ba2"
+                "reference": "7e7ba568ffbc8f3f00778f2e8f41fb92127944fd"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/3f0fd27939dfdafb1e50058423cd24e640894ba2",
-                "reference": "3f0fd27939dfdafb1e50058423cd24e640894ba2",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/7e7ba568ffbc8f3f00778f2e8f41fb92127944fd",
+                "reference": "7e7ba568ffbc8f3f00778f2e8f41fb92127944fd",
                 "shasum": ""
             },
             "require": {
@@ -1118,25 +1118,26 @@
                 "framework",
                 "laravel"
             ],
-            "time": "2015-12-31 17:41:30"
+            "time": "2016-02-02 14:56:40"
         },
         {
             "name": "laravelbook/ardent",
-            "version": "v3.3.0",
+            "version": "v3.4.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel-ardent/ardent.git",
-                "reference": "028044d87d5f029868de41a5042554f6dc612afa"
+                "reference": "93b2114f914dd801e6c5119dcfe604af7f73e22d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel-ardent/ardent/zipball/028044d87d5f029868de41a5042554f6dc612afa",
-                "reference": "028044d87d5f029868de41a5042554f6dc612afa",
+                "url": "https://api.github.com/repos/laravel-ardent/ardent/zipball/93b2114f914dd801e6c5119dcfe604af7f73e22d",
+                "reference": "93b2114f914dd801e6c5119dcfe604af7f73e22d",
                 "shasum": ""
             },
             "require": {
                 "illuminate/database": "~5.1",
                 "illuminate/events": "~5.1",
+                "illuminate/hashing": "~5.1",
                 "illuminate/support": "~5.1",
                 "illuminate/validation": "~5.1"
             },
@@ -1174,7 +1175,7 @@
                 "sql",
                 "validation"
             ],
-            "time": "2015-12-07 17:05:14"
+            "time": "2016-02-02 21:26:36"
         },
         {
             "name": "laravelcollective/html",
@@ -1421,24 +1422,24 @@
         },
         {
             "name": "league/glide",
-            "version": "0.3.5",
+            "version": "0.3.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thephpleague/glide.git",
-                "reference": "57a10a4b8049f9efb7debb5cfd9718f897e205d3"
+                "reference": "e45a4b536924956e1b20f5d023800557d466eda7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thephpleague/glide/zipball/57a10a4b8049f9efb7debb5cfd9718f897e205d3",
-                "reference": "57a10a4b8049f9efb7debb5cfd9718f897e205d3",
+                "url": "https://api.github.com/repos/thephpleague/glide/zipball/e45a4b536924956e1b20f5d023800557d466eda7",
+                "reference": "e45a4b536924956e1b20f5d023800557d466eda7",
                 "shasum": ""
             },
             "require": {
                 "intervention/image": "~2.1",
                 "league/flysystem": "~1.0",
                 "php": ">=5.4",
-                "symfony/http-foundation": "~2.3",
-                "symfony/http-kernel": "~2.3"
+                "symfony/http-foundation": "~2.3|~3.0",
+                "symfony/http-kernel": "~2.3|~3.0"
             },
             "require-dev": {
                 "mockery/mockery": "~0.9",
@@ -1479,7 +1480,7 @@
                 "manipulation",
                 "processing"
             ],
-            "time": "2015-05-22 23:35:09"
+            "time": "2016-01-25 13:35:12"
         },
         {
             "name": "maatwebsite/excel",
@@ -1689,23 +1690,23 @@
         },
         {
             "name": "mtdowling/cron-expression",
-            "version": "v1.0.4",
+            "version": "v1.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/mtdowling/cron-expression.git",
-                "reference": "fd92e883195e5dfa77720b1868cf084b08be4412"
+                "reference": "c9ee7886f5a12902b225a1a12f36bb45f9ab89e5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mtdowling/cron-expression/zipball/fd92e883195e5dfa77720b1868cf084b08be4412",
-                "reference": "fd92e883195e5dfa77720b1868cf084b08be4412",
+                "url": "https://api.github.com/repos/mtdowling/cron-expression/zipball/c9ee7886f5a12902b225a1a12f36bb45f9ab89e5",
+                "reference": "c9ee7886f5a12902b225a1a12f36bb45f9ab89e5",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.3.2"
             },
             "require-dev": {
-                "phpunit/phpunit": "4.*"
+                "phpunit/phpunit": "~4.0|~5.0"
             },
             "type": "library",
             "autoload": {
@@ -1729,7 +1730,7 @@
                 "cron",
                 "schedule"
             ],
-            "time": "2015-01-11 23:07:46"
+            "time": "2016-01-26 21:23:30"
         },
         {
             "name": "nathanmac/parser",
@@ -1886,16 +1887,16 @@
         },
         {
             "name": "paragonie/random_compat",
-            "version": "1.1.5",
+            "version": "v1.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/paragonie/random_compat.git",
-                "reference": "dd8998b7c846f6909f4e7a5f67fabebfc412a4f7"
+                "reference": "b0e69d10852716b2ccbdff69c75c477637220790"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/paragonie/random_compat/zipball/dd8998b7c846f6909f4e7a5f67fabebfc412a4f7",
-                "reference": "dd8998b7c846f6909f4e7a5f67fabebfc412a4f7",
+                "url": "https://api.github.com/repos/paragonie/random_compat/zipball/b0e69d10852716b2ccbdff69c75c477637220790",
+                "reference": "b0e69d10852716b2ccbdff69c75c477637220790",
                 "shasum": ""
             },
             "require": {
@@ -1930,7 +1931,7 @@
                 "pseudorandom",
                 "random"
             ],
-            "time": "2016-01-06 13:31:20"
+            "time": "2016-02-06 03:52:05"
         },
         {
             "name": "phenx/php-font-lib",
@@ -2233,16 +2234,16 @@
         },
         {
             "name": "simplesoftwareio/simple-qrcode",
-            "version": "1.3.2",
+            "version": "1.3.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/SimpleSoftwareIO/simple-qrcode.git",
-                "reference": "551f7ff10d0f95ac64cfc98d1eba5d331cad8428"
+                "reference": "17c5e45c79c40f717d4bc08cf5e568f29ebf9333"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/SimpleSoftwareIO/simple-qrcode/zipball/551f7ff10d0f95ac64cfc98d1eba5d331cad8428",
-                "reference": "551f7ff10d0f95ac64cfc98d1eba5d331cad8428",
+                "url": "https://api.github.com/repos/SimpleSoftwareIO/simple-qrcode/zipball/17c5e45c79c40f717d4bc08cf5e568f29ebf9333",
+                "reference": "17c5e45c79c40f717d4bc08cf5e568f29ebf9333",
                 "shasum": ""
             },
             "require": {
@@ -2280,7 +2281,7 @@
                 "qrcode",
                 "wrapper"
             ],
-            "time": "2015-12-22 18:00:28"
+            "time": "2016-01-31 02:09:25"
         },
         {
             "name": "swiftmailer/swiftmailer",
@@ -2859,16 +2860,16 @@
         },
         {
             "name": "symfony/polyfill-php56",
-            "version": "v1.0.1",
+            "version": "v1.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/polyfill-php56.git",
-                "reference": "e2e77609a9e2328eb370fbb0e0d8b2000ebb488f"
+                "reference": "4d891fff050101a53a4caabb03277284942d1ad9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/polyfill-php56/zipball/e2e77609a9e2328eb370fbb0e0d8b2000ebb488f",
-                "reference": "e2e77609a9e2328eb370fbb0e0d8b2000ebb488f",
+                "url": "https://api.github.com/repos/symfony/polyfill-php56/zipball/4d891fff050101a53a4caabb03277284942d1ad9",
+                "reference": "4d891fff050101a53a4caabb03277284942d1ad9",
                 "shasum": ""
             },
             "require": {
@@ -2878,7 +2879,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.0-dev"
+                    "dev-master": "1.1-dev"
                 }
             },
             "autoload": {
@@ -2911,20 +2912,20 @@
                 "portable",
                 "shim"
             ],
-            "time": "2015-12-18 15:10:25"
+            "time": "2016-01-20 09:13:37"
         },
         {
             "name": "symfony/polyfill-util",
-            "version": "v1.0.1",
+            "version": "v1.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/polyfill-util.git",
-                "reference": "4271c55cbc0a77b2641f861b978123e46b3da969"
+                "reference": "8de62801aa12bc4dfcf85eef5d21981ae7bb3cc4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/polyfill-util/zipball/4271c55cbc0a77b2641f861b978123e46b3da969",
-                "reference": "4271c55cbc0a77b2641f861b978123e46b3da969",
+                "url": "https://api.github.com/repos/symfony/polyfill-util/zipball/8de62801aa12bc4dfcf85eef5d21981ae7bb3cc4",
+                "reference": "8de62801aa12bc4dfcf85eef5d21981ae7bb3cc4",
                 "shasum": ""
             },
             "require": {
@@ -2933,7 +2934,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.0-dev"
+                    "dev-master": "1.1-dev"
                 }
             },
             "autoload": {
@@ -2963,7 +2964,7 @@
                 "polyfill",
                 "shim"
             ],
-            "time": "2015-11-04 20:28:58"
+            "time": "2016-01-20 09:13:37"
         },
         {
             "name": "symfony/process",
@@ -3353,16 +3354,16 @@
         },
         {
             "name": "yajra/laravel-datatables-oracle",
-            "version": "v6.3.1",
+            "version": "v6.4.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/yajra/laravel-datatables.git",
-                "reference": "c717de511f5f8fca3bb28ebb8a5472fd1c1009bc"
+                "reference": "a794d7904139c4928785f6129373639682a17e24"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/yajra/laravel-datatables/zipball/c717de511f5f8fca3bb28ebb8a5472fd1c1009bc",
-                "reference": "c717de511f5f8fca3bb28ebb8a5472fd1c1009bc",
+                "url": "https://api.github.com/repos/yajra/laravel-datatables/zipball/a794d7904139c4928785f6129373639682a17e24",
+                "reference": "a794d7904139c4928785f6129373639682a17e24",
                 "shasum": ""
             },
             "require": {
@@ -3406,7 +3407,7 @@
                 "laravel4",
                 "laravel5"
             ],
-            "time": "2016-01-21 01:28:09"
+            "time": "2016-02-10 03:13:45"
         },
         {
             "name": "zizaco/entrust",
@@ -4212,16 +4213,16 @@
         },
         {
             "name": "phpunit/phpunit",
-            "version": "4.8.21",
+            "version": "4.8.22",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "ea76b17bced0500a28098626b84eda12dbcf119c"
+                "reference": "dfb11aa5236376b4fc63853cf746af39fe780e72"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/ea76b17bced0500a28098626b84eda12dbcf119c",
-                "reference": "ea76b17bced0500a28098626b84eda12dbcf119c",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/dfb11aa5236376b4fc63853cf746af39fe780e72",
+                "reference": "dfb11aa5236376b4fc63853cf746af39fe780e72",
                 "shasum": ""
             },
             "require": {
@@ -4280,7 +4281,7 @@
                 "testing",
                 "xunit"
             ],
-            "time": "2015-12-12 07:45:58"
+            "time": "2016-02-02 09:01:21"
         },
         {
             "name": "phpunit/phpunit-mock-objects",

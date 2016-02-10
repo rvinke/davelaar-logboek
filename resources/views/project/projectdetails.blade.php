@@ -59,10 +59,11 @@
                     <h5>Log-items</h5>
                 </div>
                 <div class="ibox-content table-responsive">
-                    <table class="table table-striped">
+                    <table class="table table-striped" id="logs-table">
                         <thead>
                             <tr>
-                                <th colspan="2"></th>
+                                <th></th>
+                                <th></th>
                                 <th>Code</th>
                                 <th>Locatie</th>
                                 <th>Bouwlaag</th>
@@ -71,56 +72,29 @@
                                 <th>Commentaar</th>
                             </tr>
                         </thead>
-                        <tbody>
-                            @foreach($project->logs as $log)
-                            <tr>
-                                <td>
-                                    @if($log->reports->count() > 0)
-                                        <i class="fa fa-exclamation-triangle" style="color: #f00"></i>
-                                    @endif
-                                </td>
-                                <td>
-
-                                    <a href="{!! URL::route('log.edit', ['id' => $log->id]) !!}"><i style="font-size: 1.2em;" class="fa fa-edit fa-large"></i></a>
-                                </td>
-                                <td>{{ $log->code }}</td>
-                                <td>{{ $log->location->naam }}</td>
-                                <td>{{ $log->floor->naam }}</td>
-                                <td>
-                                    @if($log->product_id != 0)
-                                        @if(!empty($log->system->documentatie))
-                                            <a href="{!! URL::route('documentatie.download', $log->system->id) !!}" title="{{ $log->system->naam }}">{{ $log->system->leverancier.' '.$log->system->productnummer }}</a>
-                                        @else
-                                            <abbr title="{{ $log->system->naam }}">{{ $log->system->leverancier.' '.$log->system->productnummer }}</abbr>
-                                        @endif
-                                    @endif
-                                </td>
-                                <td>
-                                    @foreach($log->passthroughs as $passthrough)
-                                        @if($passthrough->passthrough_type_id != 0)
-                                            <?php
-
-                                                if(!isset($count_passthrough[$passthrough->passthrough_type_id])) {
-                                                    $count_passthrough[$passthrough->passthrough_type_id] = $passthrough->count;
-                                                } else {
-                                                    $count_passthrough[$passthrough->passthrough_type_id] += $passthrough->count;
-                                                }
-
-                                             ?>
-                                            {{ $passthrough->count }}x {{ $passthrough->passthrough_type->naam }}<br />
-                                        @endif
-                                    @endforeach
-                                </td>
-                                <td>{{ $log->commentaar }}</td>
-                            </tr>
-                            @endforeach
-                        </tbody>
+                        {{-- datatable --}}
                     </table>
 
                 </div>
             </div>
         </div>
     </div>
+
+    @foreach($project->logs as $log)
+        @foreach($log->passthroughs as $passthrough)
+            @if($passthrough->passthrough_type_id != 0)
+                <?php
+
+                if(!isset($count_passthrough[$passthrough->passthrough_type_id])) {
+                    $count_passthrough[$passthrough->passthrough_type_id] = $passthrough->count;
+                } else {
+                    $count_passthrough[$passthrough->passthrough_type_id] += $passthrough->count;
+                }
+
+                ?>
+            @endif
+        @endforeach
+    @endforeach
 
     <div class="row">
         <div class="col-lg-12">
@@ -155,10 +129,45 @@
 @stop
 
 @push('styles')
-
+<!-- Data Tables -->
+<link href="/css/plugins/dataTables/dataTables.bootstrap.css" rel="stylesheet">
+<link href="/css/plugins/dataTables/dataTables.responsive.css" rel="stylesheet">
+<link href="/css/plugins/dataTables/dataTables.tableTools.min.css" rel="stylesheet">
 @endpush
 
 
 @push('scripts')
+<!-- Data Tables -->
+<script src="/js/plugins/dataTables/jquery.dataTables.js"></script>
+<script src="/js/plugins/dataTables/dataTables.bootstrap.js"></script>
+<script src="/js/plugins/dataTables/dataTables.responsive.js"></script>
+<script src="/js/plugins/dataTables/dataTables.tableTools.min.js"></script>
+<script>
+    $(function() {
+        $('#logs-table').DataTable({
+            dom: 'lfigtp',
 
+            processing: true,
+            serverSide: true,
+
+
+            ajax: '{!! route('api.logs.v1', [$project->id]) !!}',
+
+            columns: [
+                { data: 'verbroken', name: 'verbroken', orderable: false, searchable: false },
+                { data: 'action', name: 'action', orderable: false, searchable: false },
+                { data: 'code', name: 'code' },
+                { data: 'location.naam', name: 'location.naam', searchable: true, orderable: false},
+                { data: 'floor.naam', name: 'floor.naam', searchable: true, orderable: false},
+                { data: 'system', name: 'system.naam', searchable: false, orderable: false},
+                { data: 'passthroughs', name: 'passthroughs', searchable: false, orderable: false},
+                { data: 'commentaar', name: 'commentaar'}
+
+            ],
+
+
+            language: {"url":"\/\/cdn.datatables.net\/plug-ins\/a5734b29083\/i18n\/Dutch.json"},
+        });
+    });
+</script>
 @endpush

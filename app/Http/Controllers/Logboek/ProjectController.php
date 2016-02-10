@@ -8,8 +8,6 @@ use App\Models\Location;
 use App\Models\Log;
 use App\Models\Project;
 use App\User;
-use Barryvdh\Debugbar\LaravelDebugbar;
-use DebugBar\DebugBar;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
 
@@ -120,6 +118,7 @@ class ProjectController extends Controller
         $project->naam = $request->input('naam');
         $project->projectnummer = $request->input('projectnummer');
         $project->opdrachtgever_id = $request->input('opdrachtgever_id');
+        $project->email = $request->input('email');
         $project->onderwerp = $request->input('onderwerp');
         $project->referentie = $request->input('referentie');
         $project->adres = $request->input('adres');
@@ -217,13 +216,14 @@ class ProjectController extends Controller
     {
         $project = Project::findOrFail($id);
 
-        $project->naam = \Input::get('naam');
-        $project->projectnummer = \Input::get('projectnummer');
-        $project->opdrachtgever_id = \Input::get('opdrachtgever_id');
-        $project->onderwerp = \Input::get('onderwerp');
-        $project->referentie = \Input::get('referentie');
-        $project->adres = \Input::get('adres');
-        $project->datum_oplevering = date("Y-m-d", strtotime(\Input::get('datum_oplevering')));
+        $project->naam = $request->input('naam');
+        $project->projectnummer = $request->input('projectnummer');
+        $project->opdrachtgever_id = $request->input('opdrachtgever_id');
+        $project->email = $request->input('email');
+        $project->onderwerp = $request->input('onderwerp');
+        $project->referentie = $request->input('referentie');
+        $project->adres = $request->input('adres');
+        $project->datum_oplevering = date("Y-m-d", strtotime($request->input('datum_oplevering')));
 
         $project->save();
 
