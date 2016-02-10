@@ -55,14 +55,13 @@ class LogController extends Controller
             ->addColumn('action', function($log){
                 return '<a href="'.\URL::route('log.edit', ['id' => $log->id]).'"><i style="font-size: 1.2em;" class="fa fa-edit fa-large"></i></a>';
             })
+            ->editColumn('code', function($log){
+                return '<a href="'.\URL::route('log.map-show', ['id' => $log->id]).'">'.$log->code.'</a>';
+            })
 
             ->editColumn('system', function($log){
                 if($log->product_id != 0) {
-                    if(!empty($log->system->documentatie)) {
-                        return '<a href="' . \URL::route('documentatie.download', $log->system->id) . '" title="' . $log->system->naam . '">' . $log->system->leverancier . ' ' . $log->system->productnummer . '</a>';
-                    } else {
-                        return '<abbr title="'.$log->system->naam.'">'.$log->system->leverancier.' '.$log->system->productnummer.'</abbr>';
-                    }
+                    return '<abbr title="'.$log->system->naam.'">'.$log->system->leverancier.' '.$log->system->productnummer.'</abbr>';
                 }else{
                     return 'Onbekend';
                 }

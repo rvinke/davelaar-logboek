@@ -97,10 +97,11 @@ class SubdatabaseController extends Controller
 
             //Documentatie opslaan
             if(!empty($request->file('documentatie'))) {
-
-                $file = $request->file('documentatie');
-                $file->move(public_path('documenten/documentatie'), $file->getClientOriginalName());
-                $object->documentatie = $file->getClientOriginalName();
+                foreach($request->file('documentatie') as $file) {
+                    $file = $request->file('documentatie');
+                    $file->move(public_path('documenten/documentatie/'.$object->id.'/'), $file->getClientOriginalName());
+                    $object->documentatie = $file->getClientOriginalName();
+                }
             }
         }
 
@@ -121,13 +122,33 @@ class SubdatabaseController extends Controller
     }
 
 
-    public function downloadDocumentatie($system_id) {
-        $system = System::findOrFail($system_id);
+    public function downloadDocumentatie($systemId, $filename) {
 
-        $filename = 'documenten/documentatie/'.$system->documentatie;
+        $filename = 'documenten/documentatie/'.$systemId.'/'.$filename;
 
         return \Response::download($filename);
 
+    }
+
+    public function removeDocumentatie($systemId, $filename) {
+        $system = System::findOrFail($systemId);
+
+        $path = public_path('documenten/documentatie/'.$systemId.'/'.urldecode($filename));
+
+        unlink($path);
+
+        $fileArray = json_decode($system->documentatie);
+
+        if(($key = array_search(urldecode($filename), $fileArray)) !== false) {
+            unset($fileArray[$key]);
+        }
+
+
+        $system->documentatie = json_encode($fileArray);
+
+        $system->save();
+
+        return redirect()->route('subdatabase.edit', ['subdatabase' => 'system', 'id' => $systemId])->with('status', 'Item opgeslagen.');
     }
 
     /**
@@ -177,10 +198,16 @@ class SubdatabaseController extends Controller
 
             //Documentatie opslaan
             if(!empty($request->file('documentatie'))) {
+                $storeArray = json_decode($object->documentatie);
 
-                $file = $request->file('documentatie');
-                $file->move(public_path('documenten/documentatie'), $file->getClientOriginalName());
-                $object->documentatie = $file->getClientOriginalName();
+                foreach($request->file('documentatie') as $file) {
+
+                    $file->move(public_path('documenten/documentatie/'.$object->id.'/'), $file->getClientOriginalName());
+                    $storeArray[] = $file->getClientOriginalName();
+
+                }
+
+                $object->documentatie = json_encode($storeArray);
             }
         }
 

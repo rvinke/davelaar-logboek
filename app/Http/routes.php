@@ -115,8 +115,10 @@ Route::group(['middleware' => 'auth'], function() {
     Route::get('file/edit/{id}', ['as' => 'file.edit', 'uses' => 'Logboek\FileController@edit']);
     Route::patch('file/edit/{id}', ['as' => 'file.update', 'uses' => 'Logboek\FileController@update']);
 
-    Route::get('file/download-documentatie/{id}', ['as' => 'documentatie.download', 'uses' => 'SubdatabaseController@downloadDocumentatie']);
-
+    Route::get('file/download-documentatie/{id}/{filename}', ['as' => 'documentatie.download', 'uses' => 'SubdatabaseController@downloadDocumentatie']);
+    Route::group(['middleware' => ['role:admin']], function () {
+        Route::get('file/remove-documentatie/{id}/{filename}', ['as' => 'documentatie.remove', 'uses' => 'SubdatabaseController@removeDocumentatie']);
+    });
 
 
 

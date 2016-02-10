@@ -25,7 +25,7 @@
 
     <div class="row">
 
-        <div class="col-lg-12">
+        <div class="col-lg-6">
             <div class="ibox">
                 <div class="ibox-content float-e-margins">
                     <a href="{!! \URL::route('rapport.show', ['id' => $project->id]) !!}" class="btn btn-primary btn-xs pull-right">Terug naar het rapport</a>
@@ -69,6 +69,26 @@
                     </table>
 
 
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-6">
+            <div class="ibox">
+                <div class="ibox-content float-e-margins">
+                    <h2><small>Documentatie @if($log->product_id != 0)
+                            <abbr title="{{ $log->system->naam }}">{{ $log->system->leverancier.' '.$log->system->productnummer }}</abbr><br />
+                        @endif</small></h2>
+                    @if(!empty($log->system->documentatie))
+                        <ul>
+                            <?php $documenten = json_decode($log->system->documentatie) ?>
+                            @foreach($documenten as $document)
+                                <li>
+                                    <a href="{!! \URL::route('documentatie.download', [$log->system->id, urlencode($document)]) !!}" target="_blank">{{ $document }}</a>
+                                </li>
+                            @endforeach
+                        </ul>
+                    @endif
                 </div>
             </div>
         </div>
