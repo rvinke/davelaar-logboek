@@ -15,6 +15,13 @@ server('acceptatie', 'mijn-boetiek.nl', 22)
     ->env('deploy_path', '/home/logboek/public_html') // Define the base path to deploy your project to.
     ->env('branch', 'acceptatie');
 
+server('productie', 'site.davelaar.ronaldvinke.nl', 22)
+    ->user('logboek')
+    ->password('rvmmdnw1')
+    ->stage('productie')
+    ->env('deploy_path', '/home/logboek/public_html') // Define the base path to deploy your project to.
+    ->env('branch', 'master');
+
 // Specify the repository from which to download your project's code.
 // The server needs to have git installed for this to work.
 // If you're not using a forward agent, then the server has to be able to clone
@@ -42,6 +49,12 @@ set('shared_files', ['.env']);
  */
 set('writable_dirs', ['storage', 'vendor', 'public/documenten', 'public/.cache']);
 
+
+task('test', function () {
+    runLocally('cd /vagrant/logboek && php vendor/bin/phpunit');
+});
+
+
 /**
  * Run migrations
  */
@@ -52,6 +65,7 @@ task('migration', function() {
  * Main task (deploy)
  */
 task('deploy', [
+    'test',
     'deploy:prepare',
     'deploy:release',
     'deploy:update_code',
