@@ -5,3 +5,4 @@ Homestead.json
 .env
 public/documenten/*
 public/.cache/*
+.rocketeer
