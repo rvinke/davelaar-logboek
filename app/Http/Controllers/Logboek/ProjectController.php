@@ -5,12 +5,15 @@ namespace App\Http\Controllers\Logboek;
 use App\Models\Client;
 use App\Models\Location;
 
+use App\Models\Log;
 use App\Models\Project;
+use App\User;
+use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
-use yajra\Datatables\Datatables;
+use Yajra\Datatables\Datatables;
 
 
 class ProjectController extends Controller
@@ -35,17 +38,17 @@ class ProjectController extends Controller
     public function getDatatable()
     {
 
-        $projecten = Project::select(['naam', 'id']);
+        $projecten = Project::select(['naam', 'id', 'datum_oplevering', 'created_at'])->orderBy('naam');
 
 
         return Datatables::of($projecten)
 
-            ->addColumn('action', function($project){
+            ->addColumn('action', function($project) {
                 return '<a href="'.\URL::route('projecten.show', ['id' => $project->id]).'"><i class="fa fa-search"></i></a>';
             })
             ->addColumn('status', function($project){
                 if($project->datum_oplevering < date("Y-m-d")) {
-                    return '<span class="label label-primary">Afgerond</span>';
+                    return '<span class="label">Afgerond</span>';
                 }else{
                     return '<span class="label label-primary">Actief</span>';
                 }
@@ -53,6 +56,7 @@ class ProjectController extends Controller
             ->addColumn('count_logs', function($project){
                 return $project->logs->count();
             })
+
             ->make(true);
     }
 
@@ -61,9 +65,10 @@ class ProjectController extends Controller
 
 
         if(\Auth::user()->hasRole(['admin', 'medewerker'])) {
-            $projecten = Project::select(['naam', 'id']);
+            $projecten = Project::select(['naam', 'id', 'datum_oplevering']);
         } else {
-            $projecten = Project::select(['naam', 'id'])->where('opdrachtgever_id', \Auth::user()->client_id)->get();
+            //$projecten = Project::select(['naam', 'id'])->where('opdrachtgever_id', \Auth::user()->client_id)->get();
+            $projecten = \Auth::user()->projects();
         }
 
 
@@ -75,7 +80,7 @@ class ProjectController extends Controller
             })
             ->addColumn('status', function($project){
                 if($project->datum_oplevering < date("Y-m-d")) {
-                    return '<span class="label label-primary">Afgerond</span>';
+                    return '<span class="label">Afgerond</span>';
                 }else{
                     return '<span class="label label-primary">Actief</span>';
                 }
@@ -110,12 +115,13 @@ class ProjectController extends Controller
     {
         $project = new Project();
 
-        $project->naam = Input::get('naam');
-        $project->projectnummer = Input::get('projectnummer');
-        $project->opdrachtgever_id = Input::get('opdrachtgever_id');
-        $project->onderwerp = Input::get('onderwerp');
-        $project->referentie = Input::get('referentie');
-        $project->adres = Input::get('adres');
+        $project->naam = $request->input('naam');
+        $project->projectnummer = $request->input('projectnummer');
+        $project->opdrachtgever_id = $request->input('opdrachtgever_id');
+        $project->email = $request->input('email');
+        $project->onderwerp = $request->input('onderwerp');
+        $project->referentie = $request->input('referentie');
+        $project->adres = $request->input('adres');
 
         if($project->save()) {
             return redirect()->route('projecten.index')->with('status', 'Project opgeslagen.');
@@ -141,6 +147,32 @@ class ProjectController extends Controller
         return \View::make('project.projectdetails')->withProject($project);
     }
 
+    /**
+    * Display the specified resource.
+    *
+    * @param  int  $id
+    *  @return \Illuminate\Http\Response
+    */
+    public function floorplan($id, $location_id, $floor_id)
+    {
+        $project = Project::with('logs')
+            ->with('logs.passthroughs')
+            ->with('logs.passthroughs.passthrough_type')
+            ->with('logs.floor')
+            ->with('logs.system')
+            ->with('logs.location')
+            ->findOrFail($id);
+
+        $floorplan = $project->maps()->where('location_id', $location_id)->where('floor_id', $floor_id)->first();
+
+        return \View::make('project.projectplattegrond')
+            ->withProject($project)
+            ->withFloorplan($floorplan)
+            ->withFloor($floor_id);
+    }
+
+
+
 
     public function rapport($id)
     {
@@ -151,9 +183,12 @@ class ProjectController extends Controller
             ->with('logs.system')
             ->with('logs.location')
             ->with('logs.photo')
+            ->with('floorplans')
             ->findOrFail($id);
 
-        return \View::make('project.rapport')->withProject($project);
+        $year = date("Y", strtotime($project->created_at));
+
+        return \View::make('project.rapport')->withProject($project)->withYear($year);
     }
 
     /**
@@ -181,41 +216,55 @@ class ProjectController extends Controller
     {
         $project = Project::findOrFail($id);
 
-        $project->naam = \Input::get('naam');
-        $project->projectnummer = \Input::get('projectnummer');
-        $project->opdrachtgever_id = \Input::get('opdrachtgever_id');
-        $project->onderwerp = \Input::get('onderwerp');
-        $project->referentie = \Input::get('referentie');
-        $project->adres = \Input::get('adres');
-        $project->datum_oplevering = date("Y-m-d", strtotime(\Input::get('datum_oplevering')));
+        $project->naam = $request->input('naam');
+        $project->projectnummer = $request->input('projectnummer');
+        $project->opdrachtgever_id = $request->input('opdrachtgever_id');
+        $project->email = $request->input('email');
+        $project->onderwerp = $request->input('onderwerp');
+        $project->referentie = $request->input('referentie');
+        $project->adres = $request->input('adres');
+        $project->datum_oplevering = date("Y-m-d", strtotime($request->input('datum_oplevering')));
 
-        if($project->save()) {
-
-            /*dd(\Input::get('locations')['naam']);
-
-
-            foreach($project->locations as $location) {
-                $location->delete();
-            }
-
-            foreach(\Input::get('locations')['naam'] as $location_naam) {
-
-
-                if(!empty($location_naam)) {
-                    $location = new Location();
-
-                    $location->project_id = $project->id;
-                    $location->naam = $location_naam;
-
-                    $location->save();
-                }
-
-
-            }*/
-
-        }
+        $project->save();
 
         return redirect()->route('projecten.index')->with('status', 'Project opgeslagen.');
+
+    }
+
+    /**
+     * Shows an option page to set the users that have access to the project
+     *
+     * @param $id
+     * @return View
+     */
+    public function users($id) {
+
+        $project = Project::findOrFail($id);
+        $users = User::all();
+
+        return \View::make('project.users')->withProject($project)->withUsers($users);
+
+    }
+
+    /**
+     * Stores the associated users
+     *
+     * @param Request $request
+     * @param $id
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function storeUsers(Request $request, $id) {
+
+        $project = Project::findOrFail($id);
+
+        if(empty($request->switch)){
+            $project->users()->detach();
+        }else{
+            $project->users()->sync($request->switch);
+        }
+
+
+        return redirect()->route('projecten.show', $project->id)->with('status', 'Gebruikers gekoppeld');
 
     }
 

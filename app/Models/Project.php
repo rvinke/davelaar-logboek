@@ -27,4 +27,14 @@ class Project extends Model
     {
         return $this->hasMany('App\Models\File')->reports();
     }
+
+    public function maps()
+    {
+        return $this->hasMany('App\Models\Floorplan');
+    }
+
+    public function users()
+    {
+        return $this->belongsToMany('App\User')->withTimestamps();
+    }
 }

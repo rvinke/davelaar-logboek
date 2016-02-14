@@ -1,7 +1,7 @@
 @extends('app')
 
 @section('title')
-    Projectdetails
+    Projectrapport
 @endsection
 
 
@@ -12,11 +12,7 @@
 
 {{-- Content --}}
 @section('content')
-
-
-
     <div class="row">
-
         <div class="col-lg-12">
 
             @if (session('status'))
@@ -28,9 +24,9 @@
             @include('project.parts.projectgegevens')
 
         </div>
-
-
     </div>
+
+    @include('project.parts.plattegronden')
 
     <div class="row">
 
@@ -54,22 +50,26 @@
                         </thead>
                         <tbody>
                             @foreach($project->logs as $log)
-                            <tr>
+
+                            <tr @if($log->reports->count() > 0) style="color: #f00; font-weight: bold" @endif>
                                 <td>
                                     @if(isset($log->photo->id))
                                         <a href="/photoL/{{ $log->photo->id }}" data-gallery>
-                                        <img src="/photo/{{ $log->photo->id }}" />
+                                        <img class="lazy" width="50" height="50" data-original="/photo/{{ $log->photo->id }}" />
                                         </a>
                                     @endif
 
 
                                 </td>
-                                <td>{{ $log->code }}</td>
+                                <td>
+                                    <a href="{{ URL::route('log.map-show', ['id' => $log->id]) }}">{{ $log->code }}</a>
+                                </td>
+
                                 <td>{{ $log->location->naam }}</td>
                                 <td>{{ $log->floor->naam }}</td>
                                 <td>
                                     @if($log->product_id != 0)
-                                        <abbr title="{{ $log->system->naam }}">{{ $log->system->leverancier.' '.$log->system->productnummer }}</abbr></td>
+                                        <abbr title="{{ $log->system->naam }}">{{ $log->system->leverancier.' '.$log->system->productnummer }}</abbr>
                                     @endif
                                 <td>
                                     @foreach($log->passthroughs as $passthrough)
@@ -92,7 +92,7 @@
                             @endforeach
                         </tbody>
                     </table>
-
+                    <p>Een <span style="color:#f00; font-weight: bold">rood</span> logitem is gemeld als verbroken.</p>
                 </div>
             </div>
         </div>
@@ -142,9 +142,21 @@
 
 @push('styles')
 <link href="/css/plugins/blueimp/css/blueimp-gallery.min.css" rel="stylesheet">
+<link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.6.4/leaflet.css" />
 @endpush
 
 
 @push('scripts')
 <script src="/js/plugins/blueimp/jquery.blueimp-gallery.min.js"></script>
+<script src="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script>
+<script src="/js/rastercoords.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.lazyload/1.9.1/jquery.lazyload.min.js"></script>
+
+<script>
+
+    $(function() {
+        $("img.lazy").lazyload();
+    });
+
+</script>
 @endpush

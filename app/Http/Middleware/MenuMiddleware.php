@@ -23,17 +23,18 @@ class MenuMiddleware
             Menu::make('example', function($menu) use ($user) {
                 $menu->add('Home', '')->icon('fa fa-th')->active('');
                 $menu->add('Logboek', 'logboek')->icon('fa fa-archive')->active('projecten/*');
-                if($user->hasRole('admin')) $menu->logboek->add('Projecten', 'projecten')->active('projecten');
-                $menu->logboek->add('Rapporten', 'rapporten')->active('projecten/rapporten');
+                if($user->hasRole('admin')) $menu->logboek->add('Projecten', \URL::route('projecten.index'))->active('projecten');
+                $menu->logboek->add('Rapporten', \URL::route('projecten.rapporten'))->active('projecten/rapporten');
 
                 if($user->hasRole(['admin', 'medewerker'])) {
-                    $menu->add('Subdatabase', 'subdatabase')->icon('fa fa-archive')->active('subdatabase/*');
+                    $menu->add('Subdatabase', 'subdatabase')->icon('fa fa-cubes')->active('subdatabase/*');
                     $menu->subdatabase->add('Klanten', 'subdatabase/client')->active('subdatabase/client');
                     $menu->subdatabase->add('Brandkleppen', 'subdatabase/firedamper')->active('subdatabase/firedamper');
                     $menu->subdatabase->add('Bouwlagen', 'subdatabase/floor')->active('subdatabase/floor');
                     $menu->subdatabase->add('Doorvoertypes', 'subdatabase/passthroughType')->active('subdatabase/passthroughType');
                     $menu->subdatabase->add('Systemen', 'subdatabase/system')->active('subdatabase/system');
                     $menu->subdatabase->add('Locaties', 'subdatabase/location')->active('subdatabase/location');
+                    $menu->subdatabase->add('QR-codes', 'subdatabase/generate-qr')->active('subdatbase/generate-qr');
                 }
 
                 if($user->hasRole('admin')) {

@@ -36,6 +36,38 @@
             </div>
 
 
+            <div class="clone-wrapper">
+
+                <div class="toclone">
+                    <div class="form-group">
+                        <label class="col-lg-2 control-label">Documentatie</label>
+                        <div class="col-lg-4">
+                            {!! Form::file('documentatie[]', ['class' => 'form-control']) !!}
+                        </div>
+                    </div>
+
+                    <a class="clone btn btn-primary btn-bitbucket"><i class="fa fa-plus"></i></a>&nbsp;&nbsp;&nbsp;
+                    <a class="delete btn btn-default btn-bitbucket"><i class="fa fa-minus"></i></a>
+                </div>
+
+            </div>
+
+            <h4 style="margin-top: 20px;">Aanwezige documenten</h4>
+                <span class="help-block m-b-none">
+                    @if(!empty($model->documentatie))
+                        <ul>
+                        <?php $documenten = json_decode($model->documentatie) ?>
+                        @foreach($documenten as $document)
+                            <li>
+                                <a href="{!! \URL::route('documentatie.download', [$model->id, urlencode($document)]) !!}" target="_blank">{{ $document }}</a>
+                                <a href="{!! \URL::route('documentatie.remove', [$model->id, urlencode($document)]) !!}"><i class="fa fa-times" style="color: #f00"></i></a>
+                            </li>
+                        @endforeach
+                        </ul>
+                    @endif
+                </span>
+
+
         @endif
 
 
@@ -92,7 +124,18 @@
 </div>
 
 
+@push('scripts')
+<script src="/js/plugins/sweetalert/sweetalert.min.js"></script>
+<script src="/js/plugins/cloneya/jquery-cloneya.min.js"></script>
+<script>
 
+    $('.clone-wrapper').cloneya({
+        cloneButton     : '.clone',
+        deleteButton    : '.delete'
+    });
+
+</script>
+@endpush
 
 
 

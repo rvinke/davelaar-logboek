@@ -72,7 +72,7 @@
                 ajax: '{!! route('api.projecten.v1') !!}',
             @endif
             columns: [
-                { data: 'action', name: 'action' },
+                { data: 'action', name: 'action', orderable: false, searchable: false },
                 { data: 'naam', name: 'naam' },
                 { data: 'status', name: 'status'},
                 { data: 'count_logs', name: 'count_logs'}

@@ -16,6 +16,7 @@
     <link href="/css/app.css" rel="stylesheet">
 
     @stack('styles')
+
 </head>
 
 <body>
@@ -31,7 +32,7 @@
                             <span class="clear"> <span class="block m-t-xs" style="color: #FFDB00"> <strong class="font-bold">{{ Auth::user()->first_name.' '.Auth::user()->last_name }}</strong>
                              </span> <span class="text-muted text-xs block">{!! Auth::user()->roles->first()->display_name !!} <b class="caret"></b></span> </span> </a>
                             <ul class="dropdown-menu m-t-xs">
-                                <li><a href="#">Logout</a></li>
+                                <li><a href="{!! URL::route('logout') !!}">Uitloggen</a></li>
                             </ul>
                     </div>
                     <div class="logo-element">
@@ -69,7 +70,7 @@
 
 
         <div class="row wrapper border-bottom white-bg page-heading">
-            <div class="col-sm-4">
+            <div class="col-sm-6">
                 <h2>@yield('title')</h2>
                 <ol class="breadcrumb">
                     @yield('breadcrumb')
@@ -89,7 +90,7 @@
                 <img src="http://www.davelaar.nl/assets/logo-davelaarbouw.png" style="height: 30px;"/>
             </div>
             <div style="margin-top: 5px;">
-                Logboek 0.9.0
+                Logboek {!! \Config::get('app.app_version') !!}
             </div>
         </div>
 

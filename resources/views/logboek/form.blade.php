@@ -25,6 +25,20 @@
             </div>
         </div>
 
+        <div class="form-group">
+            <label class="col-lg-2 control-label">Wand/vloer</label>
+            <div class="col-lg-4">
+                {!! Form::select('oppervlak_type_id', ['Wand', 'Vloer'], NULL, array('class' => 'form-control')) !!}
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-lg-2 control-label">Eis (minuten)</label>
+            <div class="col-lg-4">
+                {!! Form::select('eis', [20 => '20', 30 => '30', 60 => '60', 90 => '90'], NULL, array('class' => 'form-control')) !!}
+            </div>
+        </div>
+
 
         <div class="form-group">
             <label class="col-lg-2 control-label">Product</label>
@@ -48,16 +62,36 @@
             </div>
         </div>
 
+
+        <div class="form-group">
+            <label class="col-lg-2 control-label">QR-code</label>
+            <div class="col-lg-4">
+                @if($is_new && Session::has('qrcode'))
+                    {!! Form::text('qrcode', Session::get('qrcode'), array('class' => 'form-control')) !!}
+                @else
+                    {!! Form::text('qrcode', null, array('class' => 'form-control')) !!}
+                @endif
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-lg-2 control-label">Foto</label>
+            <div class="col-lg-4">
+                {!! Form::file('foto', ['accept' => 'image/*', 'capture' => 'camera']) !!}
+            </div>
+        </div>
+
         <div class="hr-line-dashed"></div>
         <h4>Doorvoeren</h4>
 
         <div class="clone-wrapper">
 
-            <div class="toclone">
+
                 @if(!$is_new)
 
                     @forelse($log->passthroughs as $passthrough)
-                        <div class="form-group">
+                    <div class="toclone">
+                    <div class="form-group">
                             <label class="col-lg-2 control-label">Doorvoertype</label>
                             <div class="col-lg-4">
                                 {!! Form::select('passthroughs[passthrough_type_id][]', $passthroughs, $passthrough->passthrough_type_id, ['class' => 'form-control']) !!}
@@ -78,10 +112,11 @@
 
                         </div>
 
-                        <i class="clone fa fa-plus-circle"></i>
-                        <i class="delete fa fa-minus-circle"></i>
-
+                        <a class="clone btn btn-primary btn-bitbucket"><i class="fa fa-plus"></i></a>&nbsp;&nbsp;&nbsp;
+                        <a class="delete btn btn-default btn-bitbucket"><i class="fa fa-minus"></i></a>
+                    </div>
                     @empty
+                    <div class="toclone">
                         <div class="form-group">
                             <label class="col-lg-2 control-label">Doorvoertype</label>
                             <div class="col-lg-4">
@@ -103,11 +138,12 @@
 
                         </div>
 
-                        <i class="clone fa fa-plus-circle"></i>
-                        <i class="delete fa fa-minus-circle"></i>
+                        <a class="clone btn btn-primary btn-bitbucket"><i class="fa fa-plus"></i></a>&nbsp;&nbsp;&nbsp;
+                        <a class="delete btn btn-default btn-bitbucket"><i class="fa fa-minus"></i></a>
+                    </div>
                     @endforelse
                 @else
-
+                <div class="toclone">
                     <div class="form-group">
                         <label class="col-lg-2 control-label">Doorvoertype</label>
                         <div class="col-lg-4">
@@ -129,14 +165,19 @@
 
                     </div>
 
-                    <i class="clone fa fa-plus-circle"></i>
-                    <i class="delete fa fa-minus-circle"></i>
+                    <a class="clone btn btn-primary btn-bitbucket"><i class="fa fa-plus"></i></a>&nbsp;&nbsp;&nbsp;
+                    <a class="delete btn btn-default btn-bitbucket"><i class="fa fa-minus"></i></a>
+                </div>
                 @endif
-            </div>
+
 
 
         </div>
     </div>
+
+
+
+
 
     <div class="ibox-footer">
 
@@ -144,7 +185,7 @@
             <div class="col-lg-offset-2 col-lg-10">
 
                 <span class="pull-right">
-                    <button class="btn btn-primary" type="submit">Bewaar</button>
+                    <button class="btn btn-primary" type="submit">Bewaar en naar stap 2</button>
                     @if(!$is_new)
                         <button class="btn btn-outline btn-danger delete-button" type="button">Verwijder dit log-item</button>
                     @endif
@@ -157,6 +198,36 @@
 </div>
 
 
+
+@push('scripts')
+<script src="/js/plugins/sweetalert/sweetalert.min.js"></script>
+<script src="/js/plugins/cloneya/jquery-cloneya.min.js"></script>
+<script>
+    @if(!$is_new)
+    $('.delete-button').click(function () {
+        swal({
+            title: "Bevestiging",
+            text: "Weet u zeker dat dit log-item verwijderd moet worden?",
+            type: "warning",
+            showCancelButton: true,
+            cancelButtonText: 'Nee',
+            confirmButtonColor: "#DD6B55",
+            confirmButtonText: "Ja",
+            closeOnConfirm: false
+        }, function () {
+            //swal("Verwijderd", "Het item is verwijderd", "success");
+            window.location.replace('{!! URL::route('log.delete', ['id' => $log->id]) !!}');
+        });
+    });
+    @endif
+
+    $('.clone-wrapper').cloneya({
+        cloneButton     : '.clone',
+        deleteButton    : '.delete'
+    });
+
+</script>
+@endpush
 
 
 

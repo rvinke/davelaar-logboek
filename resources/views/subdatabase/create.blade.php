@@ -13,7 +13,7 @@
             @endif
             --}}
 
-            {!! Form::open(array('route' => ['subdatabase.store', $subdatabase], 'autocomplete'=>'off', 'class' => 'form-horizontal')) !!}
+            {!! Form::open(array('route' => ['subdatabase.store', $subdatabase], 'autocomplete'=>'off', 'class' => 'form-horizontal', 'files' => TRUE)) !!}
             @include('subdatabase.form', array('is_new'=>true))
             {!! Form::close() !!}
 

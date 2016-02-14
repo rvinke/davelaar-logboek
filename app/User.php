@@ -65,5 +65,10 @@ class User extends Ardent implements AuthenticatableContract,
         return $this->hasOne('App\Models\Client');
     }
 
+    public function projects()
+    {
+        return $this->belongsToMany('App\Models\Project')->withTimestamps();
+    }
+
 
 }

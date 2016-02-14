@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
-use yajra\Datatables\Datatables;
+use Yajra\Datatables\Datatables;
 
 class UserController extends Controller
 {
@@ -58,16 +58,16 @@ class UserController extends Controller
     {
         $user = new User;
 
-        $user->first_name = \Input::get('first_name');
-        $user->last_name = \Input::get('last_name');
-        $user->email = \Input::get('email');
-        $user->password = \Input::get('password');
-        $user->password_confirmation = \Input::get('password_confirmation');
+        $user->first_name = $request->input('first_name');
+        $user->last_name = $request->input('last_name');
+        $user->email = $request->input('email');
+        $user->password = $request->input('password');
+        $user->password_confirmation = $request->input('password_confirmation');
 
 
         if(!$user->save()){
 
-            $role = Role::find(\Input::get('role'));
+            $role = Role::find($request->input('role'));
             $user->detachRoles($user->roles);
             $user->attachRole($role);
 

@@ -41,7 +41,8 @@
                                 <tr>
                                     <td class="content-block">
                                         Met vriendelijke groet,<br />
-                                        Davelaarbouw B.V.
+                                        Davelaarbouw B.V.<br /><br />
+                                        <img src="http://www.davelaar.nl/assets/logo-davelaarbouw.png" style="width: 140px" />
                                     </td>
                                 </tr>
                             </table>

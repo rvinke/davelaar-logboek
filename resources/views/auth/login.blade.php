@@ -13,6 +13,7 @@
 
     <link href="/css/animate.css" rel="stylesheet">
     <link href="/css/style.css" rel="stylesheet">
+    <link href="/css/login.css" rel="stylesheet">
 
 </head>
 
@@ -21,7 +22,7 @@
     <div class="middle-box text-center loginscreen animated fadeInDown">
         <div>
             <div>
-                <img src="http://www.davelaar.nl/assets/logo-davelaarbouw.png" style="height: 90px; margin-top: 100px; margin-bottom: 10px;"/>
+                <img src="http://www.davelaar.nl/assets/logo-davelaarbouw.png" class="login-image" />
                 <!--<h1 class="logo-name">Log</h1>-->
 
             </div>
@@ -32,9 +33,13 @@
                 </div>
             @endif
 
-            @if (session('error'))
+            @if (count($errors) > 0)
                 <div class="alert alert-danger">
-                    {{ session('error') }}
+
+                    @foreach ($errors->all() as $error)
+                        {{ $error }}
+                    @endforeach
+
                 </div>
             @endif
 

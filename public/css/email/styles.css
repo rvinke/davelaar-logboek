@@ -202,7 +202,8 @@ a {
     background: #ed5565;
 }
 .alert.alert-good {
-    background: #1ab394;
+    //background: #1ab394;
+    background: #ff0000;
 }
 
 /* -------------------------------------

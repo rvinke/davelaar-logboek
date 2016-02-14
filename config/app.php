@@ -13,6 +13,7 @@ return [
     |
     */
 
+    'app_version' => '1.3.0',
     'debug' => env('APP_DEBUG', false),
 
     /*
@@ -52,7 +53,7 @@ return [
     |
     */
 
-    'locale' => 'en',
+    'locale' => 'nl',
 
     /*
     |--------------------------------------------------------------------------
@@ -137,6 +138,7 @@ return [
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
 
+
         /*
          * Application Service Providers...
          */
@@ -149,12 +151,15 @@ return [
          * Added items
          */
         Caffeinated\Menus\MenusServiceProvider::class,
-        yajra\Datatables\DatatablesServiceProvider::class,
+        Yajra\Datatables\DatatablesServiceProvider::class,
         Collective\Html\HtmlServiceProvider::class,
         Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class,
         Barryvdh\Debugbar\ServiceProvider::class,
         GrahamCampbell\Flysystem\FlysystemServiceProvider::class,
         Zizaco\Entrust\EntrustServiceProvider::class,
+        Nathanmac\Utilities\Parser\ParserServiceProvider::class,
+        Intervention\Image\ImageServiceProvider::class,
+        SimpleSoftwareIO\QrCode\QrCodeServiceProvider::class
     ],
 
     /*
@@ -208,11 +213,17 @@ return [
          * Composer items
          */
         'Menu'      => Caffeinated\Menus\Facades\Menu::class,
-        'Datatables' => yajra\Datatables\Datatables::class,
+        //'Datatables' => yajra\Datatables\Datatables::class,
         'Form' => Collective\Html\FormFacade::class,
         'Html' => Collective\Html\HtmlFacade::class,
         'Flysystem' => GrahamCampbell\Flysystem\Facades\Flysystem::class,
         'Entrust' => Zizaco\Entrust\EntrustFacade::class,
+        'Parser' => Nathanmac\Utilities\Parser\Facades\Parser::class,
+        'Image' => Intervention\Image\Facades\Image::class,
+        'QrCode' => SimpleSoftwareIO\QrCode\Facades\QrCode::class,
+
+        'Debugbar' => Barryvdh\Debugbar\Facade::class,
+
 
 
     ],
