@@ -31,6 +31,7 @@
                                     <th></th>
                                     <th>Achternaam</th>
                                     <th>Voornaam</th>
+                                    <th>Organisatie</th>
                                 </tr>
                             </thead>
                         </table>
@@ -67,7 +68,8 @@
             columns: [
                 { data: 'action', name: 'action' },
                 { data: 'last_name', name: 'last_name' },
-                { data: 'first_name', name: 'first_name' }
+                { data: 'first_name', name: 'first_name' },
+                { data: 'organisatie', name: 'organisatie' }
             ],
             language: {"url":"\/\/cdn.datatables.net\/plug-ins\/a5734b29083\/i18n\/Dutch.json"},
         });

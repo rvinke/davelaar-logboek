@@ -62,7 +62,7 @@ class User extends Ardent implements AuthenticatableContract,
 
     public function client()
     {
-        return $this->hasOne('App\Models\Client');
+        return $this->belongsTo('App\Models\Client', 'client_id');
     }
 
     public function projects()

@@ -8,7 +8,6 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Hash;
 use Yajra\Datatables\Datatables;
 
 class UserController extends Controller
@@ -32,6 +31,13 @@ class UserController extends Controller
         return Datatables::of($users)
             ->addColumn('action', function($object){
                 return '<a href="'.\URL::route('user.edit', ['id' => $object->id]).'"><i class="fa fa-search"></i></a>';
+            })
+            ->addColumn('organisatie', function($object){
+                if(isset($object->client->naam)){
+                    return $object->client->naam;
+                } else {
+                    return 'Geen';
+                }
             })
             ->make(true);
     }

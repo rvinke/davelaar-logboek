@@ -9,4 +9,8 @@ class Client extends Model
 {
     use SoftDeletes;
     protected $dates = ['deleted_at'];
+
+    public function user() {
+        return $this->hasMany('App\User');
+    }
 }
