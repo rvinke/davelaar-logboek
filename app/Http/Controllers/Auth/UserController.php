@@ -67,12 +67,12 @@ class UserController extends Controller
 
         if(!$user->save()){
 
-            $role = Role::find($request->input('role'));
-            $user->detachRoles($user->roles);
-            $user->attachRole($role);
-
             return redirect()->route('user.create')->with('errors', $user->errors());
         }
+
+        $role = Role::find($request->input('role'));
+        $user->detachRoles($user->roles);
+        $user->attachRole($role);
 
         return redirect()->route('user.index')->with('status', 'Gebruiker opgeslagen.');
     }
@@ -126,12 +126,12 @@ class UserController extends Controller
 
         if(!$user->save()){
 
-            $role = Role::find(\Input::get('role'));
-            $user->detachRoles($user->roles);
-            $user->attachRole($role);
-
             return redirect()->route('user.edit', ['id' => $user->id])->with('errors', $user->errors());
         }
+
+        $role = Role::find(\Input::get('role'));
+        $user->detachRoles($user->roles);
+        $user->attachRole($role);
 
         return redirect()->route('user.index')->with('status', 'Gebruiker opgeslagen.');
     }
