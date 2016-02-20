@@ -159,7 +159,8 @@ return [
         Zizaco\Entrust\EntrustServiceProvider::class,
         Nathanmac\Utilities\Parser\ParserServiceProvider::class,
         Intervention\Image\ImageServiceProvider::class,
-        SimpleSoftwareIO\QrCode\QrCodeServiceProvider::class
+        SimpleSoftwareIO\QrCode\QrCodeServiceProvider::class,
+        Bugsnag\BugsnagLaravel\BugsnagLaravelServiceProvider::class,
     ],
 
     /*
@@ -221,6 +222,7 @@ return [
         'Parser' => Nathanmac\Utilities\Parser\Facades\Parser::class,
         'Image' => Intervention\Image\Facades\Image::class,
         'QrCode' => SimpleSoftwareIO\QrCode\Facades\QrCode::class,
+        'Bugsnag' => Bugsnag\BugsnagLaravel\BugsnagFacade::class,
 
         'Debugbar' => Barryvdh\Debugbar\Facade::class,
 

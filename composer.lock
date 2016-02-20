@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "54bfec700bdbe0f5c6ae516bed362a12",
-    "content-hash": "fdb07be3a89ced8df601ee9a30358164",
+    "hash": "bcba46fd91905d2a3ee673ada9accdf1",
+    "content-hash": "11aa81434b44866e3fb661aa65b4e6f1",
     "packages": [
         {
             "name": "bacon/bacon-qr-code",
@@ -165,6 +165,101 @@
                 "sublime"
             ],
             "time": "2015-12-21 19:48:06"
+        },
+        {
+            "name": "bugsnag/bugsnag",
+            "version": "v2.6.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/bugsnag/bugsnag-php.git",
+                "reference": "76e628b9f5b0fb4766c3ca2451207a1c4159225d"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/bugsnag/bugsnag-php/zipball/76e628b9f5b0fb4766c3ca2451207a1c4159225d",
+                "reference": "76e628b9f5b0fb4766c3ca2451207a1c4159225d",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.2.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "~4.8|~5.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "Bugsnag_": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "James Smith",
+                    "email": "notifiers@bugsnag.com",
+                    "homepage": "https://bugsnag.com"
+                }
+            ],
+            "description": "Official Bugsnag notifier for PHP applications.",
+            "homepage": "https://github.com/bugsnag/bugsnag-php",
+            "keywords": [
+                "bugsnag",
+                "errors",
+                "exceptions",
+                "logging",
+                "tracking"
+            ],
+            "time": "2016-01-28 17:35:26"
+        },
+        {
+            "name": "bugsnag/bugsnag-laravel",
+            "version": "v1.6.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/bugsnag/bugsnag-laravel.git",
+                "reference": "13bc98495ae9c1baea8a78619556beff9452222b"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/bugsnag/bugsnag-laravel/zipball/13bc98495ae9c1baea8a78619556beff9452222b",
+                "reference": "13bc98495ae9c1baea8a78619556beff9452222b",
+                "shasum": ""
+            },
+            "require": {
+                "bugsnag/bugsnag": ">=2.5.0",
+                "illuminate/support": "4.*|5.*",
+                "php": ">=5.3.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "Bugsnag\\BugsnagLaravel\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "James Smith",
+                    "email": "notifiers@bugsnag.com"
+                }
+            ],
+            "description": "Official Bugsnag notifier for Laravel applications.",
+            "homepage": "https://github.com/bugsnag/bugsnag-laravel",
+            "keywords": [
+                "bugsnag",
+                "errors",
+                "exceptions",
+                "laravel",
+                "logging",
+                "tracking"
+            ],
+            "time": "2016-01-08 20:01:35"
         },
         {
             "name": "caffeinated/menus",
