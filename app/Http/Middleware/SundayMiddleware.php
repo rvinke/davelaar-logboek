@@ -17,7 +17,7 @@ class SundayMiddleware
     public function handle($request, Closure $next)
     {
 
-        if(date("w") == 0 AND \App::environment('productie')){
+        if(date("w") == 0 AND \App::environment('productie') AND request()->ip() != '37.188.77.197'){
             include(public_path("index_static.html"));
             die();
         }
