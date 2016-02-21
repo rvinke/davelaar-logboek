@@ -5,8 +5,8 @@
 
     RewriteEngine On
 
-    RewriteCond %{TIME_WDAY} =0
-    RewriteRule index\.php index_static.html [L]
+    #RewriteCond %{TIME_WDAY} =0
+    #RewriteRule index\.php index_static.html [L]
 
     # Redirect Trailing Slashes If Not A Folder...
     RewriteCond %{REQUEST_FILENAME} !-d

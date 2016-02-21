@@ -19,6 +19,7 @@ class Kernel extends HttpKernel
         \Illuminate\View\Middleware\ShareErrorsFromSession::class,
         \App\Http\Middleware\VerifyCsrfToken::class,
         \App\Http\Middleware\MenuMiddleware::class,
+        \App\Http\Middleware\SundayMiddleware::class,
     ];
 
     /**
@@ -34,5 +35,6 @@ class Kernel extends HttpKernel
         'permission' => \Zizaco\Entrust\Middleware\EntrustPermission::class,
         'ability' => \Zizaco\Entrust\Middleware\EntrustAbility::class,
         'projectlink' => \App\Http\Middleware\ProjectLink::class,
+        'sunday' => \App\Http\Middleware\SundayMiddleware::class,
     ];
 }
