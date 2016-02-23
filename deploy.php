@@ -54,10 +54,6 @@ task('test', function () {
     runLocally('cd /vagrant/logboek && php vendor/bin/phpunit');
 });
 
-task('test-prod', function () {
-    run('cd /home/logboek/public_html/current && php vendor/bin/phpunit');
-});
-
 /**
  * Run migrations
  */

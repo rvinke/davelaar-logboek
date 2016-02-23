@@ -23,7 +23,7 @@ class LoginTest extends TestCase
             ->type('r.vinke@gmail.com', 'email')
             ->type('rvmmdnw1', 'password')
             ->press('Login')
-            ->see('Welkom Ronald');
+            ->see('Welkom in het logboek van Davelaarbouw B.V.');
     }
 
     public function testWrongLogin()
