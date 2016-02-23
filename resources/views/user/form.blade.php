@@ -29,9 +29,11 @@
             <label class="col-lg-2 control-label">e-Mailadres</label>
             <div class="col-lg-4">
                 {!! Form::email('email', NULL, array('class' => 'form-control')) !!}
+                <span class="help-block m-b-none">Het e-mailadres is ook de gebruikersnaam</span>
             </div>
         </div>
 
+        @if(!$limited)
         <div class="form-group">
             <label class="col-lg-2 control-label">Opdrachtgever</label>
             <div class="col-lg-4">
@@ -49,13 +51,17 @@
                 @endif
             </div>
         </div>
+        @endif
 
-        @if($is_new OR Auth::user()->id == $user->id)
+
+
+        @if($is_new OR Auth::user()->id == $user->id OR Auth::user()->hasRole('admin'))
             <h4>Nieuw wachtwoord</h4>
             <div class="form-group">
                 <label class="col-lg-2 control-label">Wachtwoord</label>
                 <div class="col-lg-4">
                     {!! Form::password('password', array('class' => 'form-control')) !!}
+                    <span class="help-block m-b-none">Het wachtwoord wordt niet aangepast als dit veld leeg is</span>
                 </div>
             </div>
 
@@ -65,9 +71,12 @@
                     {!! Form::password('password_confirmation', array('class' => 'form-control')) !!}
                 </div>
             </div>
+
         @endif
 
     </div>
+
+
 
     <div class="ibox-footer">
 

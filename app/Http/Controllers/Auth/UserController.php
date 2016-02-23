@@ -49,7 +49,8 @@ class UserController extends Controller
      */
     public function create()
     {
-        return \View::make('user.create');
+        return \View::make('user.create')
+            ->withLimited(false);
     }
 
 
@@ -87,12 +88,16 @@ class UserController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     *
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show()
     {
-        //
+        $user = \Auth::user();
+
+        return \View::make('user.edit')
+            ->withUser($user)
+            ->withLimited(true);
     }
 
     /**
@@ -106,7 +111,8 @@ class UserController extends Controller
         $user = User::findOrFail($id);
 
         return \View::make('user.edit')
-            ->withUser($user);
+            ->withUser($user)
+            ->withLimited(false);
     }
 
     /**
@@ -136,11 +142,16 @@ class UserController extends Controller
             return redirect()->route('user.edit', ['id' => $user->id])->with('errors', $user->errors());
         }
 
-        $role = Role::find(\Input::get('role'));
-        $user->detachRoles($user->roles);
-        $user->attachRole($role);
+        if(!empty($request->input('role'))) {
+            $role = Role::find(\Input::get('role'));
+            $user->detachRoles($user->roles);
+            $user->attachRole($role);
 
-        return redirect()->route('user.index')->with('status', 'Gebruiker opgeslagen.');
+            return redirect()->route('user.index')->with('status', 'Gebruiker opgeslagen.');
+        }
+
+        return redirect()->route('home');
+
     }
 
     public function resetPassword()

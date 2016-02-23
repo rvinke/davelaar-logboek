@@ -17,6 +17,7 @@
 
 
 Route::get('', ['middleware' => 'auth', 'as' => 'home', 'uses' => 'Generic\HomeController@index']);
+Route::get('home', ['middleware' => 'auth', 'as' => 'home', 'uses' => 'Generic\HomeController@index']);
 
 //Login routes
 Route::get('login', ['as' => 'login', 'uses' => 'Auth\AuthController@getLogin']);
@@ -105,7 +106,8 @@ Route::group(['middleware' => 'auth'], function() {
         Route::get('user/{id}/edit', ['as' => 'user.edit', 'uses' => 'Auth\UserController@edit']);
         Route::patch('user/{id}/update', ['as' => 'user.update', 'uses' => 'Auth\UserController@update']);
     });
-    //Route::get('user/{id}/delete', ['as' => 'user.delete', 'uses' => 'Auth\UserController@destroy']);
+
+    Route::get('my-profile', ['as' => 'user.show', 'uses' => 'Auth\UserController@show']);
 
     Route::get('project/{project_id}/file/create', ['as' => 'file.create', 'uses' => 'Logboek\FileController@create']);
     Route::post('project/{project_id}/file/create', ['as' => 'file.store', 'uses' => 'Logboek\FileController@store']);
