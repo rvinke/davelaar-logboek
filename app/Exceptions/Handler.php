@@ -48,7 +48,15 @@ class Handler extends ExceptionHandler
             return $this->renderExceptionWithWhoops($request, $e);
         }
 
-        return parent::render($request, $e);
+
+        if ($this->isHttpException($e)) {
+            return $this->renderHttpException($e);
+        } else {
+            return response()->view('errors.500', [], 500);
+        }
+
+
+        //return parent::render($request, $e);
 
         /*if ($e instanceof ModelNotFoundException) {
             $e = new NotFoundHttpException($e->getMessage(), $e);

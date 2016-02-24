@@ -192,6 +192,10 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $object = User::findOrFail($id);
+
+        $object->delete();
+
+        return redirect()->route('user.index')->with('status', 'Gebruiker is uitgeschakeld.');
     }
 }

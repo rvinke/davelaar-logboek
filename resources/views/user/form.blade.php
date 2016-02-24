@@ -84,10 +84,10 @@
             <div class="col-lg-offset-2 col-lg-10">
 
                 <span class="pull-right">
-                    <button class="btn btn-primary" type="submit">Bewaar</button>
                     @if(!$is_new)
-                        <!--<button class="btn btn-outline btn-danger delete-button" type="button">Verwijder dit item</button>-->
+                        <button class="btn btn-outline btn-danger delete-button" type="button">Schakel deze gebruiker uit</button>
                     @endif
+                    <button class="btn btn-primary" type="submit">Bewaar</button>
                 </span>
             </div>
         </div>

@@ -32,7 +32,7 @@
     $('.delete-button').click(function () {
         swal({
             title: "Bevestiging",
-            text: "Weet u zeker dat dit item verwijderd moet worden?",
+            text: "Weet u zeker dat deze gebruiker uitgeschakeld moet worden?",
             type: "warning",
             showCancelButton: true,
             cancelButtonText: 'Nee',
@@ -41,7 +41,7 @@
             closeOnConfirm: false
         }, function () {
             //swal("Verwijderd", "Het item is verwijderd", "success");
-            window.location.replace('{!! URL::route('subdatabase.delete', ['id' => $user->id]) !!}');
+            window.location.replace('{!! URL::route('user.delete', ['id' => $user->id]) !!}');
         });
     });
 </script>

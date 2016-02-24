@@ -26,10 +26,7 @@ class SubdatabaseController extends Controller
     public function getDatatable($subdatabase)
     {
 
-        $model = 'App\\Models\\'.ucfirst($subdatabase);
-        if($subdatabase == 'firedamper') {
-            $model = 'App\\Models\\FireDamper';
-        }
+        $model = $this->modelName($subdatabase);
 
         $objects = $model::all();
 
@@ -78,7 +75,7 @@ class SubdatabaseController extends Controller
      */
     public function store(Request $request, $subdatabase)
     {
-        $model = 'App\\Models\\'.ucfirst($subdatabase);
+        $model = $this->modelName($subdatabase);
 
         $object = new $model;
 
@@ -121,7 +118,11 @@ class SubdatabaseController extends Controller
 
     }
 
-
+    /**
+     * @param $systemId
+     * @param $filename
+     * @return \Symfony\Component\HttpFoundation\BinaryFileResponse
+     */
     public function downloadDocumentatie($systemId, $filename) {
 
         $filename = 'documenten/documentatie/'.$systemId.'/'.$filename;
@@ -130,6 +131,11 @@ class SubdatabaseController extends Controller
 
     }
 
+    /**
+     * @param $systemId
+     * @param $filename
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function removeDocumentatie($systemId, $filename) {
         $system = System::findOrFail($systemId);
 
@@ -160,7 +166,7 @@ class SubdatabaseController extends Controller
     public function edit($subdatabase, $id)
     {
 
-        $model = 'App\\Models\\'.ucfirst($subdatabase);
+        $model = $this->modelName($subdatabase);
 
         $object = $model::findOrFail($id);
 
@@ -175,11 +181,11 @@ class SubdatabaseController extends Controller
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function update(Request $request, $subdatabase, $id)
     {
-        $model = 'App\\Models\\'.ucfirst($subdatabase);
+        $model = $this->modelName($subdatabase);
 
         $object = $model::findOrFail($id);
 
@@ -221,7 +227,7 @@ class SubdatabaseController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function destroy($subdatabase, $id)
     {
@@ -232,5 +238,18 @@ class SubdatabaseController extends Controller
         $object->delete();
 
         return redirect()->route('subdatabase.index', ['subdatabase' => $subdatabase])->with('status', 'Item is verwijderd, maar nog wel beschikbaar voor weergave in rapporten.');
+    }
+
+    /**
+     * @param $subdatabase
+     * @return \Eloquent
+     */
+    private function modelName($subdatabase) {
+        $model = 'App\\Models\\'.ucfirst($subdatabase);
+        if($subdatabase == 'firedamper') {
+            $model = 'App\\Models\\FireDamper';
+        }
+
+        return $model;
     }
 }

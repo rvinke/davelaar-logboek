@@ -6,7 +6,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>500</title>
+    <title>401</title>
 
     <link href="/css/bootstrap.min.css" rel="stylesheet">
     <link href="/font-awesome/css/font-awesome.css" rel="stylesheet">
@@ -20,19 +20,18 @@
 
 
     <div class="middle-box text-center animated fadeInDown">
-        <h1>500</h1>
-        <h3 class="font-bold">Internal Server Error</h3>
+        <h1>404</h1>
+        <h3 class="font-bold">Niet gevonden</h3>
 
         <div class="error-desc">
-            Er is iets onverwachts gebeurd, waardoor de server een foutmelding gegeven heeft. Er is een automatische melding verzonden
-            naar de ontwikkelaar.<br/><br />
-            U kunt teruggaan naar de index: <br/><a href="/" class="btn btn-primary m-t">Dashboard</a>
+            Deze pagina is niet gevonden.<br />
+            U kunt terug gaan naar de index: <br/><a href="/" class="btn btn-primary m-t">Homepage</a>
         </div>
     </div>
 
     <!-- Mainly scripts -->
-    <script src="/js/jquery-2.1.1.js"></script>
-    <script src="/js/bootstrap.min.js"></script>
+    <script src="js/jquery-2.1.1.js"></script>
+    <script src="js/bootstrap.min.js"></script>
 
 </body>
 
