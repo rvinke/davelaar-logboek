@@ -65,7 +65,7 @@
                                     <a href="{{ URL::route('log.map-show', ['id' => $log->id]) }}">{{ $log->code }}</a>
                                 </td>
 
-                                <td>{{ $log->location->naam }}</td>
+                                <td>@if(!empty($log->locatie_id)){{ $log->location->naam }}@endif</td>
                                 <td>{{ $log->floor->naam }}</td>
                                 <td>
                                     @if($log->product_id != 0)
