@@ -79,6 +79,7 @@
             </div>
         </div>
     </div>
+    <?php $count_passthrough = array(); ?>
 
     @foreach($project->logs as $log)
         @foreach($log->passthroughs as $passthrough)
