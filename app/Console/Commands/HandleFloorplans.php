@@ -70,7 +70,8 @@ class HandleFloorplans extends Command
             if($filetype == 'application/pdf') {
                 //pdf omzetten naar png
                 $this->info('PDF converteren naar PNG');
-                exec('convert -density 150 '.$file_location.' -quality 90 '.$file_dir.'plattegrond.png');
+                $this->info('convert -density 150 "'.$file_location.'" -quality 90 '.$file_dir.'plattegrond.png');
+                exec('convert -density 150 "'.$file_location.'" -quality 90 '.$file_dir.'plattegrond.png');
             }
 
             if($filesystem->has($year.'/'.$floorplan->project_id.'/plattegrond/'.$floorplan->location_id.'/'.$floorplan->floor_id.'/plattegrond.png')){
