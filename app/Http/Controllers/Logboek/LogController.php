@@ -127,7 +127,7 @@ class LogController extends Controller
         $log->save();
 
         //handle the file upload als het bestand aanwezig is
-        if(!empty($request->file('foto'))) {
+        if($request->hasFile('foto')) {
 
             $this->storePhoto($request, $log);
 
@@ -211,7 +211,7 @@ class LogController extends Controller
         $log->save();
 
         //handle the file upload als het bestand aanwezig is
-        if(!empty($request->file('foto'))) {
+        if($request->hasFile('foto')) {
 
             $this->storePhoto($request, $log);
 
