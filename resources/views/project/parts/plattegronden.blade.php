@@ -8,7 +8,12 @@
                 @foreach($project->locations as $location)
                     <h2><small>{{ $location->naam }}</small></h2>
                     @forelse($project->maps->where('location_id', $location->id) as $floorplan)
-                        <a href="{!! URL::route('rapport.floorplan', ['id' => $project->id, 'location' => $floorplan->location_id, 'floor' => $floorplan->floor_id]) !!}" class="btn btn-xs btn-info">Verdieping {{ \App\Models\Floor::findOrFail($floorplan->floor_id)->naam }}</a>
+                        @if($floorplan->ready == 1)
+                            <a href="{!! URL::route('rapport.floorplan', ['id' => $project->id, 'location' => $floorplan->location_id, 'floor' => $floorplan->floor_id]) !!}" class="btn btn-xs btn-info">Verdieping {{ \App\Models\Floor::findOrFail($floorplan->floor_id)->naam }}</a>
+                        @else
+                            <button type="button" disabled class="btn btn-xs btn-outline">Verdieping {{ \App\Models\Floor::findOrFail($floorplan->floor_id)->naam }} <i class="fa fa-cogs"></i></button>
+                        @endif
+
                     @empty
                         Geen plattegronden aanwezig voor deze locatie
                     @endforelse

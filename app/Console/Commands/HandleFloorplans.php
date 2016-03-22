@@ -67,9 +67,9 @@ class HandleFloorplans extends Command
             $filetype = $filesystem->getMimetype($year.'/'.$floorplan->project_id.'/plattegrond/'.$floorplan->location_id.'/'.$floorplan->floor_id.'/'.$floorplan->filename);
 
             //eerst checken of het een pdf is
-            if($filetype == 'application/pdf') {
+            if($filetype == 'application/pdf' || $filetype == 'image/jpeg') {
                 //pdf omzetten naar png
-                $this->info('PDF converteren naar PNG');
+                $this->info('PDF/JPG converteren naar PNG');
                 $this->info('convert -density 150 "'.$file_location.'" -quality 90 '.$file_dir.'plattegrond.png');
                 exec('convert -density 150 "'.$file_location.'" -quality 90 png8:'.$file_dir.'plattegrond.png');
             }
