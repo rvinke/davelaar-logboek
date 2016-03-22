@@ -71,11 +71,15 @@ class HandleFloorplans extends Command
                 //pdf omzetten naar png
                 $this->info('PDF converteren naar PNG');
                 $this->info('convert -density 150 "'.$file_location.'" -quality 90 '.$file_dir.'plattegrond.png');
-                exec('convert -density 150 "'.$file_location.'" -quality 90 '.$file_dir.'plattegrond.png');
+                exec('convert -density 150 "'.$file_location.'" -quality 90 png8:'.$file_dir.'plattegrond.png');
             }
 
             if($filesystem->has($year.'/'.$floorplan->project_id.'/plattegrond/'.$floorplan->location_id.'/'.$floorplan->floor_id.'/plattegrond.png')){
                 $this->info('Plattegrond.png gemaakt');
+
+                $this->info('gdal_translate -of vrt -expand rgba '.$file_dir.'plattegrond.png '.$file_dir.'temp.vrt');
+
+                exec('gdal_translate -of vrt -expand rgba '.$file_dir.'plattegrond.png '.$file_dir.'temp.vrt');
             }else{
                 $this->info('Plattegrond.png niet gevonden.');
                 //@Todo: afhandeling
@@ -93,7 +97,7 @@ class HandleFloorplans extends Command
             //leaflet bestanden genereren
             $this->info('Gdal2Tiles uitvoeren');
             //$this->info('Command: gdal2tiles.py -p raster -z 0-6 '.$file_dir.'plattegrond.png '.$file_dir);
-            exec(base_path().'/gdal2tiles.py -l -p raster -z 0-6 '.$file_dir.'plattegrond.png '.$file_dir);
+            exec(base_path().'/gdal2tiles.py -l -p raster -z 0-6 '.$file_dir.'temp.vrt '.$file_dir);
 
             if($filesystem->has($year.'/'.$floorplan->project_id.'/plattegrond/'.$floorplan->location_id.'/'.$floorplan->floor_id.'/0/0/0.png')){
                 //als dit bestand bestaat dan is de generatie succesvol geweest
