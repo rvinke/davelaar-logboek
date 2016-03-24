@@ -204,7 +204,10 @@ class ProjectController extends Controller
 
         $year = date("Y", strtotime($project->created_at));
 
-        return \View::make('project.rapport')->withProject($project)->withYear($year);
+        return \View::make('project.rapport')
+            ->withProject($project)
+            ->withYear($year)
+            ->withCountPassthrough(array());
     }
 
     /**
