@@ -21,7 +21,7 @@
         @if($subdatabase == 'location')
 
             <div class="form-group">
-                <label class="col-lg-2 control-label">Leverancier</label>
+                <label class="col-lg-2 control-label">Project</label>
                 <div class="col-lg-4">
                     {!! Form::select('project_id', App\Models\Project::lists('naam', 'id'), NULL, array('class' => 'form-control')) !!}
                 </div>

@@ -1,12 +1,16 @@
 <div class="ibox float-e-margins">
 
     <div class="ibox-title">
-        <h5>Projectdetails</h5>
+        <h5>Logdetails</h5>
     </div>
 
-
-
     <div class="ibox-content">
+
+        @if ($errors->has())
+            @foreach ($errors->all() as $message)
+                <div class="alert alert-danger alert-dark">{{ $message }}</div>
+            @endforeach
+        @endif
 
         {!! Form::hidden('project_id', $project->id) !!}
 

@@ -124,7 +124,9 @@ class LogController extends Controller
         $code = $this->genereer_tekeningnummer($log->project_id);
         $log->code = $code;
 
-        $log->save();
+        if(!$log->save()){
+            return redirect()->route('log.create', [$log->project_id])->withErrors($log->errors()->all());
+        }
 
         //handle the file upload als het bestand aanwezig is
         if($request->hasFile('foto')) {

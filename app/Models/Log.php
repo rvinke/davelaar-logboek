@@ -2,10 +2,15 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
+use LaravelArdent\Ardent\Ardent;
 
-class Log extends Model
+class Log extends Ardent
 {
+
+    public static $rules = array(
+        'location_id' => 'required|integer',
+    );
+
 
     public function project()
     {

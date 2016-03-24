@@ -106,7 +106,7 @@ return [
     */
 
     'attributes'           => [
-        //
+        'location_id' => 'locatie',
     ],
 
 ];
