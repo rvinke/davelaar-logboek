@@ -125,7 +125,7 @@ class LogController extends Controller
         $log->code = $code;
 
         if(!$log->save()){
-            return redirect()->route('log.create', [$log->project_id])->withErrors($log->errors()->all());
+            return redirect()->route('log.create', [$log->project_id])->withErrors($log->errors()->all())->withInput();
         }
 
         //handle the file upload als het bestand aanwezig is
