@@ -122,10 +122,26 @@ class ProjectController extends Controller
         $project->onderwerp = $request->input('onderwerp');
         $project->referentie = $request->input('referentie');
         $project->adres = $request->input('adres');
+        $project->datum_oplevering = date("Y-m-d", strtotime($request->input('datum_oplevering')));
 
-        if($project->save()) {
+        if(!$project->save()) {
+
             return redirect()->route('projecten.index')->with('status', 'Project opgeslagen.');
+
         }
+
+        foreach($request->input('locations')['naam'] as $key => $naam) {
+
+            $location = new Location();
+
+            $location->naam = $naam;
+            $location->project_id = $project->id;
+
+            $location->save();
+
+        }
+
+        return redirect()->route('projecten.index')->with('status', 'Project opgeslagen.');
     }
 
     /**
