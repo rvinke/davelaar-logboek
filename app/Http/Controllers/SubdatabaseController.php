@@ -81,6 +81,10 @@ class SubdatabaseController extends Controller
 
         $object->naam = \Input::get('naam');
 
+        if(strtolower($subdatabase) == 'location') {
+            $object->project_id = \Input::get('project_id');
+        }
+
         if(strtolower($subdatabase) == 'client') {
             $object->adres = \Input::get('adres');
             $object->postcode = \Input::get('postcode');
@@ -190,6 +194,10 @@ class SubdatabaseController extends Controller
         $object = $model::findOrFail($id);
 
         $object->naam = \Input::get('naam');
+
+        if(strtolower($subdatabase) == 'location') {
+            $object->project_id = \Input::get('project_id');
+        }
 
         if(strtolower($subdatabase) == 'client') {
             $object->adres = \Input::get('adres');
