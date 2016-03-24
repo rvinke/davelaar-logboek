@@ -276,13 +276,16 @@ class LogController extends Controller
     {
         $log = Log::findOrFail($id);
 
+        if(!empty($request->input('position'))) {
 
-        list($lat, $lng)  = explode("|", $request->input('position'));
+            list($lat, $lng)  = explode("|", $request->input('position'));
 
-        $log->lat = $lat;
-        $log->lng = $lng;
+            $log->lat = $lat;
+            $log->lng = $lng;
 
-        $log->save();
+            $log->save();
+
+        }
 
 
         return redirect()->route('projecten.show', $log->project_id)->with('status', 'Log opgeslagen.');
