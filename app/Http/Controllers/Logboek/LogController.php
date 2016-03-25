@@ -295,10 +295,12 @@ class LogController extends Controller
     }
 
     public function map($id, $floor_id) {
-
+        /**
+         * @Todo: waarom moet het project hier opgehaald worden?
+         */
         $log = Log::findOrFail($id);
         $project = Project::findOrFail($log->project_id);
-        
+
         return \View::make('logboek.map')
             ->withLog($log)
             ->withProject($project)
