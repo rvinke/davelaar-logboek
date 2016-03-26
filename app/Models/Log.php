@@ -8,7 +8,7 @@ class Log extends Ardent
 {
 
     public static $rules = array(
-        'location_id' => 'required|integer',
+        'locatie_id' => 'required|integer',
     );
 
 
