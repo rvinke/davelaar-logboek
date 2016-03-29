@@ -211,7 +211,7 @@ class SubdatabaseController extends Controller
             $object->productnummer = \Input::get('productnummer');
 
             //Documentatie opslaan
-            if(!empty($request->file('documentatie'))) {
+            if($request->hasFile('documentatie')) {
                 $storeArray = json_decode($object->documentatie);
 
                 foreach($request->file('documentatie') as $file) {
