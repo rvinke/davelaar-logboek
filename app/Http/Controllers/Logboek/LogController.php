@@ -310,10 +310,11 @@ class LogController extends Controller
 
     public function mapShow($id) {
         $log = Log::findOrFail($id);
+        $project = Project::findOrFail($log->project_id);
 
         return \View::make('project.logitemplattegrond')
             ->withLog($log)
-            ->withProject($log->project);
+            ->withProject($project);
     }
 
     /**
