@@ -172,6 +172,10 @@ class FloorplanController extends Controller
 
         $floorplan = $project->maps()->where('location_id', $location_id)->where('floor_id', $floor_id)->first();
 
+        if(!$floorplan) {
+            return FALSE;
+        }
+
         $year = date("Y", strtotime($project->created_at));
 
         //@TODO: $editable echt zo maken dat het over editable gaat en niet over een log-id
