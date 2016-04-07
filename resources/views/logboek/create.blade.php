@@ -19,7 +19,7 @@
             @endif
             --}}
 
-            {!! Form::open(array('route' => 'log.store', 'autocomplete'=>'off', 'class' => 'form-horizontal')) !!}
+            {!! Form::open(array('route' => 'log.store', 'autocomplete'=>'off', 'class' => 'form-horizontal', 'files' => true)) !!}
             @include('logboek.form', array('is_new'=>true, 'is_profile'=>false) )
             {!! Form::close() !!}
 

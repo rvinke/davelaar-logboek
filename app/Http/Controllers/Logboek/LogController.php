@@ -130,7 +130,7 @@ class LogController extends Controller
 
         //handle the file upload als het bestand aanwezig is
         if($request->hasFile('foto')) {
-
+            
             $this->storePhoto($request, $log);
 
         }
