@@ -173,7 +173,7 @@ class FloorplanController extends Controller
         $floorplan = $project->maps()->where('location_id', $location_id)->where('floor_id', $floor_id)->first();
 
         if(!$floorplan) {
-            return FALSE;
+            return response('');
         }
 
         $year = date("Y", strtotime($project->created_at));
