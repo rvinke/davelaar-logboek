@@ -44,7 +44,9 @@
                     <div class="col-lg-7" id="cluster_info">
                         <dl class="dl-horizontal">
                             <dt>Gemaakt op:</dt> <dd>{!! date("d-m-Y H:i", strtotime($project->created_at)) !!}</dd>
-
+                            @if($file)
+                                <dt>Bestanden:</dt> <dd><mark>Er staat een bestand in de wacht!</mark></dd>
+                            @endif
                         </dl>
                     </div>
                 </div>

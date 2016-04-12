@@ -20,7 +20,7 @@
         <div class="form-group">
             <label class="col-lg-2 control-label">Bestand</label>
             <div class="col-lg-4">
-                {!! Form::file('file', NULL, array('class' => 'form-control')) !!}
+                {!! Form::file('file-upload', NULL, array('class' => 'form-control')) !!}
             </div>
         </div>
 

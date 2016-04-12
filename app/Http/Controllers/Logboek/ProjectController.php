@@ -160,7 +160,13 @@ class ProjectController extends Controller
             ->with('logs.location')
             ->findOrFail($id);
 
-        return \View::make('project.projectdetails')->withProject($project);
+        $file = FALSE;
+        //check if a file is waiting for handling
+        if(file_exists(public_path().'/documenten/uploads/project_'.$id.'.zip')) {
+            $file = TRUE;
+        }
+
+        return \View::make('project.projectdetails')->withProject($project)->withFile($file);
     }
 
     /**

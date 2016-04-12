@@ -45,41 +45,49 @@ class FileController extends Controller
      */
     public function store(Request $request, $project_id)
     {
-        $file = $request->file('file');
-        $type = $request->input('type');
 
-        $stream = fopen($file->getRealPath(), 'r+');
+        if ($request->hasFile('file-upload')) {
+            $file = $request->file('file-upload');
+            $type = $request->input('type');
 
-        //dd($stream);
+            $stream = fopen($file->getRealPath(), 'r+');
 
-        $project = Project::findOrFail($project_id);
-        $year = date("Y", strtotime($project->created_at));
-        $extension = $file->getClientOriginalExtension();
+            //dd($stream);
+
+            $project = Project::findOrFail($project_id);
+            $year = date("Y", strtotime($project->created_at));
+            $extension = $file->getClientOriginalExtension();
 
 
-        if($extension == 'zip') {
-            Flysystem::put('uploads/project_'.$project_id.'.'.$extension, $stream);
-        }else{
-            if($type != 'foto') {
-                Flysystem::put($year.'/'.$project_id.'/'.$type.'en/'.$file->getClientOriginalName(), $stream);
-            } else{
-                Flysystem::put($year.'/'.$project_id.'/'.$file->getClientOriginalName(), $stream);
+            if($extension == 'zip') {
+                if (file_exists(public_path().'/documenten/uploads/project_'.$project_id.'.'.$extension)) {
+                    unlink(public_path().'/documenten/uploads/project_'.$project_id.'.'.$extension);
+                }
+
+                Flysystem::put('uploads/project_'.$project_id.'.'.$extension, $stream);
+            }else{
+                if($type != 'foto') {
+                    Flysystem::put($year.'/'.$project_id.'/'.$type.'en/'.$file->getClientOriginalName(), $stream);
+                } else{
+                    Flysystem::put($year.'/'.$project_id.'/'.$file->getClientOriginalName(), $stream);
+                }
+
+                $filedb = new File();
+
+                $filedb->naam = $file->getClientOriginalName();
+                $filedb->project_id = $project_id;
+                $filedb->type = $type;
+
+                $filedb->save();
+
             }
 
-            $filedb = new File();
+            //$filesystem->writeStream('documenten/uploads/'.$file->getClientOriginalName(), $stream);
+            fclose($stream);
 
-            $filedb->naam = $file->getClientOriginalName();
-            $filedb->project_id = $project_id;
-            $filedb->type = $type;
-
-            $filedb->save();
-
+            return redirect()->route('projecten.show', ['id' => $project_id])->with('status', 'Bestand toegevoegd.');
         }
 
-        //$filesystem->writeStream('documenten/uploads/'.$file->getClientOriginalName(), $stream);
-        fclose($stream);
-
-        return redirect()->route('projecten.show', ['id' => $project_id])->with('status', 'Bestand toegevoegd.');
     }
 
     /**
