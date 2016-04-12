@@ -1,12 +1,9 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace app\Http\Controllers;
 
 use App\Models\System;
 use Illuminate\Http\Request;
-
-use App\Http\Requests;
-use App\Http\Controllers\Controller;
 use Yajra\Datatables\Datatables;
 
 class SubdatabaseController extends Controller
@@ -18,42 +15,36 @@ class SubdatabaseController extends Controller
      */
     public function index($subdatabase)
     {
-
         return view('subdatabase.list')->withSubdatabase($subdatabase);
-
     }
 
     public function getDatatable($subdatabase)
     {
-
         $model = $this->modelName($subdatabase);
 
         $objects = $model::all();
 
-        if($subdatabase == 'location') {
+        if ($subdatabase == 'location') {
             return Datatables::of($objects)
-                ->addColumn('naam', function($object) {
-                    if(isset($object->project->naam)) {
-                        return $object->naam . ' (' . $object->project->naam . ')';
+                ->addColumn('naam', function ($object) {
+                    if (isset($object->project->naam)) {
+                        return $object->naam.' ('.$object->project->naam.')';
                     } else {
-                        return $object->naam . ' (Onbekend)';
+                        return $object->naam.' (Onbekend)';
                     }
                 })
-                ->addColumn('action', function($object) use ($subdatabase){
+                ->addColumn('action', function ($object) use ($subdatabase) {
                     return '<a href="'.\URL::route('subdatabase.edit', ['subdatabase' => $subdatabase, 'id' => $object->id]).'"><i class="fa fa-search"></i></a>';
                 })
                 ->make(true);
         }
 
         return Datatables::of($objects)
-            ->addColumn('action', function($object) use ($subdatabase){
+            ->addColumn('action', function ($object) use ($subdatabase) {
                 return '<a href="'.\URL::route('subdatabase.edit', ['subdatabase' => $subdatabase, 'id' => $object->id]).'"><i class="fa fa-search"></i></a>';
             })
             ->make(true);
-
-
     }
-
 
     /**
      * Show the form for creating a new resource.
@@ -62,7 +53,6 @@ class SubdatabaseController extends Controller
      */
     public function create($subdatabase)
     {
-
         return \View::make('subdatabase.create')
             ->withSubdatabase($subdatabase);
     }
@@ -70,35 +60,36 @@ class SubdatabaseController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
+     *
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request, $subdatabase)
     {
         $model = $this->modelName($subdatabase);
 
-        $object = new $model;
+        $object = new $model();
 
         $object->naam = \Input::get('naam');
 
-        if(strtolower($subdatabase) == 'location') {
+        if (strtolower($subdatabase) == 'location') {
             $object->project_id = \Input::get('project_id');
         }
 
-        if(strtolower($subdatabase) == 'client') {
+        if (strtolower($subdatabase) == 'client') {
             $object->adres = \Input::get('adres');
             $object->postcode = \Input::get('postcode');
             $object->woonplaats = \Input::get('woonplaats');
             $object->telefoonnummer = \Input::get('telefoonnummer');
         }
 
-        if(strtolower($subdatabase) == 'system') {
+        if (strtolower($subdatabase) == 'system') {
             $object->leverancier = \Input::get('leverancier');
             $object->productnummer = \Input::get('productnummer');
 
             //Documentatie opslaan
-            if(!empty($request->file('documentatie'))) {
-                foreach($request->file('documentatie') as $file) {
+            if (!empty($request->file('documentatie'))) {
+                foreach ($request->file('documentatie') as $file) {
                     $file = $request->file('documentatie');
                     $file->move(public_path('documenten/documentatie/'.$object->id.'/'), $file->getClientOriginalName());
                     $object->documentatie = $file->getClientOriginalName();
@@ -114,33 +105,35 @@ class SubdatabaseController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
+     *
      * @return \Illuminate\Http\Response
      */
     public function show($id)
     {
-
     }
 
     /**
      * @param $systemId
      * @param $filename
+     *
      * @return \Symfony\Component\HttpFoundation\BinaryFileResponse
      */
-    public function downloadDocumentatie($systemId, $filename) {
-
+    public function downloadDocumentatie($systemId, $filename)
+    {
         $filename = 'documenten/documentatie/'.$systemId.'/'.$filename;
 
         return \Response::download($filename);
-
     }
 
     /**
      * @param $systemId
      * @param $filename
+     *
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function removeDocumentatie($systemId, $filename) {
+    public function removeDocumentatie($systemId, $filename)
+    {
         $system = System::findOrFail($systemId);
 
         $path = public_path('documenten/documentatie/'.$systemId.'/'.urldecode($filename));
@@ -149,10 +142,9 @@ class SubdatabaseController extends Controller
 
         $fileArray = json_decode($system->documentatie);
 
-        if(($key = array_search(urldecode($filename), $fileArray)) !== false) {
+        if (($key = array_search(urldecode($filename), $fileArray)) !== false) {
             unset($fileArray[$key]);
         }
-
 
         $system->documentatie = json_encode($fileArray);
 
@@ -164,12 +156,12 @@ class SubdatabaseController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
+     *
      * @return \Illuminate\Http\Response
      */
     public function edit($subdatabase, $id)
     {
-
         $model = $this->modelName($subdatabase);
 
         $object = $model::findOrFail($id);
@@ -177,14 +169,14 @@ class SubdatabaseController extends Controller
         return \View::make('subdatabase.edit')
             ->withSubdatabase($subdatabase)
             ->withModel($object);
-
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param \Illuminate\Http\Request $request
+     * @param int                      $id
+     *
      * @return \Illuminate\Http\RedirectResponse
      */
     public function update(Request $request, $subdatabase, $id)
@@ -195,30 +187,28 @@ class SubdatabaseController extends Controller
 
         $object->naam = \Input::get('naam');
 
-        if(strtolower($subdatabase) == 'location') {
+        if (strtolower($subdatabase) == 'location') {
             $object->project_id = \Input::get('project_id');
         }
 
-        if(strtolower($subdatabase) == 'client') {
+        if (strtolower($subdatabase) == 'client') {
             $object->adres = \Input::get('adres');
             $object->postcode = \Input::get('postcode');
             $object->woonplaats = \Input::get('woonplaats');
             $object->telefoonnummer = \Input::get('telefoonnummer');
         }
 
-        if(strtolower($subdatabase) == 'system') {
+        if (strtolower($subdatabase) == 'system') {
             $object->leverancier = \Input::get('leverancier');
             $object->productnummer = \Input::get('productnummer');
 
             //Documentatie opslaan
-            if($request->hasFile('documentatie')) {
+            if ($request->hasFile('documentatie')) {
                 $storeArray = json_decode($object->documentatie);
 
-                foreach($request->file('documentatie') as $file) {
-
+                foreach ($request->file('documentatie') as $file) {
                     $file->move(public_path('documenten/documentatie/'.$object->id.'/'), $file->getClientOriginalName());
                     $storeArray[] = $file->getClientOriginalName();
-
                 }
 
                 $object->documentatie = json_encode($storeArray);
@@ -228,13 +218,13 @@ class SubdatabaseController extends Controller
         $object->save();
 
         return redirect()->route('subdatabase.index', ['subdatabase' => $subdatabase])->with('status', 'Item opgeslagen.');
-
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param int $id
+     *
      * @return \Illuminate\Http\RedirectResponse
      */
     public function destroy($subdatabase, $id)
@@ -250,11 +240,13 @@ class SubdatabaseController extends Controller
 
     /**
      * @param $subdatabase
+     *
      * @return \Eloquent
      */
-    private function modelName($subdatabase) {
+    private function modelName($subdatabase)
+    {
         $model = 'App\\Models\\'.ucfirst($subdatabase);
-        if($subdatabase == 'firedamper') {
+        if ($subdatabase == 'firedamper') {
             $model = 'App\\Models\\FireDamper';
         }
 

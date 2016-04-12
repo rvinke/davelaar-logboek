@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Logboek;
+namespace app\Http\Controllers\Logboek;
 
 use App\Models\File;
 use App\Models\FireDamper;
@@ -10,13 +10,9 @@ use App\Models\PassthroughType;
 use App\Models\Project;
 use App\Models\System;
 use Illuminate\Http\Request;
-
-
-use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Intervention\Image\Facades\Image;
 use Yajra\Datatables\Datatables;
-
 
 class LogController extends Controller
 {
@@ -30,10 +26,8 @@ class LogController extends Controller
         //
     }
 
-
     public function getDatatable($project_id)
     {
-
         $logs = Log::where('project_id', $project_id)
             ->with('passthroughs')
             ->with('passthroughs.passthrough_type')
@@ -45,34 +39,33 @@ class LogController extends Controller
 
         return Datatables::of($logs)
 
-            ->addColumn('verbroken', function($log){
-                if($log->reports->count() > 0) {
+            ->addColumn('verbroken', function ($log) {
+                if ($log->reports->count() > 0) {
                     return '<i class="fa fa-exclamation-triangle" style = "color: #f00" ></i>';
                 } else {
                     return '';
                 }
             })
-            ->addColumn('action', function($log){
+            ->addColumn('action', function ($log) {
                 return '<a href="'.\URL::route('log.edit', ['id' => $log->id]).'"><i style="font-size: 1.2em;" class="fa fa-edit fa-large"></i></a>';
             })
-            ->editColumn('code', function($log){
+            ->editColumn('code', function ($log) {
                 return '<a href="'.\URL::route('log.map-show', ['id' => $log->id]).'">'.$log->code.'</a>';
             })
 
-            ->editColumn('system', function($log){
-                if($log->product_id != 0) {
+            ->editColumn('system', function ($log) {
+                if ($log->product_id != 0) {
                     return '<abbr title="'.$log->system->naam.'">'.$log->system->leverancier.' '.$log->system->productnummer.'</abbr>';
-                }else{
+                } else {
                     return 'Onbekend';
                 }
             })
-            ->editColumn('passthroughs', function($log){
+            ->editColumn('passthroughs', function ($log) {
                 $return = '';
-                foreach($log->passthroughs as $passthrough) {
-                    if($passthrough->passthrough_type_id != 0) {
+                foreach ($log->passthroughs as $passthrough) {
+                    if ($passthrough->passthrough_type_id != 0) {
                         $return .= $passthrough->count.'x '.$passthrough->passthrough_type->naam.'<br />';
                     }
-
                 }
 
                 return $return;
@@ -104,7 +97,8 @@ class LogController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
+     *
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -124,19 +118,16 @@ class LogController extends Controller
         $code = $this->genereer_tekeningnummer($log->project_id);
         $log->code = $code;
 
-        if(!$log->save()){
+        if (!$log->save()) {
             return redirect()->route('log.create', [$log->project_id])->withErrors($log->errors()->all())->withInput();
         }
 
         //handle the file upload als het bestand aanwezig is
-        if($request->hasFile('foto')) {
-            
+        if ($request->hasFile('foto')) {
             $this->storePhoto($request, $log);
-
         }
 
-        foreach(\Input::get('passthroughs')['passthrough_type_id'] as $key => $pt_id) {
-
+        foreach (\Input::get('passthroughs')['passthrough_type_id'] as $key => $pt_id) {
             $passthrough = new Passthrough();
 
             $passthrough->log_id = $log->id;
@@ -144,17 +135,16 @@ class LogController extends Controller
             $passthrough->count = (\Input::get('passthroughs')['count'][$key] + 1);
 
             $passthrough->save();
-
         }
 
         return redirect()->route('log.map', [$log->id, $log->bouwlaag_id]);
-
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
+     *
      * @return \Illuminate\Http\Response
      */
     public function show($id)
@@ -162,13 +152,13 @@ class LogController extends Controller
         $log = Log::findOrFail($id);
 
         return \View::make('logboek.log')->withLog($log);
-
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
+     *
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
@@ -192,8 +182,9 @@ class LogController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param \Illuminate\Http\Request $request
+     * @param int                      $id
+     *
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
@@ -213,20 +204,17 @@ class LogController extends Controller
         $log->save();
 
         //handle the file upload als het bestand aanwezig is
-        if($request->hasFile('foto')) {
-
+        if ($request->hasFile('foto')) {
             $this->storePhoto($request, $log);
-
         }
 
         $passthroughs = $log->passthroughs;
 
-        foreach($passthroughs as $passthrough) {
+        foreach ($passthroughs as $passthrough) {
             $passthrough->delete();
         }
 
-        foreach(\Input::get('passthroughs')['passthrough_type_id'] as $key => $pt_id) {
-
+        foreach (\Input::get('passthroughs')['passthrough_type_id'] as $key => $pt_id) {
             $passthrough = new Passthrough();
 
             $passthrough->log_id = $log->id;
@@ -234,22 +222,20 @@ class LogController extends Controller
             $passthrough->count = (\Input::get('passthroughs')['count'][$key] + 1);
 
             $passthrough->save();
-
         }
 
         return redirect()->route('log.map', [$log->id, $log->bouwlaag_id]);
-
     }
 
-
-    private function storePhoto(Request $request, $log) {
+    private function storePhoto(Request $request, $log)
+    {
         $file = $request->file('foto');
 
         $project = Project::findOrFail($log->project_id);
-        $year = date("Y", strtotime($project->created_at));
+        $year = date('Y', strtotime($project->created_at));
         $extension = $file->getClientOriginalExtension();
 
-        if(file_exists(public_path().'/documenten/'.$year.'/'.$project->id.'/'.$log->code.'.'.$extension)){
+        if (file_exists(public_path().'/documenten/'.$year.'/'.$project->id.'/'.$log->code.'.'.$extension)) {
             unlink(public_path().'/documenten/'.$year.'/'.$project->id.'/'.$log->code.'.'.$extension);
         }
         $image = $request->file('foto');
@@ -270,32 +256,30 @@ class LogController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param \Illuminate\Http\Request $request
+     * @param int                      $id
+     *
      * @return \Illuminate\Http\Response
      */
     public function updateMap(Request $request, $id)
     {
         $log = Log::findOrFail($id);
 
-        if(!empty($request->input('position'))) {
-
-            list($lat, $lng)  = explode("|", $request->input('position'));
+        if (!empty($request->input('position'))) {
+            list($lat, $lng) = explode('|', $request->input('position'));
 
             $log->lat = $lat;
             $log->lng = $lng;
 
             $log->save();
-
         }
 
-
         return redirect()->route('projecten.show', $log->project_id)->with('status', 'Log opgeslagen.');
-
     }
 
-    public function map($id, $floor_id) {
-        /**
+    public function map($id, $floor_id)
+    {
+        /*
          * @Todo: waarom moet het project hier opgehaald worden?
          */
         $log = Log::findOrFail($id);
@@ -307,8 +291,8 @@ class LogController extends Controller
             ->withFloor($floor_id);
     }
 
-
-    public function mapShow($id) {
+    public function mapShow($id)
+    {
         $log = Log::findOrFail($id);
         $project = Project::findOrFail($log->project_id);
 
@@ -320,7 +304,8 @@ class LogController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param int $id
+     *
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
@@ -330,7 +315,6 @@ class LogController extends Controller
         $log->delete();
 
         return redirect()->route('projecten.show', ['id' => $project_id])->with('status', 'Log-item verwijderd.');
-
     }
 
     private function genereer_tekeningnummer($project_id)
@@ -339,13 +323,13 @@ class LogController extends Controller
         $nummers = Log::where('project_id', $project_id)->select('code')->get();
         $max_nummer = $nummers->max();
 
-
-        if(!empty($max_nummer->code)){
-
+        if (!empty($max_nummer->code)) {
             $code = $max_nummer->code;
 
             $vervolgcijfer = $code + 1;
-            if(strlen($vervolgcijfer) === 1) $vervolgcijfer = '0'.$vervolgcijfer;
+            if (strlen($vervolgcijfer) === 1) {
+                $vervolgcijfer = '0'.$vervolgcijfer;
+            }
 
             /*while(array_key_exists($vervolgcijfer, $nummers)){
                 //code bestaat al, andere code maken
@@ -356,12 +340,8 @@ class LogController extends Controller
             //return $vervolgletter.$vervolgcijfer;
 
             return $vervolgcijfer;
-
         }
 
-
         return '01';//beginpunt
-
-
     }
 }
