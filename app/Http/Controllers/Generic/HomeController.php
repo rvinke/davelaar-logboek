@@ -18,7 +18,7 @@ class HomeController extends Controller
     public function index()
     {
         $reports = Report::where('completed', 0)->get();
-
+        
         return view('welcome')->withReports($reports);
     }
 
