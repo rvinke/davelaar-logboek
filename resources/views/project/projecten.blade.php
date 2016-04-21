@@ -74,8 +74,8 @@
             columns: [
                 { data: 'action', name: 'action', orderable: false, searchable: false },
                 { data: 'naam', name: 'naam' },
-                { data: 'status', name: 'status'},
-                { data: 'count_logs', name: 'count_logs'}
+                { data: 'status', name: 'status', orderable: false, searchable: false},
+                { data: 'count_logs', name: 'count_logs', orderable: false, searchable: false}
             ],
             language: {"url":"\/\/cdn.datatables.net\/plug-ins\/a5734b29083\/i18n\/Dutch.json"},
         });
