@@ -1,10 +1,11 @@
 <?php
 
-namespace app\Http\Controllers;
+namespace App\Http\Controllers;
 
 use App\Models\System;
 use Illuminate\Http\Request;
 use Yajra\Datatables\Datatables;
+use App\Http\Controllers\Controller;
 
 class SubdatabaseController extends Controller
 {
