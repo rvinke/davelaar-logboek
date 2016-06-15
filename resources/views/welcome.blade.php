@@ -44,7 +44,7 @@
                 </div>
                 <div class="col-xs-8 text-right">
                     <span> Verbroken brandscheidingen </span>
-                    <h2 class="font-bold">{{ $reports->count() }}</h2>
+                    <h2 class="font-bold">{{ $reports }}</h2>
                 </div>
             </div>
         </div>

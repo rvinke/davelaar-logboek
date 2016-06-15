@@ -63,6 +63,18 @@
                             </td>
                         </tr>
                         <tr>
+                            <th>Wand/vloer</th>
+                            <td>
+                                {{ ($log->oppervlak_type_id ? 'Vloer' : 'Wand') }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>Eis</th>
+                            <td>
+                                {{ ($log->eis > 0 ? $log->eis : 'Onbekend') }}
+                            </td>
+                        </tr>
+                        <tr>
                             <th>Opmerkingen</th>
                             <td>{{ $log->commentaar }}</td>
                         </tr>
@@ -105,6 +117,9 @@
                 <div class="ibox-content">
                     Deze brandscheiding is op {{ date("d-m-Y", strtotime($log->reports->last()->created_at)) }} om {{ date("H:i", strtotime($log->reports->last()->created_at)) }}  verbroken
                     gemeld door {{ $log->reports->last()->naam }} namens de organisatie {{ $log->reports->last()->organisatie }}.
+                </div>
+                <div class="ibox-footer">
+                    <a href="{!! \URL::route('qr-code.restore', [$log->qrcode]) !!}" class="btn btn-sm btn-primary">Meld als gerepareerd</a>
                 </div>
             </div>
         </div>

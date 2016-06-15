@@ -25,7 +25,7 @@ class Project extends Model
 
     public function reports()
     {
-        return $this->hasMany('App\Models\File')->reports();
+        return $this->hasManyThrough('App\Models\Report', 'App\Models\Log')->where('completed', 0);
     }
 
     public function maps()

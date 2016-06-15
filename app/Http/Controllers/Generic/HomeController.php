@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
+use App\Models\Project;
 
 class HomeController extends Controller
 {
@@ -17,7 +18,19 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $reports = Report::where('completed', 0)->get();
+        //$reports = Report::where('completed', 0)->get();
+
+        if(\Auth::user()->hasRole(['admin', 'medewerker'])) {
+            $projects = Project::all();
+        } else {
+            $projects = \Auth::user()->projects;
+        }
+
+        $reports = 0;
+        foreach($projects as $project) {
+            $reports += $project->reports()->count();
+        }
+
         
         return view('welcome')->withReports($reports);
     }

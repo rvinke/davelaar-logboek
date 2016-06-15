@@ -11,4 +11,9 @@ class Report extends Ardent
         'organisatie' => 'required|between:3,80',
         'log_id' => 'required|integer'
     ];
+
+
+    public function logItem() {
+        return $this->belongsTo('App\Models\Log');
+    }
 }
