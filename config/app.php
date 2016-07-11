@@ -13,7 +13,7 @@ return [
     |
     */
 
-    'app_version' => '1.4.7',
+    'app_version' => '1.5.0',
     'debug' => env('APP_DEBUG', false),
 
     /*
