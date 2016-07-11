@@ -3,17 +3,20 @@
 namespace App\Http\Controllers\Logboek;
 
 use App\Models\Client;
+use App\Models\Floor;
 use App\Models\Location;
 
 use App\Models\Log;
 use App\Models\Project;
 use App\User;
+use Barryvdh\Snappy\Facades\SnappyPdf as PDF;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Yajra\Datatables\Datatables;
+use Intervention\Image\Facades\Image;
 
 
 class ProjectController extends Controller
@@ -42,21 +45,19 @@ class ProjectController extends Controller
 
 
         return Datatables::of($projecten)
-
-            ->addColumn('action', function($project) {
-                return '<a href="'.\URL::route('projecten.show', ['id' => $project->id]).'"><i class="fa fa-search"></i></a>';
+            ->addColumn('action', function ($project) {
+                return '<a href="' . \URL::route('projecten.show', ['id' => $project->id]) . '"><i class="fa fa-search"></i></a>';
             })
-            ->addColumn('status', function($project){
-                if($project->datum_oplevering < date("Y-m-d")) {
+            ->addColumn('status', function ($project) {
+                if ($project->datum_oplevering < date("Y-m-d")) {
                     return '<span class="label">Afgerond</span>';
-                }else{
+                } else {
                     return '<span class="label label-primary">Actief</span>';
                 }
             })
-            ->addColumn('count_logs', function($project){
+            ->addColumn('count_logs', function ($project) {
                 return $project->logs->count();
             })
-
             ->make(true);
     }
 
@@ -64,7 +65,7 @@ class ProjectController extends Controller
     {
 
 
-        if(\Auth::user()->hasRole(['admin', 'medewerker'])) {
+        if (\Auth::user()->hasRole(['admin', 'medewerker'])) {
             $projecten = Project::select(['naam', 'id', 'datum_oplevering']);
         } else {
             //$projecten = Project::select(['naam', 'id'])->where('opdrachtgever_id', \Auth::user()->client_id)->get();
@@ -72,20 +73,18 @@ class ProjectController extends Controller
         }
 
 
-
         return Datatables::of($projecten)
-
-            ->addColumn('action', function($project){
-                return '<a href="'.\URL::route('rapport.show', ['id' => $project->id]).'"><i class="fa fa-search"></i></a>';
+            ->addColumn('action', function ($project) {
+                return '<a href="' . \URL::route('rapport.show', ['id' => $project->id]) . '"><i class="fa fa-search"></i></a>';
             })
-            ->addColumn('status', function($project){
-                if($project->datum_oplevering < date("Y-m-d")) {
+            ->addColumn('status', function ($project) {
+                if ($project->datum_oplevering < date("Y-m-d")) {
                     return '<span class="label">Afgerond</span>';
-                }else{
+                } else {
                     return '<span class="label label-primary">Actief</span>';
                 }
             })
-            ->addColumn('count_logs', function($project){
+            ->addColumn('count_logs', function ($project) {
                 return $project->logs->count();
             })
             ->make(true);
@@ -108,7 +107,7 @@ class ProjectController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -124,13 +123,13 @@ class ProjectController extends Controller
         $project->adres = $request->input('adres');
         $project->datum_oplevering = date("Y-m-d", strtotime($request->input('datum_oplevering')));
 
-        if(!$project->save()) {
+        if (!$project->save()) {
 
             return redirect()->route('projecten.index')->with('status', 'Project opgeslagen.');
 
         }
 
-        foreach($request->input('locations')['naam'] as $key => $naam) {
+        foreach ($request->input('locations')['naam'] as $key => $naam) {
 
             $location = new Location();
 
@@ -147,7 +146,7 @@ class ProjectController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
@@ -162,7 +161,7 @@ class ProjectController extends Controller
 
         $file = FALSE;
         //check if a file is waiting for handling
-        if(file_exists(public_path().'/documenten/uploads/project_'.$id.'.zip')) {
+        if (file_exists(public_path() . '/documenten/uploads/project_' . $id . '.zip')) {
             $file = TRUE;
         }
 
@@ -170,11 +169,11 @@ class ProjectController extends Controller
     }
 
     /**
-    * Display the specified resource.
-    *
-    * @param  int  $id
-    *  @return \Illuminate\Http\Response
-    */
+     * Display the specified resource.
+     *
+     * @param  int $id
+     * @return \Illuminate\Http\Response
+     */
     public function floorplan($id, $location_id, $floor_id)
     {
         $project = Project::with('logs')
@@ -192,8 +191,6 @@ class ProjectController extends Controller
             ->withFloorplan($floorplan)
             ->withFloor($floor_id);
     }
-
-
 
 
     public function rapport($id)
@@ -214,6 +211,40 @@ class ProjectController extends Controller
             ->withProject($project)
             ->withYear($year)
             ->withCountPassthrough(array());
+    }
+
+    public function printRapport($id)
+    {
+        set_time_limit(120); //120 seconds
+
+        $project = Project::with('logs')
+            ->with('logs.passthroughs')
+            ->with('logs.passthroughs.passthrough_type')
+            ->with('logs.floor')
+            ->with('logs.system')
+            ->with('logs.location')
+            ->with('logs.photo')
+            ->with('floorplans')
+            ->findOrFail($id);
+
+        $year = date("Y", strtotime($project->created_at));
+
+
+        //$html = \View::make('blank');
+        $html = \View::make('project.rapportprint')
+            ->withProject($project)
+            ->withYear($year)
+            ->withCountPassthrough(array());
+
+        $pdf = \App::make('snappy.pdf.wrapper');
+        $pdf->setTimeOut(1000);
+        $pdf->setOption('footer-right', $project->naam.' | Pagina [sitepage]/[sitepages]');
+        $pdf->setOption('footer-font-size', 9);
+        $pdf->loadHTML($html);
+        return $pdf->inline();
+        //return PDF::loadHTML($html)->download('download.pdf');
+
+        //return $html;
     }
 
     /**

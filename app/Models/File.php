@@ -31,4 +31,9 @@ class File extends Model
     {
         return $this->belongsTo('App\Models\Log');
     }
+
+    public function location()
+    {
+        return public_path().'/documenten/'.date("Y", strtotime($this->project->created_at)).'/'.$this->project_id.'/'.$this->naam;
+    }
 }

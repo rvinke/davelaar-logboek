@@ -161,6 +161,7 @@ return [
         Intervention\Image\ImageServiceProvider::class,
         SimpleSoftwareIO\QrCode\QrCodeServiceProvider::class,
         Bugsnag\BugsnagLaravel\BugsnagLaravelServiceProvider::class,
+        Barryvdh\Snappy\ServiceProvider::class,
     ],
 
     /*
@@ -225,6 +226,7 @@ return [
         'Bugsnag' => Bugsnag\BugsnagLaravel\BugsnagFacade::class,
 
         'Debugbar' => Barryvdh\Debugbar\Facade::class,
+        'PDF' => Barryvdh\Snappy\Facades\SnappyPdf::class,
 
 
 
