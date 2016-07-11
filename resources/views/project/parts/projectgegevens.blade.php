@@ -6,8 +6,9 @@
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="m-b-md">
+                                <a href="{!! \URL::route('rapport.print', ['id' => $project->id]) !!}" class="btn btn-primary btn-xs pull-right">Print rapport</a>
                             @if(isset($show_edit_link))
-                                <a href="{!! \URL::route('projecten.edit', ['id' => $project->id]) !!}" class="btn btn-primary btn-xs pull-right">Bewerk project</a>
+                                <a href="{!! \URL::route('projecten.edit', ['id' => $project->id]) !!}" style="margin-right: 10px;" class="btn btn-primary btn-xs pull-right">Bewerk project</a>
                                 <a href="{!! \URL::route('rapport.show', ['id' => $project->id]) !!}" style="margin-right: 10px;" class="btn btn-default btn-xs pull-right">Bekijk rapport</a>
                             @endif
 

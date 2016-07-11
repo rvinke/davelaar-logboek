@@ -48,7 +48,7 @@
 <div class="page-break"></div>
 
 @foreach($project->logs as $key => $log)
-<table>
+<table style="margin-top: 50px;">
     <tr>
         <th style="width:100px">Logcode</th>
         <td style="width:300px">{{$log->code}}</td>
