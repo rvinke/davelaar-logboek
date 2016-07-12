@@ -242,7 +242,7 @@ class ProjectController extends Controller
         $pdf->setOption('footer-font-size', 9);
         $pdf->loadHTML($html);
         return $pdf->inline();
-        //return PDF::loadHTML($html)->download('download.pdf');
+
 
         //return $html;
     }

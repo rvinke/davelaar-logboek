@@ -31,17 +31,16 @@
 
 <!-- voorpagina-->
 <br /><br /><br /><br />
-<h1 style="margin-top: 200px;">Project: <br /><span style="font-size: 40px;">{{ $project->naam }}</span></h1>
+<h1 style="margin-top: 200px;">Project: <span style="font-size: 40px;">{{ $project->naam }}</span></h1>
 <h2>{{ $project->onderwerp }}</h2>
 <p>
-    <dt>Opleverdatum:</dt> <dd>{!! date("d-m-Y", strtotime($project->datum_oplevering)) !!}</dd>
-    <dt>Projectnummer(s):</dt> <dd>{{ $project->projectnummer }}</dd>
-
-<dt>Locatie(s):</dt> <dd>
+    Opleverdatum: {!! date("d-m-Y", strtotime($project->datum_oplevering)) !!}<br />
+    Projectnummer(s): {{ $project->projectnummer }}<br />
+    Locatie(s):
     @foreach($project->locations as $locatie)
         {{ $locatie->naam }}<br />
     @endforeach
-</dd>
+
 </p>
 <img src="http://www.davelaar.nl/assets/logo-davelaarbouw.png" style="margin-top: 380px; width: 300px; float: right;" />
 
@@ -52,7 +51,7 @@
     <tr>
         <th style="width:100px">Logcode</th>
         <td style="width:300px">{{$log->code}}</td>
-        <td rowspan="8" style="vertical-align: top;">
+        <td rowspan="10" style="vertical-align: top;">
             @if(isset($log->photo->id))
                 <img src="{{ $log->photo->location() }}" style="max-width: 350px; max-height: 262px;" />
                 <!--<img src="/photoL/{{ $log->photo->id }}" />-->
@@ -62,7 +61,15 @@
         </td>
     </tr>
     <tr>
-        <th>Systeem</th>
+        <th>Locatie</th>
+        <td>@if(!empty($log->locatie_id) && isset($log->location->naam)){{ $log->location->naam }}@endif</td>
+    </tr>
+    <tr>
+        <th>Bouwlaag</th>
+        <td>{{ $log->floor->naam }}</td>
+    </tr>
+    <tr>
+        <th>Product</th>
         <td>
             @if($log->product_id != 0)
                 <abbr title="{{ $log->system->naam }}">{{ $log->system->leverancier.' '.$log->system->productnummer }}</abbr><br />
