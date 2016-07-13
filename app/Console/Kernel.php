@@ -15,6 +15,7 @@ class Kernel extends ConsoleKernel
     protected $commands = [
         \App\Console\Commands\Inspire::class,
         \App\Console\Commands\HandleFloorplans::class,
+        \App\Console\Commands\GenerateThumbnails::class,
     ];
 
     /**
@@ -27,5 +28,7 @@ class Kernel extends ConsoleKernel
     {
         $schedule->command('logboek:handle-floorplans')
                 ->everyFiveMinutes();
+        $schedule->command('logboek:generate-thumbnails')
+                ->hourly();
     }
 }

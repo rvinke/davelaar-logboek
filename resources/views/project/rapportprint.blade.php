@@ -33,15 +33,29 @@
 <br /><br /><br /><br />
 <h1 style="margin-top: 200px;">Project: <span style="font-size: 40px;">{{ $project->naam }}</span></h1>
 <h2>{{ $project->onderwerp }}</h2>
-<p>
-    Opleverdatum: {!! date("d-m-Y", strtotime($project->datum_oplevering)) !!}<br />
-    Projectnummer(s): {{ $project->projectnummer }}<br />
-    Locatie(s):
-    @foreach($project->locations as $locatie)
-        {{ $locatie->naam }}<br />
-    @endforeach
+<table>
+    <tr>
+        <td>Opleverdatum:</td>
+        <td>{!! date("d-m-Y", strtotime($project->datum_oplevering)) !!}</td>
+    </tr>
+    <tr>
+        <td style="vertical-align: top;">Projectnummer(s):</td>
+        <td>{{ $project->projectnummer }}</td>
+    </tr>
+    <tr>
+        <td style="vertical-align: top;">Locatie(s):</td>
+        <td>
+            @foreach($project->locations as $locatie)
+                {{ $locatie->naam }}<br />
+            @endforeach
 
-</p>
+        </td>
+    </tr>
+    <tr>
+        <td style="vertical-align: top;">Adres:</td>
+        <td>{{ $project->adres }}</td>
+    </tr>
+</table>
 <img src="http://www.davelaar.nl/assets/logo-davelaarbouw.png" style="margin-top: 380px; width: 300px; float: right;" />
 
 <div class="page-break"></div>
@@ -53,7 +67,7 @@
         <td style="width:300px">{{$log->code}}</td>
         <td rowspan="10" style="vertical-align: top;">
             @if(isset($log->photo->id))
-                <img src="{{ $log->photo->location() }}" style="max-width: 350px; max-height: 262px;" />
+                <img src="{{ $log->photo->thumbnail() }}" style="max-width: 350px; max-height: 262px;" />
                 <!--<img src="/photoL/{{ $log->photo->id }}" />-->
             @else
                 Geen foto
