@@ -66,7 +66,7 @@ Route::group(['middleware' => 'auth'], function() {
     Route::get('rapporten', ['as' => 'projecten.rapporten', 'uses' => 'Logboek\ProjectController@indexRapporten']);
     Route::group(['middleware' => ['projectlink']], function () {
         Route::get('project/{id}/rapport', ['as' => 'rapport.show', 'uses' => 'Logboek\ProjectController@rapport']);
-        Route::get('project/{id}/rapport/print', ['as' => 'rapport.print', 'uses' => 'Logboek\ProjectController@printRapport']);
+        Route::get('project/{id}/rapport/print/{debug?}', ['as' => 'rapport.print', 'uses' => 'Logboek\ProjectController@printRapport']);
     });
     Route::get('project/{id}/plattegrond/{location}/{floor}', ['as' => 'rapport.floorplan', 'uses' => 'Logboek\ProjectController@floorplan']);
     Route::get('project/{id}/plattegrond/{location}/{floor}/download', ['as' => 'rapport.floorplan.download', 'uses' => 'FloorplanController@download']);
