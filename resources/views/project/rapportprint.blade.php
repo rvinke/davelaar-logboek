@@ -35,25 +35,16 @@
 <h2>{{ $project->onderwerp }}</h2>
 <table>
     <tr>
+        <td style="vertical-align: top;">Adres:</td>
+        <td>{{ $project->adres }}</td>
+    </tr>
+    <tr>
         <td>Opleverdatum:</td>
         <td>{!! date("d-m-Y", strtotime($project->datum_oplevering)) !!}</td>
     </tr>
     <tr>
         <td style="vertical-align: top;">Projectnummer(s):</td>
         <td>{{ $project->projectnummer }}</td>
-    </tr>
-    <tr>
-        <td style="vertical-align: top;">Locatie(s):</td>
-        <td>
-            @foreach($project->locations as $locatie)
-                {{ $locatie->naam }}<br />
-            @endforeach
-
-        </td>
-    </tr>
-    <tr>
-        <td style="vertical-align: top;">Adres:</td>
-        <td>{{ $project->adres }}</td>
     </tr>
 </table>
 <img src="http://www.davelaar.nl/assets/logo-davelaarbouw.png" style="margin-top: 380px; width: 300px; float: right;" />
