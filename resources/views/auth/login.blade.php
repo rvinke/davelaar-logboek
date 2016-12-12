@@ -44,6 +44,8 @@
             @endif
 
             <p>U kunt inloggen met de gegevens die u verstrekt zijn door Davelaarbouw.
+                <br /><br />
+                Wilt u het voorbeeldproject bekijken? Log dan in met <b>logboek@davelaar.nl</b> en wachtwoord <b>logboek</b>.
             </p>
             <form class="m-t" role="form" method="post" action="{{ URL::route('login.post') }}">
                 {!! csrf_field() !!}
