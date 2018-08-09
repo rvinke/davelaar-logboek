@@ -59,16 +59,16 @@ class FileController extends Controller
             $extension = $file->getClientOriginalExtension();
 
 
-            if($extension == 'zip') {
+            if ($extension == 'zip') {
                 if (file_exists(public_path().'/documenten/uploads/project_'.$project_id.'.'.$extension)) {
                     unlink(public_path().'/documenten/uploads/project_'.$project_id.'.'.$extension);
                 }
 
                 Flysystem::put('uploads/project_'.$project_id.'.'.$extension, $stream);
-            }else{
-                if($type != 'foto') {
+            } else {
+                if ($type != 'foto') {
                     Flysystem::put($year.'/'.$project_id.'/'.$type.'en/'.$file->getClientOriginalName(), $stream);
-                } else{
+                } else {
                     Flysystem::put($year.'/'.$project_id.'/'.$file->getClientOriginalName(), $stream);
                 }
 
@@ -79,7 +79,6 @@ class FileController extends Controller
                 $filedb->type = $type;
 
                 $filedb->save();
-
             }
 
             //$filesystem->writeStream('documenten/uploads/'.$file->getClientOriginalName(), $stream);
@@ -87,7 +86,6 @@ class FileController extends Controller
 
             return redirect()->route('projecten.show', ['id' => $project_id])->with('status', 'Bestand toegevoegd.');
         }
-
     }
 
     /**
@@ -102,8 +100,12 @@ class FileController extends Controller
         $project = Project::find($file->project_id);
 
         $subdir = '';
-        if($file->type == 'tekening') $subdir = 'tekeningen/';
-        if($file->type == 'rapport') $subdir = 'rapporten/';
+        if ($file->type == 'tekening') {
+            $subdir = 'tekeningen/';
+        }
+        if ($file->type == 'rapport') {
+            $subdir = 'rapporten/';
+        }
 
         $filename = 'documenten/'.date("Y", strtotime($project->created_at)).'/'.$file->project_id.'/'.$subdir.$file->naam;
 

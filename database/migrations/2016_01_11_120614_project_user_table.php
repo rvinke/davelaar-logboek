@@ -12,7 +12,7 @@ class ProjectUserTable extends Migration
      */
     public function up()
     {
-        Schema::create('project_user', function(Blueprint $t){
+        Schema::create('project_user', function (Blueprint $t) {
             $t->integer('project_id')->unsigned()->index();
             $t->integer('user_id')->unsigned()->index();
             $t->timestamps();

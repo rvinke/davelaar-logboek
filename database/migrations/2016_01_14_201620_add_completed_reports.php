@@ -12,7 +12,7 @@ class AddCompletedReports extends Migration
      */
     public function up()
     {
-        Schema::table('reports', function(Blueprint $t){
+        Schema::table('reports', function (Blueprint $t) {
             $t->boolean('completed')->after('log_id');
         });
     }
@@ -24,7 +24,7 @@ class AddCompletedReports extends Migration
      */
     public function down()
     {
-        Schema::table('reports', function(Blueprint $t){
+        Schema::table('reports', function (Blueprint $t) {
             $t->dropColumn('completed');
         });
     }

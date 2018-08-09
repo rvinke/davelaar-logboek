@@ -13,7 +13,8 @@ class Report extends Ardent
     ];
 
 
-    public function logItem() {
+    public function logItem()
+    {
         return $this->belongsTo('App\Models\Log');
     }
 }

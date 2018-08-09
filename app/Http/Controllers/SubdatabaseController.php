@@ -71,22 +71,22 @@ class SubdatabaseController extends Controller
 
         $object = new $model();
 
-        $object->naam = \Input::get('naam');
+        $object->naam = $request->input('naam');
 
         if (strtolower($subdatabase) == 'location') {
-            $object->project_id = \Input::get('project_id');
+            $object->project_id = $request->input('project_id');
         }
 
         if (strtolower($subdatabase) == 'client') {
-            $object->adres = \Input::get('adres');
-            $object->postcode = \Input::get('postcode');
-            $object->woonplaats = \Input::get('woonplaats');
-            $object->telefoonnummer = \Input::get('telefoonnummer');
+            $object->adres = $request->input('adres');
+            $object->postcode = $request->input('postcode');
+            $object->woonplaats = $request->input('woonplaats');
+            $object->telefoonnummer = $request->input('telefoonnummer');
         }
 
         if (strtolower($subdatabase) == 'system') {
-            $object->leverancier = \Input::get('leverancier');
-            $object->productnummer = \Input::get('productnummer');
+            $object->leverancier = $request->input('leverancier');
+            $object->productnummer = $request->input('productnummer');
 
             //Documentatie opslaan
             if (!empty($request->file('documentatie'))) {
@@ -186,22 +186,22 @@ class SubdatabaseController extends Controller
 
         $object = $model::findOrFail($id);
 
-        $object->naam = \Input::get('naam');
+        $object->naam = $request->input('naam');
 
         if (strtolower($subdatabase) == 'location') {
-            $object->project_id = \Input::get('project_id');
+            $object->project_id = $request->input('project_id');
         }
 
         if (strtolower($subdatabase) == 'client') {
-            $object->adres = \Input::get('adres');
-            $object->postcode = \Input::get('postcode');
-            $object->woonplaats = \Input::get('woonplaats');
-            $object->telefoonnummer = \Input::get('telefoonnummer');
+            $object->adres = $request->input('adres');
+            $object->postcode = $request->input('postcode');
+            $object->woonplaats = $request->input('woonplaats');
+            $object->telefoonnummer = $request->input('telefoonnummer');
         }
 
         if (strtolower($subdatabase) == 'system') {
-            $object->leverancier = \Input::get('leverancier');
-            $object->productnummer = \Input::get('productnummer');
+            $object->leverancier = $request->input('leverancier');
+            $object->productnummer = $request->input('productnummer');
 
             //Documentatie opslaan
             if ($request->hasFile('documentatie')) {

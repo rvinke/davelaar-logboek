@@ -12,7 +12,7 @@ class AddLocationIdToFloorplans extends Migration
      */
     public function up()
     {
-        Schema::table('floorplans', function(Blueprint $t){
+        Schema::table('floorplans', function (Blueprint $t) {
             $t->integer('location_id')->after('project_id');
         });
     }
@@ -24,7 +24,7 @@ class AddLocationIdToFloorplans extends Migration
      */
     public function down()
     {
-        Schema::table('floorplans', function(Blueprint $t){
+        Schema::table('floorplans', function (Blueprint $t) {
             $t->dropColumn('location_id');
         });
     }

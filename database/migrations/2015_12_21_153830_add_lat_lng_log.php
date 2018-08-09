@@ -12,7 +12,7 @@ class AddLatLngLog extends Migration
      */
     public function up()
     {
-        Schema::table('logs', function(Blueprint $t){
+        Schema::table('logs', function (Blueprint $t) {
             $t->float('lng')->after('code');
             $t->float('lat')->after('code');
         });
@@ -25,7 +25,7 @@ class AddLatLngLog extends Migration
      */
     public function down()
     {
-        Schema::table('logs', function(Blueprint $t){
+        Schema::table('logs', function (Blueprint $t) {
             $t->dropColumn('lng');
             $t->dropColumn('lat');
         });

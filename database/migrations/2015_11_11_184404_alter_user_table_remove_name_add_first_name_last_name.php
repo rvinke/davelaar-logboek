@@ -12,7 +12,7 @@ class AlterUserTableRemoveNameAddFirstNameLastName extends Migration
      */
     public function up()
     {
-        Schema::table('users', function(Blueprint $t){
+        Schema::table('users', function (Blueprint $t) {
             $t->dropColumn('name');
             $t->string('first_name', 50)->after('id');
             $t->string('last_name', 50)->after('first_name');
@@ -26,7 +26,7 @@ class AlterUserTableRemoveNameAddFirstNameLastName extends Migration
      */
     public function down()
     {
-        Schema::table('users', function(Blueprint $t){
+        Schema::table('users', function (Blueprint $t) {
             $t->dropColumn('first_name');
             $t->dropColumn('last_name');
             $t->string('name')->after('id');

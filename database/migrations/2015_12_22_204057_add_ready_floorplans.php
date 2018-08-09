@@ -12,7 +12,7 @@ class AddReadyFloorplans extends Migration
      */
     public function up()
     {
-        Schema::table('floorplans', function(Blueprint $t){
+        Schema::table('floorplans', function (Blueprint $t) {
             $t->boolean('ready')->after('maxzoom');
         });
     }
@@ -24,7 +24,7 @@ class AddReadyFloorplans extends Migration
      */
     public function down()
     {
-        Schema::table('floorplans', function(Blueprint $t){
+        Schema::table('floorplans', function (Blueprint $t) {
             $t->dropColumn('ready');
         });
     }

@@ -105,14 +105,14 @@ class LogController extends Controller
     {
         $log = new Log();
 
-        $log->project_id = \Input::get('project_id');
-        $log->locatie_id = \Input::get('locatie_id');
-        $log->bouwlaag_id = \Input::get('bouwlaag_id');
+        $log->project_id = $request->input('project_id');
+        $log->locatie_id = $request->input('locatie_id');
+        $log->bouwlaag_id = $request->input('bouwlaag_id');
         $log->oppervlak_type_id = $request->input('oppervlak_type_id');
         $log->eis = $request->input('eis');
-        $log->product_id = \Input::get('product_id');
-        $log->brandklep_id = \Input::get('brandklep_id');
-        $log->commentaar = \Input::get('commentaar');
+        $log->product_id = $request->input('product_id');
+        $log->brandklep_id = $request->input('brandklep_id');
+        $log->commentaar = $request->input('commentaar');
         $log->qrcode = $request->input('qrcode');
 
         $code = $this->genereer_tekeningnummer($log->project_id);
@@ -127,12 +127,12 @@ class LogController extends Controller
             $this->storePhoto($request, $log);
         }
 
-        foreach (\Input::get('passthroughs')['passthrough_type_id'] as $key => $pt_id) {
+        foreach ($request->input('passthroughs')['passthrough_type_id'] as $key => $pt_id) {
             $passthrough = new Passthrough();
 
             $passthrough->log_id = $log->id;
             $passthrough->passthrough_type_id = $pt_id;
-            $passthrough->count = (\Input::get('passthroughs')['count'][$key] + 1);
+            $passthrough->count = ($request->input('passthroughs')['count'][$key] + 1);
 
             $passthrough->save();
         }
@@ -214,12 +214,12 @@ class LogController extends Controller
             $passthrough->delete();
         }
 
-        foreach (\Input::get('passthroughs')['passthrough_type_id'] as $key => $pt_id) {
+        foreach ($request->input('passthroughs')['passthrough_type_id'] as $key => $pt_id) {
             $passthrough = new Passthrough();
 
             $passthrough->log_id = $log->id;
             $passthrough->passthrough_type_id = $pt_id;
-            $passthrough->count = (\Input::get('passthroughs')['count'][$key] + 1);
+            $passthrough->count = ($request->input('passthroughs')['count'][$key] + 1);
 
             $passthrough->save();
         }

@@ -14,8 +14,8 @@ class AddSoftdeletesSubdatabases extends Migration
     {
         $tables = ['floors', 'clients', 'fire_dampers', 'passthrough_types', 'systems'];
 
-        foreach($tables as $table){
-            Schema::table($table, function(Blueprint $t){
+        foreach ($tables as $table) {
+            Schema::table($table, function (Blueprint $t) {
                 $t->softDeletes();
             });
         }
@@ -30,8 +30,8 @@ class AddSoftdeletesSubdatabases extends Migration
     {
         $tables = ['floors', 'clients', 'fire_dampers', 'passthrough_types', 'systems'];
 
-        foreach($tables as $table) {
-            Schema::table($table, function(Blueprint $t){
+        foreach ($tables as $table) {
+            Schema::table($table, function (Blueprint $t) {
                 $t->dropColumn('deleted_at');
             });
         }

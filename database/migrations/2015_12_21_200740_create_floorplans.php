@@ -12,7 +12,7 @@ class CreateFloorplans extends Migration
      */
     public function up()
     {
-        Schema::create('floorplans', function(Blueprint $t){
+        Schema::create('floorplans', function (Blueprint $t) {
             $t->increments('id');
             $t->integer('project_id');
             $t->integer('floor_id');

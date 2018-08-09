@@ -35,7 +35,7 @@ Route::post('qr/{code}/start', ['as' => 'qr-code.start-log', 'uses' => 'Logboek\
 Route::get('qr/{code}/report', ['as' => 'qr-code.report', 'uses' => 'Logboek\QrController@report']);
 Route::post('qr/{code}/report', ['as' => 'qr-code.report.store', 'uses' => 'Logboek\QrController@storeReport']);
 
-Route::group(['middleware' => 'auth'], function() {
+Route::group(['middleware' => 'auth'], function () {
 
     Route::get('api/v1/projecten', ['as' => 'api.projecten.v1', 'uses' => 'Logboek\ProjectController@getDatatable']);
     Route::get('api/v1/rapporten', ['as' => 'api.rapporten.v1', 'uses' => 'Logboek\ProjectController@getDatatableRapporten']);
@@ -98,7 +98,6 @@ Route::group(['middleware' => 'auth'], function() {
         Route::get('subdatabase/{subdatabase}/{id}/edit', ['as' => 'subdatabase.edit', 'uses' => 'SubdatabaseController@edit']);
         Route::patch('subdatabase/{subdatabase}/{id}/update', ['as' => 'subdatabase.update', 'uses' => 'SubdatabaseController@update']);
         Route::get('subdatabase/{subdatabase}/{id}/delete', ['as' => 'subdatabase.delete', 'uses' => 'SubdatabaseController@destroy']);
-
     });
 
     Route::group(['middleware' => ['role:admin']], function () {
@@ -135,7 +134,7 @@ Route::group(['middleware' => 'auth'], function() {
         'cache' => '.cache',
     ]);
 
-    Route::get('photo/{id}', function($id) use ($server) {
+    Route::get('photo/{id}', function ($id) use ($server) {
         $file = \App\Models\File::findOrFail($id);
 
         $server->outputImage(
@@ -148,7 +147,7 @@ Route::group(['middleware' => 'auth'], function() {
         );
     });
 
-    Route::get('photoM/{id}', function($id) use ($server) {
+    Route::get('photoM/{id}', function ($id) use ($server) {
         $file = \App\Models\File::findOrFail($id);
 
         $server->outputImage(
@@ -161,7 +160,7 @@ Route::group(['middleware' => 'auth'], function() {
         );
     });
 
-    Route::get('photoL/{id}', function($id) use ($server) {
+    Route::get('photoL/{id}', function ($id) use ($server) {
         $file = \App\Models\File::findOrFail($id);
 
         $server->outputImage(
@@ -178,4 +177,3 @@ Route::group(['middleware' => 'auth'], function() {
     //Route::get('tasks/migrateLogs', ['uses' => 'TaskController@migrateLogs']);
     //Route::get('tasks/migratePhotos', ['uses' => 'TaskController@migratePhotos']);
 });
-

@@ -20,14 +20,14 @@ class HomeController extends Controller
     {
         //$reports = Report::where('completed', 0)->get();
 
-        if(\Auth::user()->hasRole(['admin', 'medewerker'])) {
+        if (\Auth::user()->hasRole(['admin', 'medewerker'])) {
             $projects = Project::all();
         } else {
             $projects = \Auth::user()->projects;
         }
 
         $reports = 0;
-        foreach($projects as $project) {
+        foreach ($projects as $project) {
             $reports += $project->reports()->count();
         }
 

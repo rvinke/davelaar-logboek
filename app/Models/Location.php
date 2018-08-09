@@ -11,6 +11,4 @@ class Location extends Model
     {
         return $this->belongsTo('App\Models\Project');
     }
-
-
 }

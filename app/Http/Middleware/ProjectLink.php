@@ -19,7 +19,7 @@ class ProjectLink
 
         $user = \Auth::user();
         //@Todo: netjes maken met een exception
-        if($user->hasRole('opdrachtgever')) {
+        if ($user->hasRole('opdrachtgever')) {
             if (!$user->projects->contains($request->id)) {
                 return response()->view('errors.401', [], 401);
             }

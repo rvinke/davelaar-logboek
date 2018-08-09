@@ -12,7 +12,7 @@ class AddThumbnailToFiles extends Migration
      */
     public function up()
     {
-        Schema::table('files', function(Blueprint $t){
+        Schema::table('files', function (Blueprint $t) {
             $t->dateTime('thumbnail_created')->after('add_time');
         });
     }
@@ -24,7 +24,7 @@ class AddThumbnailToFiles extends Migration
      */
     public function down()
     {
-        Schema::table('files', function(Blueprint $t){
+        Schema::table('files', function (Blueprint $t) {
             $t->dropColumn('thumbnail_created');
         });
     }
