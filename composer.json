@@ -1,22 +1,25 @@
 {
     "name": "laravel/laravel",
     "description": "The Laravel Framework.",
-    "keywords": ["framework", "laravel"],
+    "keywords": [
+        "framework",
+        "laravel"
+    ],
     "license": "MIT",
     "type": "project",
     "repositories": [
-      {
-        "type": "vcs",
-        "url":  "git@github.com:OpenSkill/Datatable.git"
-      }
+        {
+            "type": "vcs",
+            "url": "git@github.com:OpenSkill/Datatable.git"
+        }
     ],
     "require": {
         "php": ">=5.5.9",
-        "laravel/framework": "5.1.*",
+        "laravel/framework": "5.2.*",
         "filp/whoops": " ~1.0",
         "caffeinated/menus": "~2.0",
         "yajra/laravel-datatables-oracle": "~6.4",
-        "laravelcollective/html": "5.1.*",
+        "laravelcollective/html": "^5.2.0",
         "barryvdh/laravel-ide-helper": "^2.1",
         "laravelbook/ardent": "3.*",
         "league/glide": "^0.3.5",
@@ -39,7 +42,9 @@
         "mockery/mockery": "0.9.*",
         "phpunit/phpunit": "~4.0",
         "phpspec/phpspec": "~2.1",
-        "phpmd/phpmd" : "@stable"
+        "phpmd/phpmd": "@stable",
+        "symfony/dom-crawler": "2.8.*|3.0.*",
+        "symfony/css-selector": "2.8.*|3.0.*"
     },
     "autoload": {
         "classmap": [
@@ -56,14 +61,12 @@
     },
     "scripts": {
         "post-install-cmd": [
-            "php artisan clear-compiled",
+            "Illuminate\\Foundation\\ComposerScripts::postInstall",
             "php artisan ide-helper:generate",
             "php artisan optimize"
         ],
-        "pre-update-cmd": [
-            "php artisan clear-compiled"
-        ],
         "post-update-cmd": [
+            "Illuminate\\Foundation\\ComposerScripts::postUpdate",
             "php artisan optimize"
         ],
         "post-root-package-install": [
