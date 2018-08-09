@@ -84,7 +84,7 @@ class ProjectController extends Controller
      */
     public function create()
     {
-        $clients = Client::lists('naam', 'id');
+        $clients = Client::pluck('naam', 'id');
 
         return \View::make('project.create')->withClients($clients);
     }
@@ -240,7 +240,7 @@ class ProjectController extends Controller
     public function edit($id)
     {
         $project = Project::with('locations')->findOrFail($id);
-        $clients = Client::lists('naam', 'id');
+        $clients = Client::pluck('naam', 'id');
 
         return \View::make('project.edit')->withProject($project)->withClients($clients);
     }

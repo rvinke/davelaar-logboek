@@ -52,7 +52,7 @@ class QrController extends Controller
     public function create(Request $request, $code)
     {
         //selecteer het project
-        $actieve_projecten = Project::where('datum_oplevering', '>', date("Y-m-d"))->lists('naam', 'id');
+        $actieve_projecten = Project::where('datum_oplevering', '>', date("Y-m-d"))->pluck('naam', 'id');
 
         $project_id = null;
         if ($request->session()->has('project_id')) {

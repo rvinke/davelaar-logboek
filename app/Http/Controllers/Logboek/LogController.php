@@ -81,10 +81,10 @@ class LogController extends Controller
     public function create($project_id)
     {
         $project = Project::findOrFail($project_id);
-        $locations = $project->locations->lists('naam', 'id');
-        $products = System::selectRaw('CONCAT(productnummer, " ", naam) as naam, id')->orderBy('naam')->lists('naam', 'id');
-        $brandkleppen = FireDamper::lists('naam', 'id');
-        $passthroughs = PassthroughType::orderBy('naam')->lists('naam', 'id');
+        $locations = $project->locations->pluck('naam', 'id');
+        $products = System::selectRaw('CONCAT(productnummer, " ", naam) as naam, id')->orderBy('naam')->pluck('naam', 'id');
+        $brandkleppen = FireDamper::pluck('naam', 'id');
+        $passthroughs = PassthroughType::orderBy('naam')->pluck('naam', 'id');
 
         return \View::make('logboek.create')
             ->withProject($project)
@@ -165,10 +165,10 @@ class LogController extends Controller
     {
         $log = Log::with('passthroughs')->findOrFail($id);
         $project = Project::findOrFail($log->project_id);
-        $locations = $project->locations->lists('naam', 'id');
-        $products = System::selectRaw('CONCAT(productnummer, " ", naam) as naam, id')->orderBy('naam')->lists('naam', 'id');
-        $brandkleppen = FireDamper::lists('naam', 'id');
-        $passthroughs = PassthroughType::orderBy('naam')->lists('naam', 'id');
+        $locations = $project->locations->pluck('naam', 'id');
+        $products = System::selectRaw('CONCAT(productnummer, " ", naam) as naam, id')->orderBy('naam')->pluck('naam', 'id');
+        $brandkleppen = FireDamper::pluck('naam', 'id');
+        $passthroughs = PassthroughType::orderBy('naam')->pluck('naam', 'id');
 
         return \View::make('logboek.edit')
             ->withLog($log)
