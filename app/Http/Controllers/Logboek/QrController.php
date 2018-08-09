@@ -73,10 +73,10 @@ class QrController extends Controller
      */
     public function store(Request $request, $code)
     {
-        $request->session()->put('project_id', \Input::get('project_id'));
+        $request->session()->put('project_id', \Request::get('project_id'));
         $request->session()->put('qrcode', $code);
 
-        return redirect()->route('log.create', \Input::get('project_id'));
+        return redirect()->route('log.create', \Request::get('project_id'));
     }
 
     /**

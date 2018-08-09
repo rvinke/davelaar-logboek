@@ -125,23 +125,23 @@ class UserController extends Controller
     {
         $user = User::findOrFail($id);
 
-        $user->first_name = \Input::get('first_name');
-        $user->last_name = \Input::get('last_name');
-        $user->email = \Input::get('email');
-        if (!empty(\Input::get('password'))) {
-            $user->password = \Input::get('password');
-            $user->password_confirmation = \Input::get('password_confirmation');
+        $user->first_name = \Request::get('first_name');
+        $user->last_name = \Request::get('last_name');
+        $user->email = \Request::get('email');
+        if (!empty(\Request::get('password'))) {
+            $user->password = \Request::get('password');
+            $user->password_confirmation = \Request::get('password_confirmation');
         } else {
             unset($user->password);
         }
-        $user->client_id = \Input::get('client_id');
+        $user->client_id = \Request::get('client_id');
 
         if (!$user->save()) {
             return redirect()->route('user.edit', ['id' => $user->id])->with('errors', $user->errors());
         }
 
         if (!empty($request->input('role'))) {
-            $role = Role::find(\Input::get('role'));
+            $role = Role::find(\Request::get('role'));
             $user->detachRoles($user->roles);
             $user->attachRole($role);
 
@@ -158,7 +158,7 @@ class UserController extends Controller
 
     public function storeResetPassword()
     {
-        $user = User::where('email', \Input::get('email'))->first();
+        $user = User::where('email', \Request::get('email'))->first();
 
         if ($user != null) {
             $new_password = str_random(10);
