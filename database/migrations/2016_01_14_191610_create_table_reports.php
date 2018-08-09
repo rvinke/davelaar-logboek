@@ -12,7 +12,7 @@ class CreateTableReports extends Migration
      */
     public function up()
     {
-        Schema::create('reports', function(Blueprint $t){
+        Schema::create('reports', function (Blueprint $t) {
             $t->increments('id');
             $t->integer('log_id')->unsigned();
             $t->text('naam');

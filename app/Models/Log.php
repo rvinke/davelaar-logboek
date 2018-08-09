@@ -48,5 +48,4 @@ class Log extends Ardent
     {
         return $this->hasMany('App\Models\Report')->where('completed', 0);
     }
-
 }

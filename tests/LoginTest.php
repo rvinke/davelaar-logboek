@@ -44,5 +44,4 @@ class LoginTest extends TestCase
             ->click('Uitloggen')
             ->see('Welkom bij het Logboek');
     }
-
 }

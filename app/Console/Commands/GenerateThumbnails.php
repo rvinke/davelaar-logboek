@@ -12,7 +12,6 @@ use League\Flysystem\Adapter\Local;
 use Mockery\CountValidator\Exception;
 use Nathanmac\Utilities\Parser\Facades\Parser;
 
-
 class GenerateThumbnails extends Command
 {
     /**
@@ -49,25 +48,21 @@ class GenerateThumbnails extends Command
 
         $files = File::where('thumbnail_created', '=', '0000-00-00 00:00:00')->where('type', '=', 'foto')->orderBy('id')->limit(1000)->get();
 
-        foreach($files as $file) {
-
+        foreach ($files as $file) {
             $location = $file->location();
             $clean_location = $file->location(true);
 
-            if(file_exists($location)) {
+            if (file_exists($location)) {
                 try {
                     $img = Image::make($location)->resize(350, 260);
                     $img->save($clean_location . $file->id . '_thumb.jpg', 80);
                 } catch (\Intervention\Image\Exception\NotReadableException $e) {
                     $this->info($file->id.': Kan niet gegenereerd worden');
                 }
-
-
             }
 
             $file->thumbnail_created = date("Y-m-d H:i:s");
             $file->save();
         }
-
     }
 }

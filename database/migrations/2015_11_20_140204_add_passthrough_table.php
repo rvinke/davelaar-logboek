@@ -12,7 +12,7 @@ class AddPassthroughTable extends Migration
      */
     public function up()
     {
-        Schema::create('passthroughs', function(Blueprint $t){
+        Schema::create('passthroughs', function (Blueprint $t) {
             $t->increments('id');
             $t->integer('log_id');
             $t->integer('passthrough_type_id');

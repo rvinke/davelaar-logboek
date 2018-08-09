@@ -16,5 +16,4 @@ class Passthrough extends Model
     {
         return $this->hasOne('App\Models\PassthroughType', 'id', 'passthrough_type_id');
     }
-
 }

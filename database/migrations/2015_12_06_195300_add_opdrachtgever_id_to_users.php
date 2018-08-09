@@ -12,7 +12,7 @@ class AddOpdrachtgeverIdToUsers extends Migration
      */
     public function up()
     {
-        Schema::table('users', function(Blueprint $t){
+        Schema::table('users', function (Blueprint $t) {
             $t->integer('client_id')->after('email');
         });
     }
@@ -24,7 +24,7 @@ class AddOpdrachtgeverIdToUsers extends Migration
      */
     public function down()
     {
-        Schema::table('users', function(Blueprint $t){
+        Schema::table('users', function (Blueprint $t) {
             $t->dropColumn('client_id');
         });
     }

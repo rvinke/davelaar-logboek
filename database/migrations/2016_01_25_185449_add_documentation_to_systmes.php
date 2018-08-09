@@ -12,7 +12,7 @@ class AddDocumentationToSystmes extends Migration
      */
     public function up()
     {
-        Schema::table('systems', function(Blueprint $t){
+        Schema::table('systems', function (Blueprint $t) {
             $t->string('documentatie')->after('naam');
         });
     }
@@ -24,7 +24,7 @@ class AddDocumentationToSystmes extends Migration
      */
     public function down()
     {
-        Schema::table('systems', function(Blueprint $t){
+        Schema::table('systems', function (Blueprint $t) {
             $t->dropColumn('documentatie');
         });
     }

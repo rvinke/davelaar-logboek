@@ -12,7 +12,7 @@ class ModifyFiles extends Migration
      */
     public function up()
     {
-        Schema::table('files', function(Blueprint $t){
+        Schema::table('files', function (Blueprint $t) {
             $t->integer('log_id')->after('project_id');
             $t->timestamps();
         });
@@ -25,7 +25,7 @@ class ModifyFiles extends Migration
      */
     public function down()
     {
-        Schema::table('files', function(Blueprint $t){
+        Schema::table('files', function (Blueprint $t) {
             $t->dropColumn('log_id');
             $t->dropColumn('created_at');
             $t->dropColumn('updated_at');

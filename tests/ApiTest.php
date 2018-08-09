@@ -31,13 +31,9 @@ class ApiTest extends TestCase
 
         $subdatabases = ['client', 'firedamper', 'floor', 'passthroughType', 'system', 'location'];
 
-        foreach($subdatabases as $subdatabase) {
+        foreach ($subdatabases as $subdatabase) {
             $this->visit('api/v1/subdatabase/'.$subdatabase)
                 ->see('{"draw":0,"recordsTotal":');
         }
     }
-
-
-
-
 }

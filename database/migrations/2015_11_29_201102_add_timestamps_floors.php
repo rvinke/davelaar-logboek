@@ -14,12 +14,11 @@ class AddTimestampsFloors extends Migration
     {
         $tables = ['floors', 'clients', 'fire_dampers', 'passthrough_types', 'systems'];
 
-        foreach($tables as $table){
-            Schema::table($table, function(Blueprint $t){
+        foreach ($tables as $table) {
+            Schema::table($table, function (Blueprint $t) {
                 $t->timestamps();
             });
         }
-
     }
 
     /**
@@ -31,12 +30,11 @@ class AddTimestampsFloors extends Migration
     {
         $tables = ['floors', 'clients', 'fire_dampers', 'passthrough_types', 'systems'];
 
-        foreach($tables as $table) {
-            Schema::table($table, function(Blueprint $t){
+        foreach ($tables as $table) {
+            Schema::table($table, function (Blueprint $t) {
                 $t->dropColumn('created_at');
                 $t->dropColumn('updated_at');
             });
         }
-
     }
 }

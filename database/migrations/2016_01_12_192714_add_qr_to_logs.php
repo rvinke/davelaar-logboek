@@ -12,7 +12,7 @@ class AddQrToLogs extends Migration
      */
     public function up()
     {
-        Schema::table('logs', function(Blueprint $t){
+        Schema::table('logs', function (Blueprint $t) {
             $t->string('qrcode', 6)->after('code');
         });
     }
@@ -24,7 +24,7 @@ class AddQrToLogs extends Migration
      */
     public function down()
     {
-        Schema::table('logs', function(Blueprint $t){
+        Schema::table('logs', function (Blueprint $t) {
             $t->dropColumn('qrcode');
         });
     }

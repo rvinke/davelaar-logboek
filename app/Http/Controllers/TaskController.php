@@ -18,13 +18,11 @@ class TaskController extends Controller
     {
         $logs = Log::all();
 
-        foreach($logs as $log) {
-
-
+        foreach ($logs as $log) {
             $doorvoer_array = json_decode($log->doorvoer_id);
 
-            if(is_array($doorvoer_array)) {
-                foreach($doorvoer_array as $doorvoer) {
+            if (is_array($doorvoer_array)) {
+                foreach ($doorvoer_array as $doorvoer) {
                     $dv = new Passthrough();
 
                     $dv->log_id = $log->id;
@@ -42,10 +40,7 @@ class TaskController extends Controller
 
                 $dv->save();
             }
-
-
         }
-
     }
 
 
@@ -53,12 +48,14 @@ class TaskController extends Controller
     {
         $files = File::photos()->get();
 
-        foreach($files as $file) {
+        foreach ($files as $file) {
             echo $file->project->id.'<br />';
 
             $code = explode('.', $file->naam)[0];
 
-            if(is_numeric($code)) echo $code.'<br />';
+            if (is_numeric($code)) {
+                echo $code.'<br />';
+            }
 
             try {
                 $log = Log::where('code', $code)->where('project_id', $file->project->id)->firstOrFail();
@@ -66,15 +63,8 @@ class TaskController extends Controller
 
                 $file->log_id = $log->id;
                 $file->save();
-                
             } catch (ModelNotFoundException $e) {
-
             }
-
-
-
-
         }
     }
-
 }

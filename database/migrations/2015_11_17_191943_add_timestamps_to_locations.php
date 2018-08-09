@@ -12,7 +12,7 @@ class AddTimestampsToLocations extends Migration
      */
     public function up()
     {
-        Schema::table('locations', function(Blueprint $t){
+        Schema::table('locations', function (Blueprint $t) {
             $t->timestamps();
         });
     }
@@ -24,7 +24,7 @@ class AddTimestampsToLocations extends Migration
      */
     public function down()
     {
-        Schema::table('locations', function(Blueprint $t){
+        Schema::table('locations', function (Blueprint $t) {
             $t->dropColumn('created_at');
             $t->dropColumn('updated_at');
         });

@@ -12,7 +12,7 @@ class CreateTableCodes extends Migration
      */
     public function up()
     {
-        Schema::create('qrcodes', function(Blueprint $t){
+        Schema::create('qrcodes', function (Blueprint $t) {
             $t->increments('id');
             $t->string('qrcode')->unique();
             $t->timestamps();

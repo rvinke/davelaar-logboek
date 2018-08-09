@@ -12,7 +12,7 @@ class AddMailaddressToProject extends Migration
      */
     public function up()
     {
-        Schema::table('projects', function(Blueprint $t){
+        Schema::table('projects', function (Blueprint $t) {
             $t->text('email')->after('opdrachtgever_id');
         });
     }
@@ -24,7 +24,7 @@ class AddMailaddressToProject extends Migration
      */
     public function down()
     {
-        Schema::table('projects', function(Blueprint $t){
+        Schema::table('projects', function (Blueprint $t) {
             $t->dropColumn('email');
         });
     }

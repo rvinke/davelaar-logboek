@@ -28,25 +28,20 @@ class QrController extends Controller
         //
     }
 
-    public function start($code) {
+    public function start($code)
+    {
 
         $log = Log::where('qrcode', $code)->first();
 
-        if($log === NULL) {
-
+        if ($log === null) {
             return \View::make('qr.start')
                 ->withCode($code)
                 ->with('message', 'Deze code bestaat nog niet');
-
         } else {
-
             return \View::make('qr.show-log')
                 ->withCode($code)
                 ->withLog($log);
-
         }
-
-
     }
 
     /**
@@ -60,7 +55,7 @@ class QrController extends Controller
         $actieve_projecten = Project::where('datum_oplevering', '>', date("Y-m-d"))->lists('naam', 'id');
 
         $project_id = null;
-        if($request->session()->has('project_id')) {
+        if ($request->session()->has('project_id')) {
             $project_id = $request->session()->get('project_id');
         }
 
@@ -117,9 +112,8 @@ class QrController extends Controller
 
         $mailAddresses = preg_split("/(,|;)/", $project->email);
 
-        if($report->save()) {
-
-            foreach($mailAddresses as $to) {
+        if ($report->save()) {
+            foreach ($mailAddresses as $to) {
                 $to = trim($to);
 
                 Mail::send('emails.report', ['project' => $project, 'log' => $log, 'report' => $report], function ($m) use ($to) {
@@ -141,14 +135,13 @@ class QrController extends Controller
         $col = collect($selected);
         $total = $col->sum('number');
         $total_rows = $col->count();
-        if($total_rows > 0) {
+        if ($total_rows > 0) {
             $average = $total / $total_rows;
         } else {
             $average = "onbekend";
         }
 
         return \View::make('qr.create-form')->withAverage($average);
-
     }
 
     public function generateCodes(Request $request)
@@ -162,13 +155,13 @@ class QrController extends Controller
 
         $zip_file = storage_path('app/temp-qr-codes/qr-codes.zip');
 
-        if(file_exists($zip_file)) {
+        if (file_exists($zip_file)) {
             unlink($zip_file);
         }
 
         $zip = new Filesystem(new ZipArchiveAdapter($zip_file));
 
-        for($i = 0; count($codes) < $count; $i++) {
+        for ($i = 0; count($codes) < $count; $i++) {
             try {
                 $code = $this->generateQR();
 
@@ -188,22 +181,17 @@ class QrController extends Controller
                 fclose($content);
 
                 unlink($file);
-
-            } catch(\Exception $e) {
-
+            } catch (\Exception $e) {
             }
-
-
         }
 
         $zip->getAdapter()->getArchive()->close();
 
         return response()->download($zip_file);
-
-
     }
 
-    private function generateQR() {
+    private function generateQR()
+    {
         $qrcode = new Qrcode();
 
         $qrcode->save();
@@ -233,17 +221,17 @@ class QrController extends Controller
 
         $report->completed = 1;
 
-        if($report->save()) {
+        if ($report->save()) {
             return redirect()->route('qr-code.start', $code)->with('status', 'Deze brandscheiding is als hersteld gemeld');
         } else {
             return redirect()->route('qr-code.start', $code)
                 ->with('error', 'Deze brandscheiding kon niet als hersteld gemeld worden. Als deze
                     foutmelding terug blijft komen, neem dan contact op met kantoor');
         }
-
     }
 
-    public function generateAdHoc() {
+    public function generateAdHoc()
+    {
 
         $string = 'http://www.davelaar.nl/specialisme/brandveiligheid';
 
@@ -253,8 +241,6 @@ class QrController extends Controller
             ->format('eps')
             ->errorCorrection('H')
             ->generate($string, $file);
-
-
     }
 
     /**

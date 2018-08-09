@@ -12,7 +12,7 @@ class AddSoftDeletesUser extends Migration
      */
     public function up()
     {
-        Schema::table('users', function(Blueprint $t){
+        Schema::table('users', function (Blueprint $t) {
             $t->softDeletes();
         });
     }
@@ -24,7 +24,7 @@ class AddSoftDeletesUser extends Migration
      */
     public function down()
     {
-        Schema::table('users', function(Blueprint $t){
+        Schema::table('users', function (Blueprint $t) {
             $t->dropColumn('deleted_at');
         });
     }

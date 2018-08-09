@@ -29,11 +29,11 @@ class UserController extends Controller
         $users = User::all();
 
         return Datatables::of($users)
-            ->addColumn('action', function($object){
+            ->addColumn('action', function ($object) {
                 return '<a href="'.\URL::route('user.edit', ['id' => $object->id]).'"><i class="fa fa-search"></i></a>';
             })
-            ->addColumn('organisatie', function($object){
-                if(isset($object->client->naam)){
+            ->addColumn('organisatie', function ($object) {
+                if (isset($object->client->naam)) {
                     return $object->client->naam;
                 } else {
                     return 'Geen';
@@ -73,8 +73,7 @@ class UserController extends Controller
         $user->client_id = $request->input('client_id');
 
 
-        if(!$user->save()){
-
+        if (!$user->save()) {
             return redirect()->route('user.create')->with('errors', $user->errors());
         }
 
@@ -129,20 +128,19 @@ class UserController extends Controller
         $user->first_name = \Input::get('first_name');
         $user->last_name = \Input::get('last_name');
         $user->email = \Input::get('email');
-        if(!empty(\Input::get('password'))) {
+        if (!empty(\Input::get('password'))) {
             $user->password = \Input::get('password');
             $user->password_confirmation = \Input::get('password_confirmation');
-        }else{
+        } else {
             unset($user->password);
         }
         $user->client_id = \Input::get('client_id');
 
-        if(!$user->save()){
-
+        if (!$user->save()) {
             return redirect()->route('user.edit', ['id' => $user->id])->with('errors', $user->errors());
         }
 
-        if(!empty($request->input('role'))) {
+        if (!empty($request->input('role'))) {
             $role = Role::find(\Input::get('role'));
             $user->detachRoles($user->roles);
             $user->attachRole($role);
@@ -151,7 +149,6 @@ class UserController extends Controller
         }
 
         return redirect()->route('home');
-
     }
 
     public function resetPassword()
@@ -163,22 +160,19 @@ class UserController extends Controller
     {
         $user = User::where('email', \Input::get('email'))->first();
 
-        if($user != null) {
+        if ($user != null) {
             $new_password = str_random(10);
 
             $user->password = $new_password;
             $user->password_confirmation = $new_password;
 
             if ($user->save()) {
-
                 \Mail::send('emails.reminder', ['user' => $user, 'password' => $new_password], function ($m) use ($user) {
                     $m->from('info@davelaar.nl', 'Logboek Davelaarbouw B.V.');
 
                     $m->to($user->email, $user->name)->subject('Nieuw wachtwoord');
                 });
-
             }
-
         }
 
         return redirect()->route('login')->with('status', 'Nieuw wachtwoord verzonden.');

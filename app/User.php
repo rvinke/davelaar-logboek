@@ -13,9 +13,10 @@ use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
 use LaravelArdent\Ardent\Ardent;
 use Zizaco\Entrust\Traits\EntrustUserTrait;
 
-class User extends Ardent implements AuthenticatableContract,
-                                    AuthorizableContract,
-                                    CanResetPasswordContract
+class User extends Ardent implements
+    AuthenticatableContract,
+    AuthorizableContract,
+    CanResetPasswordContract
 {
     use Authenticatable, CanResetPassword, EntrustUserTrait, SoftDeletes;
 
@@ -58,9 +59,10 @@ class User extends Ardent implements AuthenticatableContract,
         'password_confirmation' => 'required_with:password|min:6',
     );
 
-    public function beforeSave() {
+    public function beforeSave()
+    {
         // if there's a new password, hash it
-        if($this->isDirty('password')) {
+        if ($this->isDirty('password')) {
             $this->password = bcrypt($this->password);
         }
 
@@ -77,6 +79,4 @@ class User extends Ardent implements AuthenticatableContract,
     {
         return $this->belongsToMany('App\Models\Project')->withTimestamps();
     }
-
-
 }

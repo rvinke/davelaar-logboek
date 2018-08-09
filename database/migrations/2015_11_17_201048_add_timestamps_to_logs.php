@@ -12,7 +12,7 @@ class AddTimestampsToLogs extends Migration
      */
     public function up()
     {
-        Schema::table('logs', function(Blueprint $t){
+        Schema::table('logs', function (Blueprint $t) {
             $t->timestamps();
         });
     }
@@ -24,7 +24,7 @@ class AddTimestampsToLogs extends Migration
      */
     public function down()
     {
-        Schema::table('logs', function(Blueprint $t){
+        Schema::table('logs', function (Blueprint $t) {
             $t->dropColumn('created_at');
             $t->dropColumn('updated_at');
         });

@@ -64,7 +64,7 @@ class FloorplanController extends Controller
         $file_location = $file_dir.$file->getClientOriginalName();
 
         //eerst opruimen
-        if($filesystem->has($file_location)){
+        if ($filesystem->has($file_location)) {
             $filesystem->delete($file_location);
         }
 
@@ -75,7 +75,7 @@ class FloorplanController extends Controller
         //controleren of deze combinatie voorkomt
         $existing_floorplan = Floorplan::where('project_id', $project_id)->where('floor_id', $floor_id)->first();
 
-        if(!empty($existing_floorplan)) {
+        if (!empty($existing_floorplan)) {
             $existing_floorplan->delete();
         }
 
@@ -106,7 +106,8 @@ class FloorplanController extends Controller
         //
     }
 
-    public function download($project_id, $location_id, $floor_id) {
+    public function download($project_id, $location_id, $floor_id)
+    {
         $project = Project::with('logs')
             ->with('logs.passthroughs')
             ->with('logs.passthroughs.passthrough_type')
@@ -125,13 +126,13 @@ class FloorplanController extends Controller
         $font_size = floor($width * .5 - 10);
 
 
-        foreach($project->logs as $log) {
+        foreach ($project->logs as $log) {
             if (!empty($log->lat) && $log->bouwlaag_id == $floor_id) {
-                $img->circle($width, $log->lat, $log->lng, function($draw) {
+                $img->circle($width, $log->lat, $log->lng, function ($draw) {
                     $draw->background('#0000ff');
                 });
 
-                $img->text($log->code, $log->lat, $log->lng, function($font) use ($font_size){
+                $img->text($log->code, $log->lat, $log->lng, function ($font) use ($font_size) {
 
                     $font->file(public_path().'/css/Monoid-Regular.ttf');
                     $font->size($font_size);
@@ -147,8 +148,6 @@ class FloorplanController extends Controller
         $img->save(storage_path().'/app/tempplan.png');
 
         return response()->download(storage_path().'/app/tempplan.png', 'floorplan-'.$project_id.'-'.$floor_id.'.png');
-
-
     }
 
     /**
@@ -172,14 +171,14 @@ class FloorplanController extends Controller
 
         $floorplan = $project->maps()->where('location_id', $location_id)->where('floor_id', $floor_id)->first();
 
-        if(!$floorplan) {
+        if (!$floorplan) {
             return response('');
         }
 
         $year = date("Y", strtotime($project->created_at));
 
         //@TODO: $editable echt zo maken dat het over editable gaat en niet over een log-id
-        if($editable) {
+        if ($editable) {
             $log = Log::findOrFail($editable);
 
             return \View::make('project.floorplanJS')->withProject($project)
@@ -190,7 +189,7 @@ class FloorplanController extends Controller
                 ->withLog($log);
         }
 
-        if(!empty($log_id)){
+        if (!empty($log_id)) {
             $log = Log::findOrFail($log_id);
 
             return \View::make('project.floorplanJS')->withProject($project)
@@ -209,7 +208,6 @@ class FloorplanController extends Controller
             ->withYear($year)
             ->withEditable($editable)
             ->withLog(false);
-
     }
 
     /**
