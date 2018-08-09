@@ -193,7 +193,7 @@ class ProjectController extends Controller
         return \View::make('project.rapport')
             ->withProject($project)
             ->withYear($year)
-            ->withCountPassthrough(array());
+            ->withCountPassthrough([]);
     }
 
     public function printRapport($id, $debug = false)
@@ -215,7 +215,7 @@ class ProjectController extends Controller
         $html = \View::make('project.rapportprint')
             ->withProject($project)
             ->withYear($year)
-            ->withCountPassthrough(array());
+            ->withCountPassthrough([]);
 
         if ($debug) {
             return $html;

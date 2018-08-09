@@ -151,7 +151,7 @@ class QrController extends Controller
 
         $count = $request->input('count');
 
-        $codes = array();
+        $codes = [];
 
         $zip_file = storage_path('app/temp-qr-codes/qr-codes.zip');
 

@@ -7,9 +7,9 @@ use LaravelArdent\Ardent\Ardent;
 class Log extends Ardent
 {
 
-    public static $rules = array(
+    public static $rules = [
         'locatie_id' => 'required|integer',
-    );
+    ];
 
 
     public function project()
