@@ -14,9 +14,8 @@
         }
     ],
     "require": {
-        "php": ">=5.6.4",
-        "laravel/framework": "5.3.*",
-        "filp/whoops": " ~1.0",
+        "php": ">=7.0.0",
+        "laravel/framework": "5.5.*",
         "caffeinated/menus": "~3.0",
         "yajra/laravel-datatables-oracle": "~6.4",
         "laravelcollective/html": "5.3.*",
@@ -35,7 +34,8 @@
         "guzzlehttp/guzzle": "~5.3|~6.0",
         "bugsnag/bugsnag-laravel": "1.*",
         "h4cc/wkhtmltopdf-amd64": "0.12.x",
-        "barryvdh/laravel-snappy": "^0.3.0"
+        "barryvdh/laravel-snappy": "^0.3.0",
+        "fideloper/proxy": "~3.3"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
@@ -44,7 +44,8 @@
         "phpspec/phpspec": "~2.1",
         "phpmd/phpmd": "@stable",
         "symfony/dom-crawler": "3.1.*",
-        "symfony/css-selector": "3.1.*"
+        "symfony/css-selector": "3.1.*",
+        "filp/whoops": " ~1.0"
     },
     "autoload": {
         "classmap": [
@@ -65,18 +66,23 @@
             "php artisan ide-helper:generate",
             "php artisan optimize"
         ],
-        "post-update-cmd": [
-            "Illuminate\\Foundation\\ComposerScripts::postUpdate",
-            "php artisan optimize"
-        ],
         "post-root-package-install": [
             "php -r \"copy('.env.example', '.env');\""
         ],
         "post-create-project-cmd": [
             "php artisan key:generate"
+        ],
+        "post-autoload-dump": [
+            "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
+            "@php artisan package:discover"
         ]
     },
     "config": {
         "preferred-install": "dist"
+    },
+    "extra": {
+        "laravel": {
+            "dont-discover": []
+        }
     }
 }
