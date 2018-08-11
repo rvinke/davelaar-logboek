@@ -24,12 +24,12 @@ class File extends Model
 
     public function project()
     {
-        return $this->belongsTo('App\Models\Project');
+        return $this->belongsTo(\App\Models\Project::class);
     }
 
     public function log()
     {
-        return $this->belongsTo('App\Models\Log');
+        return $this->belongsTo(\App\Models\Log::class);
     }
 
     public function location($clean = false)
