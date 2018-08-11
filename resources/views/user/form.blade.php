@@ -37,7 +37,7 @@
         <div class="form-group">
             <label class="col-lg-2 control-label">Opdrachtgever</label>
             <div class="col-lg-4">
-                {!! Form::select('client_id', \App\Models\Client::lists('naam', 'id'), NULL, ['class' => 'form-control', 'placeholder' => 'Maak eventueel een keuze']) !!}
+                {!! Form::select('client_id', \App\Models\Client::pluck('naam', 'id'), NULL, ['class' => 'form-control', 'placeholder' => 'Maak eventueel een keuze']) !!}
             </div>
         </div>
 
@@ -45,9 +45,9 @@
             <label class="col-lg-2 control-label">Rol</label>
             <div class="col-lg-4">
                 @if($is_new)
-                    {!! Form::select('role', \App\Models\Role::lists('display_name', 'id'), NULL, array('class' => 'form-control')) !!}
+                    {!! Form::select('role', \App\Models\Role::pluck('display_name', 'id'), NULL, array('class' => 'form-control')) !!}
                 @else
-                    {!! Form::select('role', \App\Models\Role::lists('display_name', 'id'), $user->roles->first()->id, array('class' => 'form-control')) !!}
+                    {!! Form::select('role', \App\Models\Role::pluck('display_name', 'id'), $user->roles->first()->id, array('class' => 'form-control')) !!}
                 @endif
             </div>
         </div>

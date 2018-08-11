@@ -14,7 +14,7 @@ class Log extends Ardent
 
     public function project()
     {
-        return $this->belongsTo(\App\Models\Project::class);
+        return $this->belongsTo(Project::class);
     }
 
     public function location()

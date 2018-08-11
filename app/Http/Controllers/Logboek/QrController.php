@@ -2,7 +2,8 @@
 
 namespace App\Http\Controllers\Logboek;
 
-use Mail;
+use App\Mail\BrandscheidingVerbroken;
+use Illuminate\Support\Facades\Mail;
 use App\Models\Log;
 use App\Models\Project;
 use App\Models\Qrcode;
@@ -94,16 +95,10 @@ class QrController extends Controller
             ->withLog($log);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function storeReport(Request $request, $code)
     {
         $log = Log::where('qrcode', $code)->first();
-        $project = $log->project;
+        $project = Project::findOrFail($log->project_id);
 
         $report = new Report();
         $report->log_id = $log->id;
@@ -116,10 +111,7 @@ class QrController extends Controller
             foreach ($mailAddresses as $to) {
                 $to = trim($to);
 
-                Mail::send('emails.report', ['project' => $project, 'log' => $log, 'report' => $report], function ($m) use ($to) {
-                    $m->from('info@davelaar.nl', 'Davelaarbouw B.V.');
-                    $m->to($to)->subject('Er is een brandscheiding verbroken');
-                });
+                Mail::to($to)->send(new BrandscheidingVerbroken($project, $log, $report));
             }
 
             return \View::make('qr.thanks');

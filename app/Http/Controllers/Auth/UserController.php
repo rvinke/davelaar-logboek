@@ -151,33 +151,6 @@ class UserController extends Controller
         return redirect()->route('home');
     }
 
-    public function resetPassword()
-    {
-        return \View::make('auth.forgot_password');
-    }
-
-    public function storeResetPassword(Request $request)
-    {
-        $user = User::where('email', $request->input('email'))->first();
-
-        if ($user != null) {
-            $new_password = str_random(10);
-
-            $user->password = $new_password;
-            $user->password_confirmation = $new_password;
-
-            if ($user->save()) {
-                \Mail::send('emails.reminder', ['user' => $user, 'password' => $new_password], function ($m) use ($user) {
-                    $m->from('info@davelaar.nl', 'Logboek Davelaarbouw B.V.');
-
-                    $m->to($user->email, $user->name)->subject('Nieuw wachtwoord');
-                });
-            }
-        }
-
-        return redirect()->route('login')->with('status', 'Nieuw wachtwoord verzonden.');
-    }
-
     /**
      * Remove the specified resource from storage.
      *
