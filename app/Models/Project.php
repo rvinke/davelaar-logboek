@@ -10,31 +10,31 @@ class Project extends Model
 
     public function locations()
     {
-        return $this->hasMany('App\Models\Location');
+        return $this->hasMany(\App\Models\Location::class);
     }
 
     public function logs()
     {
-        return $this->hasMany('App\Models\Log');
+        return $this->hasMany(\App\Models\Log::class);
     }
 
     public function floorplans()
     {
-        return $this->hasMany('App\Models\File')->floorplans();
+        return $this->hasMany(\App\Models\File::class)->floorplans();
     }
 
     public function reports()
     {
-        return $this->hasManyThrough('App\Models\Report', 'App\Models\Log')->where('completed', 0);
+        return $this->hasManyThrough(\App\Models\Report::class, \App\Models\Log::class)->where('completed', 0);
     }
 
     public function maps()
     {
-        return $this->hasMany('App\Models\Floorplan');
+        return $this->hasMany(\App\Models\Floorplan::class);
     }
 
     public function users()
     {
-        return $this->belongsToMany('App\User')->withTimestamps();
+        return $this->belongsToMany(\App\User::class)->withTimestamps();
     }
 }
