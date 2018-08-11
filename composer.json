@@ -17,7 +17,7 @@
         "php": ">=5.6.4",
         "laravel/framework": "5.3.*",
         "filp/whoops": " ~1.0",
-        "caffeinated/menus": "~2.0",
+        "caffeinated/menus": "~3.0",
         "yajra/laravel-datatables-oracle": "~6.4",
         "laravelcollective/html": "5.3.*",
         "barryvdh/laravel-ide-helper": "^2.1",

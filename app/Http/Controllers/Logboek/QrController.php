@@ -130,9 +130,10 @@ class QrController extends Controller
 
     public function selectNumberOfCodes()
     {
-
+        //@todo: check!
         $selected = \DB::select('SELECT created_at, count(id) as number FROM qrcodes GROUP BY created_at');
         $col = collect($selected);
+        //$col = $selected;
         $total = $col->sum('number');
         $total_rows = $col->count();
         if ($total_rows > 0) {

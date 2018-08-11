@@ -20,11 +20,24 @@ Route::get('', ['middleware' => 'auth', 'as' => 'home', 'uses' => 'Generic\HomeC
 Route::get('home', ['middleware' => 'auth', 'as' => 'home', 'uses' => 'Generic\HomeController@index']);
 
 //Login routes
+/*
 Route::get('login', ['as' => 'login', 'uses' => 'Auth\AuthController@getLogin']);
 Route::post('login', ['as' => 'login.post', 'uses' => 'Auth\AuthController@postLogin']);
 Route::get('logout', ['as' => 'logout', 'uses' => 'Auth\AuthController@getLogout']);
 Route::get('reset', ['as' => 'auth.password_reset', 'uses' => 'Auth\UserController@resetPassword']);
 Route::post('reset', ['as' => 'auth.reset', 'uses' => 'Auth\UserController@storeResetPassword']);
+*/
+
+// Authentication Routes...
+$this->get('login', 'Auth\LoginController@showLoginForm')->name('login');
+$this->post('login', 'Auth\LoginController@login');
+$this->get('logout', 'Auth\LoginController@logout')->name('logout');
+// Password Reset Routes...
+$this->get('password/reset', 'Auth\ForgotPasswordController@showLinkRequestForm')->name('auth.password_reset');
+$this->post('password/email', 'Auth\ForgotPasswordController@sendResetLinkEmail')->name('auth.reset');
+$this->get('password/reset/{token}', 'Auth\ResetPasswordController@showResetForm');
+$this->post('password/reset', 'Auth\ResetPasswordController@reset');
+
 
 Route::get('qr-adhoc', ['uses' => 'Logboek\QrController@generateAdHoc']);
 
@@ -177,3 +190,7 @@ Route::group(['middleware' => 'auth'], function () {
     //Route::get('tasks/migrateLogs', ['uses' => 'TaskController@migrateLogs']);
     //Route::get('tasks/migratePhotos', ['uses' => 'TaskController@migratePhotos']);
 });
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index');

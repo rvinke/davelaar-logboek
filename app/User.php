@@ -10,6 +10,7 @@ use Illuminate\Foundation\Auth\Access\Authorizable;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
 use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
+use Illuminate\Notifications\Notifiable;
 use LaravelArdent\Ardent\Ardent;
 use Zizaco\Entrust\Traits\EntrustUserTrait;
 
@@ -18,7 +19,7 @@ class User extends Ardent implements
     AuthorizableContract,
     CanResetPasswordContract
 {
-    use Authenticatable, CanResetPassword, EntrustUserTrait, SoftDeletes;
+    use Authenticatable, CanResetPassword, EntrustUserTrait, SoftDeletes, Notifiable;
 
 
     /**
@@ -78,5 +79,16 @@ class User extends Ardent implements
     public function projects()
     {
         return $this->belongsToMany('App\Models\Project')->withTimestamps();
+    }
+
+    /**
+     * Send the password reset notification.
+     *
+     * @param  string  $token
+     * @return void
+     */
+    public function sendPasswordResetNotification($token)
+    {
+        $this->notify(new Notifications\ResetPasswordNotification($token));
     }
 }
