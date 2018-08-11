@@ -14,8 +14,18 @@ return [
 
     'name' => 'Davelaarbouw Logboek',
 
-    'env' => env('APP_ENV', 'production'),
+    /*
+    |--------------------------------------------------------------------------
+    | Application Environment
+    |--------------------------------------------------------------------------
+    |
+    | This value determines the "environment" your application is currently
+    | running in. This may determine how you prefer to configure various
+    | services your application utilizes. Set this in your ".env" file.
+    |
+    */
 
+    'env' => env('APP_ENV', 'production'),
 
     /*
     |--------------------------------------------------------------------------
@@ -28,7 +38,6 @@ return [
     |
     */
 
-    'app_version' => '1.5.2',
     'debug' => env('APP_DEBUG', false),
 
     /*
@@ -42,7 +51,7 @@ return [
     |
     */
 
-    'url' => 'http://localhost',
+    'url' => env('APP_URL', 'http://localhost'),
 
     /*
     |--------------------------------------------------------------------------
@@ -111,9 +120,8 @@ return [
     |
     */
 
-    'log' => 'single',
-
-        'log_level' => env('APP_LOG_LEVEL', 'debug'),
+    'log' => env('APP_LOG', 'single'),
+    'log_level' => env('APP_LOG_LEVEL', 'debug'),
 
     /*
     |--------------------------------------------------------------------------
@@ -167,18 +175,14 @@ return [
         /*
          * Added items
          */
-        Caffeinated\Menus\MenusServiceProvider::class,
+
         Yajra\Datatables\DatatablesServiceProvider::class,
-        Collective\Html\HtmlServiceProvider::class,
-        Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class,
         Barryvdh\Debugbar\ServiceProvider::class,
-        GrahamCampbell\Flysystem\FlysystemServiceProvider::class,
         Zizaco\Entrust\EntrustServiceProvider::class,
         Nathanmac\Utilities\Parser\ParserServiceProvider::class,
-        Intervention\Image\ImageServiceProvider::class,
         SimpleSoftwareIO\QrCode\QrCodeServiceProvider::class,
         Bugsnag\BugsnagLaravel\BugsnagLaravelServiceProvider::class,
-        Barryvdh\Snappy\ServiceProvider::class,
+
     ],
 
     /*
@@ -231,20 +235,13 @@ return [
         /*
          * Composer items
          */
-        'Menu'      => Caffeinated\Menus\Facades\Menu::class,
         //'Datatables' => yajra\Datatables\Datatables::class,
-        'Form' => Collective\Html\FormFacade::class,
-        'Html' => Collective\Html\HtmlFacade::class,
-        'Flysystem' => GrahamCampbell\Flysystem\Facades\Flysystem::class,
         'Entrust' => Zizaco\Entrust\EntrustFacade::class,
         'Parser' => Nathanmac\Utilities\Parser\Facades\Parser::class,
-        'Image' => Intervention\Image\Facades\Image::class,
         'QrCode' => SimpleSoftwareIO\QrCode\Facades\QrCode::class,
         'Bugsnag' => Bugsnag\BugsnagLaravel\BugsnagFacade::class,
 
         'Debugbar' => Barryvdh\Debugbar\Facade::class,
-        'PDF' => Barryvdh\Snappy\Facades\SnappyPdf::class,
-
 
 
     ],

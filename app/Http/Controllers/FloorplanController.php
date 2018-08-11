@@ -34,7 +34,7 @@ class FloorplanController extends Controller
      */
     public function create($project_id)
     {
-        return view('floorplan.create')->withProjectId($project_id);
+        return view('floorplan.create')->with('project_id', $project_id);
     }
 
     /**

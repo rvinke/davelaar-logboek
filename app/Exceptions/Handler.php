@@ -50,26 +50,6 @@ class Handler extends ExceptionHandler
     }
 
     /**
-     * Render an exception using Whoops.
-     *
-     * @param  \Illuminate\Http\Request $request
-     * @param  \Exception $e
-     * @return \Response
-     */
-    protected function renderExceptionWithWhoops($request, Exception $e)
-    {
-        $whoops = new \Whoops\Run;
-
-        $whoops->pushHandler(new \Whoops\Handler\PrettyPageHandler());
-
-        return new \Illuminate\Http\Response(
-            $whoops->handleException($e),
-            $e->getStatusCode(),
-            $e->getHeaders()
-        );
-    }
-
-    /**
      * Convert an authentication exception into an unauthenticated response.
      *
      * @param  \Illuminate\Http\Request  $request
