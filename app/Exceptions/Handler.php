@@ -2,7 +2,6 @@
 
 namespace App\Exceptions;
 
-
 use Exception;
 use Illuminate\Auth\AuthenticationException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;

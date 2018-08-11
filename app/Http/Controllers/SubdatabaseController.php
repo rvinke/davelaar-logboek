@@ -248,7 +248,7 @@ class SubdatabaseController extends Controller
     {
         $model = 'App\\Models\\'.ucfirst($subdatabase);
         if ($subdatabase == 'firedamper') {
-            $model = 'App\\Models\\FireDamper';
+            $model = \App\Models\FireDamper::class;
         }
 
         return $model;

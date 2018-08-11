@@ -73,12 +73,12 @@ class User extends Ardent implements
 
     public function client()
     {
-        return $this->belongsTo('App\Models\Client', 'client_id');
+        return $this->belongsTo(\App\Models\Client::class, 'client_id');
     }
 
     public function projects()
     {
-        return $this->belongsToMany('App\Models\Project')->withTimestamps();
+        return $this->belongsToMany(\App\Models\Project::class)->withTimestamps();
     }
 
     /**

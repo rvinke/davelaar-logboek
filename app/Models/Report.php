@@ -15,6 +15,6 @@ class Report extends Ardent
 
     public function logItem()
     {
-        return $this->belongsTo('App\Models\Log');
+        return $this->belongsTo(\App\Models\Log::class);
     }
 }
