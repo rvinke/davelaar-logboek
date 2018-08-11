@@ -91,7 +91,7 @@
                 <img src="http://www.davelaar.nl/assets/logo-davelaarbouw.png" style="height: 30px;"/>
             </div>
             <div style="margin-top: 5px;">
-                Logboek {!! \Config::get('app.app_version') !!}
+                Logboek {!! \Config::get('logboek.app_version') !!}
             </div>
         </div>
 
