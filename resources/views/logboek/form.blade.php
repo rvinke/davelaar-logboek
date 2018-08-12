@@ -6,7 +6,7 @@
 
     <div class="ibox-content">
 
-        @if ($errors->has())
+        @if ($errors->any())
             @foreach ($errors->all() as $message)
                 <div class="alert alert-danger alert-dark">{{ $message }}</div>
             @endforeach
@@ -25,7 +25,7 @@
         <div class="form-group">
             <label class="col-lg-2 control-label">Bouwlaag</label>
             <div class="col-lg-4">
-                {!! Form::select('bouwlaag_id', App\Models\Floor::orderBy('naam')->lists('naam', 'id'), NULL, array('class' => 'form-control')) !!}
+                {!! Form::select('bouwlaag_id', App\Models\Floor::orderBy('naam')->pluck('naam', 'id'), NULL, array('class' => 'form-control')) !!}
             </div>
         </div>
 

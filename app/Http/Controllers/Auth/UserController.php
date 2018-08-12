@@ -71,7 +71,6 @@ class UserController extends Controller
         $user->last_name = $request->input('last_name');
         $user->email = $request->input('email');
         $user->password = $request->input('password');
-        $user->password_confirmation = $request->input('password_confirmation');
         $user->client_id = $request->input('client_id');
 
 

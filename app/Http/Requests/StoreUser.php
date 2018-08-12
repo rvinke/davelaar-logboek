@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Auth;
 
 class StoreUser extends FormRequest
 {
@@ -26,7 +27,7 @@ class StoreUser extends FormRequest
         return [
             'first_name'            => 'required|between:1,80',
             'last_name'             => 'required|between:3,80',
-            'email'                 => 'required|between:5,64|email|unique:users',
+            'email'                 => 'required|between:5,64|email|unique:users,email,'.Auth::user()->id,
             'password'              => 'min:6|confirmed',
             'password_confirmation' => 'required_with:password|min:6',
         ];
