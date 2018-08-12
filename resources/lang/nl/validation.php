@@ -107,6 +107,11 @@ return [
 
     'attributes'           => [
         'location_id' => 'locatie',
+        'email' => 'e-mailadres',
+        'password' => 'wachtwoord',
+        'password_confirmation' => 'wachtwoord (controle)',
+        'first_name' => 'voornaam',
+        'last_name' => 'achternaam',
     ],
 
 ];

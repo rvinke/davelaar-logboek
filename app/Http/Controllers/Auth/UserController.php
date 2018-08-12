@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Yajra\Datatables\Datatables;
+use App\Http\Requests\StoreUser;
 
 class UserController extends Controller
 {
@@ -61,8 +62,9 @@ class UserController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreUser $request)
     {
+
         $user = new User;
 
         $user->first_name = $request->input('first_name');
@@ -121,7 +123,7 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(StoreUser $request, $id)
     {
         $user = User::findOrFail($id);
 

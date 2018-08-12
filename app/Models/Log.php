@@ -2,9 +2,9 @@
 
 namespace App\Models;
 
-use LaravelArdent\Ardent\Ardent;
+use Illuminate\Database\Eloquent\Model;
 
-class Log extends Ardent
+class Log extends Model
 {
 
     public static $rules = [

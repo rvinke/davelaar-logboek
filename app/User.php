@@ -11,10 +11,9 @@ use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
 use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
 use Illuminate\Notifications\Notifiable;
-use LaravelArdent\Ardent\Ardent;
 use Zizaco\Entrust\Traits\EntrustUserTrait;
 
-class User extends Ardent implements
+class User extends Model implements
     AuthenticatableContract,
     AuthorizableContract,
     CanResetPasswordContract
@@ -52,13 +51,13 @@ class User extends Ardent implements
 
     public $autoPurgeRedundantAttributes = true;
 
-    public static $rules = [
+    /*public static $rules = [
         'first_name'            => 'required|between:1,80',
         'last_name'             => 'required|between:3,80',
         'email'                 => 'required|between:5,64|email|unique:users',
         'password'              => 'min:6|confirmed',
         'password_confirmation' => 'required_with:password|min:6',
-    ];
+    ];*/
 
     public function beforeSave()
     {

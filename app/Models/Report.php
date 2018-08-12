@@ -2,15 +2,15 @@
 
 namespace App\Models;
 
-use LaravelArdent\Ardent\Ardent;
+use Illuminate\Database\Eloquent\Model;
 
-class Report extends Ardent
+class Report extends Model
 {
-    public static $rules = [
+    /*public static $rules = [
         'naam' => 'required|between:3,80',
         'organisatie' => 'required|between:3,80',
         'log_id' => 'required|integer'
-    ];
+    ];*/
 
 
     public function logItem()

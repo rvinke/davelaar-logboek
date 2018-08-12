@@ -4,6 +4,7 @@ namespace App\Exceptions;
 
 use Exception;
 use Illuminate\Auth\AuthenticationException;
+use Illuminate\Session\TokenMismatchException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 //use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Bugsnag\BugsnagLaravel\BugsnagExceptionHandler as ExceptionHandler;
@@ -46,6 +47,11 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
+        if ($exception instanceof TokenMismatchException){
+            // Redirect to a form. Here is an example of how I handle mine
+            return redirect($request->fullUrl())->withErrors(['error' =>"Het gebruikte formulier is verlopen. Probeer het opnieuw."]);
+        }
+
         return parent::render($request, $exception);
     }
 
