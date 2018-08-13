@@ -125,6 +125,7 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('user/{id}/edit', ['as' => 'user.edit', 'uses' => 'Auth\UserController@edit']);
         Route::patch('user/{id}/update', ['as' => 'user.update', 'uses' => 'Auth\UserController@update']);
         Route::get('user/delete/{id}', ['as' => 'user.delete', 'uses' => 'Auth\UserController@destroy']);
+        Route::get('user/login/{id}', ['as' => 'user.login', 'uses' => 'Auth\UserController@loginAs']);
     });
 
     Route::get('my-profile', ['as' => 'user.show', 'uses' => 'Auth\UserController@show']);

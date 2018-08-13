@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use Yajra\Datatables\Datatables;
 use App\Http\Requests\StoreUser;
 
@@ -165,5 +166,14 @@ class UserController extends Controller
         $object->delete();
 
         return redirect()->route('user.index')->with('status', 'Gebruiker is uitgeschakeld.');
+    }
+
+    public function loginAs($user_id)
+    {
+        $user = User::findOrFail($user_id);
+
+        Auth::login($user);
+
+        return redirect('/');
     }
 }
