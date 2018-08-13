@@ -12,9 +12,20 @@
                     <h2><small>{{ $location->naam }}</small></h2>
                     @forelse($project->maps->where('location_id', $location->id) as $floorplan)
                         @if($floorplan->ready == 1)
-                            <a href="{!! URL::route('rapport.floorplan', ['id' => $project->id, 'location' => $floorplan->location_id, 'floor' => $floorplan->floor_id]) !!}" class="btn btn-xs btn-info">Verdieping {{ \App\Models\Floor::findOrFail($floorplan->floor_id)->naam }}</a>
+                            <a href="{!! URL::route('rapport.floorplan', ['id' => $project->id, 'location' => $floorplan->location_id, 'floor' => $floorplan->floor_id]) !!}" class="btn btn-xs btn-info">
+                                Verdieping {{ \App\Models\Floor::findOrFail($floorplan->floor_id)->naam }}
+                                @if($floorplan->number != 0)
+                                    ({{ $floorplan->number+1 }})
+                                @endif
+                            </a>
                         @else
-                            <button type="button" disabled class="btn btn-xs btn-outline">Verdieping {{ \App\Models\Floor::findOrFail($floorplan->floor_id)->naam }} <i class="fa fa-cogs"></i></button>
+                            <button type="button" disabled class="btn btn-xs btn-outline">
+                                Verdieping {{ \App\Models\Floor::findOrFail($floorplan->floor_id)->naam }}
+                                @if($floorplan->number != 0)
+                                    ({{ $floorplan->number+1 }})
+                                @endif
+                                <i class="fa fa-cogs"></i>
+                            </button>
                         @endif
 
                     @empty

@@ -1,7 +1,7 @@
 <div class="ibox float-e-margins">
 
     <div class="ibox-title">
-        @if(!$is_new)
+        @if(!$is_new && Auth::user()->id != $user->id)
             <a href="{!! \URL::route('user.login', ['user_id' => $user->id]) !!}" style="margin-right: 10px;" class="btn btn-primary btn-xs pull-right">Login als deze gebruiker</a>
         @endif
         <h5>Gebruikersdetails</h5>

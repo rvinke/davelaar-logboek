@@ -33,6 +33,9 @@
                             <tr>
                                 <td>
                                     Verdieping {{ \App\Models\Floor::findOrFail($floorplan->floor_id)->naam }}
+                                    @if($floorplan->number != 0)
+                                        ({{ $floorplan->number+1 }})
+                                    @endif
                                 </td>
                                 <td>
                                     @if($floorplan->deleted_at)

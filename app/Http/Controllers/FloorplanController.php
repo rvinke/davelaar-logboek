@@ -49,9 +49,20 @@ class FloorplanController extends Controller
         $floor_id = $request->input('floor_id');
         $location_id = $request->input('location_id');
 
-        $stream = fopen($file->getRealPath(), 'r+');
 
-        //dd($stream);
+        //controleren of deze combinatie floor/location voorkomt
+        $existing_floorplans = Floorplan::where('project_id', $project_id)
+            ->where('floor_id', $floor_id)
+            ->where('location_id', $location_id)
+            ->get();
+
+        $number = $existing_floorplans->count();
+
+        if ($number == 0) {
+            $floor_element = $floor_id;
+        } else {
+            $floor_element = $floor_id.'_'.$number;
+        }
 
         $project = Project::findOrFail($project_id);
         $year = date("Y", strtotime($project->created_at));
@@ -59,25 +70,26 @@ class FloorplanController extends Controller
         $adapter = new Local(base_path().'/public/documenten');
         $filesystem = new Filesystem($adapter);
 
-
-        $file_dir = '/'.$year.'/'.$project_id.'/plattegrond/'.$location_id.'/'.$floor_id.'/';
+        $file_dir = '/'.$year.'/'.$project_id.'/plattegrond/'.$location_id.'/'.$floor_element.'/';
         $file_location = $file_dir.$file->getClientOriginalName();
 
+        /*
         //eerst opruimen
         if ($filesystem->has($file_location)) {
             $filesystem->delete($file_location);
-        }
+        }*/
 
         $stream = fopen($file->getRealPath(), 'r+');
         $filesystem->writeStream($file_location, $stream);
         fclose($stream);
 
+        /*
         //controleren of deze combinatie voorkomt
         $existing_floorplan = Floorplan::where('project_id', $project_id)->where('floor_id', $floor_id)->first();
 
         if (!empty($existing_floorplan)) {
             $existing_floorplan->delete();
-        }
+        }*/
 
         $floorplan = new Floorplan();
 
@@ -85,12 +97,13 @@ class FloorplanController extends Controller
         $floorplan->project_id = $project_id;
         $floorplan->floor_id = $floor_id;
         $floorplan->location_id = $location_id;
+        $floorplan->number = $number;
 
         $floorplan->save();
 
         //set file permissions
-        chmod(public_path().'/documenten/'.$year.'/'.$project_id.'/plattegrond/'.$location_id.'/'.$floor_id, 0777);
-        chmod(public_path().'/documenten/'.$year.'/'.$project_id.'/plattegrond/'.$location_id.'/'.$floor_id.'/'.$file->getClientOriginalName(), 0777);
+        chmod(public_path().'/documenten/'.$year.'/'.$project_id.'/plattegrond/'.$location_id.'/'.$floor_element, 0777);
+        chmod(public_path().'/documenten/'.$year.'/'.$project_id.'/plattegrond/'.$location_id.'/'.$floor_element.'/'.$file->getClientOriginalName(), 0777);
 
         return redirect()->route('projecten.show', ['id' => $project_id])->with('status', 'Plattegrond toegevoegd.');
     }
