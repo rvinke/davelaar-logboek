@@ -73,6 +73,11 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('project/{id}/users', ['as' => 'project.users', 'uses' => 'Logboek\ProjectController@users']);
         Route::post('project/{id}/users/store', ['as' => 'project.users.store', 'uses' => 'Logboek\ProjectController@storeUsers']);
 
+
+        Route::get('project/{id}/floorplans', ['as' => 'floorplans', 'uses' => 'FloorplanController@show']);
+        Route::get('floorplan/delete/{id}', ['as' => 'floorplan.delete', 'uses' => 'FloorplanController@destroy']);
+        Route::get('floorplan/enable/{id}', ['as' => 'floorplan.enable', 'uses' => 'FloorplanController@enable']);
+
         Route::get('qr/{code}/restore', ['as' => 'qr-code.restore', 'uses' => 'Logboek\QrController@restore']);
     });
 

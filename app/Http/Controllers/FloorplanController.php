@@ -103,7 +103,12 @@ class FloorplanController extends Controller
      */
     public function show($id)
     {
-        //
+        $project = Project::findOrFail($id);
+
+
+
+
+        return view('floorplan.list')->withProject($project);
     }
 
     public function download($project_id, $location_id, $floor_id)
@@ -241,6 +246,25 @@ class FloorplanController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $floorplan = Floorplan::findOrFail($id);
+
+        $floorplan->delete();
+
+        return back();
+    }
+
+    /**
+     * Restore the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function enable($id)
+    {
+        $floorplan = Floorplan::withTrashed()->findOrFail($id);
+
+        $floorplan->restore();
+
+        return back();
     }
 }

@@ -46,7 +46,7 @@
         </div>
     </div>
 
-    @include('project.parts.plattegronden')
+    @include('project.parts.plattegronden', ['show_edit_link' => true])
 
 
     @include('project.parts.files')

@@ -2,6 +2,9 @@
     <div class="col-lg-12">
         <div class="ibox float-e-margins">
             <div class="ibox-title">
+                @if(isset($show_edit_link))
+                    <a href="{!! \URL::route('floorplans', ['id' => $project->id]) !!}" style="margin-right: 10px;" class="btn btn-primary btn-xs pull-right">Bewerk plattegronden</a>
+                @endif
                 <h5>Plattegronden</h5>
             </div>
             <div class="ibox-content">

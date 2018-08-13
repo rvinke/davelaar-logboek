@@ -33,6 +33,11 @@ class Project extends Model
         return $this->hasMany(\App\Models\Floorplan::class);
     }
 
+    public function mapsWithTrashed()
+    {
+        return $this->hasMany(\App\Models\Floorplan::class)->withTrashed();
+    }
+
     public function users()
     {
         return $this->belongsToMany(\App\User::class)->withTimestamps();
