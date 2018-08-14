@@ -21,7 +21,7 @@ class MenuMiddleware
 
         if (!empty($user)) {
             Menu::make('example', function ($menu) use ($user) {
-                $menu->add('Home', '')->icon('fa fa-th')->active('');
+                $menu->add('Home', '/')->icon('fa fa-th');
                 $menu->add('Logboek', 'logboek')->icon('fa fa-archive')->active('projecten/*');
                 if ($user->hasRole('admin')) {
                     $menu->logboek->add('Projecten', \URL::route('projecten.index'))->active('projecten');
