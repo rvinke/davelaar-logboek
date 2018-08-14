@@ -4,6 +4,7 @@ namespace app\Http\Controllers\Logboek;
 
 use App\Models\File;
 use App\Models\FireDamper;
+use App\Models\Floorplan;
 use App\Models\Log;
 use App\Models\Passthrough;
 use App\Models\PassthroughType;
@@ -108,6 +109,7 @@ class LogController extends Controller
         $log->project_id = $request->input('project_id');
         $log->locatie_id = $request->input('locatie_id');
         $log->bouwlaag_id = $request->input('bouwlaag_id');
+        $log->floorplan_id = $request->input('floorplan_id');
         $log->oppervlak_type_id = $request->input('oppervlak_type_id');
         $log->eis = $request->input('eis');
         $log->product_id = $request->input('product_id');
@@ -137,7 +139,9 @@ class LogController extends Controller
             $passthrough->save();
         }
 
-        return redirect()->route('log.map', [$log->id, $log->bouwlaag_id]);
+        $floorplan = Floorplan::findOrFail($request->input('floorplan_id'));
+
+        return redirect()->route('log.map', [$log->id, $log->bouwlaag_id, $floorplan->number]);
     }
 
     /**
@@ -194,6 +198,7 @@ class LogController extends Controller
         $log->project_id = $request->input('project_id');
         $log->locatie_id = $request->input('locatie_id');
         $log->bouwlaag_id = $request->input('bouwlaag_id');
+        $log->floorplan_id = $request->input('floorplan_id');
         $log->oppervlak_type_id = $request->input('oppervlak_type_id');
         $log->eis = $request->input('eis');
         $log->product_id = $request->input('product_id');
@@ -224,7 +229,9 @@ class LogController extends Controller
             $passthrough->save();
         }
 
-        return redirect()->route('log.map', [$log->id, $log->bouwlaag_id]);
+        $floorplan = Floorplan::findOrFail($request->input('floorplan_id'));
+
+        return redirect()->route('log.map', [$log->id, $log->bouwlaag_id, $floorplan->number]);
     }
 
     private function storePhoto(Request $request, $log)
@@ -277,7 +284,7 @@ class LogController extends Controller
         return redirect()->route('projecten.show', $log->project_id)->with('status', 'Log opgeslagen.');
     }
 
-    public function map($id, $floor_id)
+    public function map($id, $floor_id, $number = 0)
     {
         /*
          * @Todo: waarom moet het project hier opgehaald worden?
@@ -285,10 +292,16 @@ class LogController extends Controller
         $log = Log::findOrFail($id);
         $project = Project::findOrFail($log->project_id);
 
+        if($number == 0) {
+            $floor_element = $floor_id;
+        } else {
+            $floor_element = $floor_id.'_'.$number;
+        }
+
         return \View::make('logboek.map')
             ->withLog($log)
             ->withProject($project)
-            ->withFloor($floor_id);
+            ->withFloor($floor_element);
     }
 
     public function mapShow($id)
@@ -296,9 +309,18 @@ class LogController extends Controller
         $log = Log::findOrFail($id);
         $project = Project::findOrFail($log->project_id);
 
+        if($log->floorplan_id != 0) {
+            $floorplan = Floorplan::findOrFail($log->floorplan_id);
+            $number = $floorplan->number;
+        } else {
+            $number = 0;
+        }
+
+
         return \View::make('project.logitemplattegrond')
             ->withLog($log)
-            ->withProject($project);
+            ->withProject($project)
+            ->withNumber($number);
     }
 
     /**

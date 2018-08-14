@@ -25,4 +25,16 @@ class Floorplan extends Model
     {
         return $this->belongsTo(\App\Models\Location::class);
     }
+
+    public function getNameAttribute()
+    {
+        $name = 'Verdieping '.$this->floor->naam;
+
+        if ($this->number != 0) {
+            $number = $this->number + 1;
+            $name .= ' ('.$number.')';
+        }
+
+        return $name;
+    }
 }

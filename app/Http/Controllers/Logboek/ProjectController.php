@@ -158,7 +158,7 @@ class ProjectController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function floorplan($id, $location_id, $floor_id)
+    public function floorplan($id, $location_id, $floor_id, $number)
     {
         $project = Project::with('logs')
             ->with('logs.passthroughs')
@@ -168,7 +168,7 @@ class ProjectController extends Controller
             ->with('logs.location')
             ->findOrFail($id);
 
-        $floorplan = $project->maps()->where('location_id', $location_id)->where('floor_id', $floor_id)->first();
+        $floorplan = $project->maps()->where('location_id', $location_id)->where('floor_id', $floor_id)->where('number', $number)->first();
 
         return \View::make('project.projectplattegrond')
             ->withProject($project)

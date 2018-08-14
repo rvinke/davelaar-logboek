@@ -30,10 +30,18 @@
         </div>
 
         <div class="form-group">
-            <label class="col-lg-2 control-label">Wand/vloer</label>
+            <label class="col-lg-2 control-label">Plattegrond</label>
             <div class="col-lg-4">
-                {!! Form::select('oppervlak_type_id', ['Wand', 'Vloer'], NULL, array('class' => 'form-control')) !!}
+                {!! Form::select('floorplan_id', $project->maps->pluck('name', 'id'), NULL, array('class' => 'form-control')) !!}
             </div>
+        </div>
+
+
+        <div class="form-group">
+        <label class="col-lg-2 control-label">Wand/vloer</label>
+        <div class="col-lg-4">
+            {!! Form::select('oppervlak_type_id', ['Wand', 'Vloer'], NULL, array('class' => 'form-control')) !!}
+        </div>
         </div>
 
         <div class="form-group">

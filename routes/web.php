@@ -86,9 +86,9 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('project/{id}/rapport', ['as' => 'rapport.show', 'uses' => 'Logboek\ProjectController@rapport']);
         Route::get('project/{id}/rapport/print/{debug?}', ['as' => 'rapport.print', 'uses' => 'Logboek\ProjectController@printRapport']);
     });
-    Route::get('project/{id}/plattegrond/{location}/{floor}', ['as' => 'rapport.floorplan', 'uses' => 'Logboek\ProjectController@floorplan']);
-    Route::get('project/{id}/plattegrond/{location}/{floor}/download', ['as' => 'rapport.floorplan.download', 'uses' => 'FloorplanController@download']);
-    Route::get('plattegrond-js/{projectId}/{location}/{floor}/{editable?}/{lat?}/{lng?}', ['as' => 'rapport.floorplan-js', 'uses' => 'FloorplanController@javascript']);
+    Route::get('project/{id}/plattegrond/{location}/{floor}/{number}', ['as' => 'rapport.floorplan', 'uses' => 'Logboek\ProjectController@floorplan']);
+    Route::get('project/{id}/plattegrond/{location}/{floor}/{number}/download', ['as' => 'rapport.floorplan.download', 'uses' => 'FloorplanController@download']);
+    Route::get('plattegrond-js/{projectId}/{location}/{floor}/{number}/{editable?}/{lat?}/{lng?}', ['as' => 'rapport.floorplan-js', 'uses' => 'FloorplanController@javascript']);
 
     Route::get('logboek/{id}/show', ['as' => 'log.show', 'uses' => 'Logboek\LogController@mapShow']);
     Route::get('logboek/{id}/map-show', ['as' => 'log.map-show', 'uses' => 'Logboek\LogController@mapShow']);
@@ -101,7 +101,7 @@ Route::group(['middleware' => 'auth'], function () {
         Route::patch('logboek/{id}/update', ['as' => 'log.update', 'uses' => 'Logboek\LogController@update']);
         Route::get('logboek/{id}/delete', ['as' => 'log.delete', 'uses' => 'Logboek\LogController@destroy']);
 
-        Route::get('logboek/{id}/map/{floor}', ['as' => 'log.map', 'uses' => 'Logboek\LogController@map']);
+        Route::get('logboek/{id}/map/{floor}/{number}', ['as' => 'log.map', 'uses' => 'Logboek\LogController@map']);
         Route::patch('logboek/{id}/update-map', ['as' => 'log.update-map', 'uses' => 'Logboek\LogController@updateMap']);
     });
 

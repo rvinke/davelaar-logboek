@@ -29,7 +29,7 @@ var markers = new L.FeatureGroup();
 map_{{ $floor }}.addLayer(markers);
 
 // the tile layer containing the image generated with gdal2tiles --leaflet ...
-L.tileLayer('/documenten/{{ $year }}/{{ $project->id }}/plattegrond/{{ $floorplan->location_id }}/{{ $floor }}/{z}/{x}/{y}.png', {
+L.tileLayer('/documenten/{{ $year }}/{{ $project->id }}/plattegrond/{{ $floorplan->location_id }}/{{ $floor }}//{z}/{x}/{y}.png', {
 noWrap: true,
 attribution: 'Plattegrond (c) Davelaarbouw B.V.',
 }).addTo(map_{{ $floor }});
@@ -82,8 +82,7 @@ attribution: 'Plattegrond (c) Davelaarbouw B.V.',
 
 @if(!$editable)
     @foreach($project->logs as $logitem)
-        @if(!empty($logitem->lat) && $logitem->bouwlaag_id == $floor)
-            //var marker = L.marker(rc.unproject([{{ $logitem->lat }}, {{ $logitem->lng }}])).addTo(layerBounds);
+        @if(!empty($logitem->lat) && $logitem->bouwlaag_id == $floorplan->floor_id && $logitem->floorplan_id == $floorplan->id)
             var marker_{{ $logitem->id }} = L.circleMarker(rc.unproject([{{ $logitem->lat }}, {{ $logitem->lng }}])).bindPopup('<b>Doorvoer {{ $logitem->code }}</b><br/>@if(isset($logitem->photo->id))<img  width="200" height="200" src="/photoM/{{ $logitem->photo->id }}" />@endif').addTo(layerBounds);
         @endif
     @endforeach

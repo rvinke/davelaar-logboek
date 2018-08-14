@@ -13,7 +13,7 @@
             <div class="ibox float-e-margins">
 
                 <div class="ibox-title">
-                    <h5>Projectdetails</h5>
+                    <h5>Plattegrond</h5>
                 </div>
 
                 <div class="ibox-content">
@@ -49,61 +49,15 @@
 
 @push('styles')
     <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css" />
+    <style>
+        .leaflet-container {
+            background-color: #ffffff;
+        }
+    </style>
 @endpush
 
 @push('scripts')
 <script src="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script>
 <script src="/js/rastercoords.js"></script>
-<script src="/plattegrond-js/{{ $project->id }}/{{ $log->locatie_id }}/{{ $floor }}/{{ $log->id }}"></script>
-
-
-
-
-
-
-
-<!--<script>
-        var mapMinZoom = 0;
-        var mapMaxZoom = 4;
-        var map = L.map('map', {
-            maxZoom: mapMaxZoom,
-            minZoom: mapMinZoom,
-            crs: L.CRS.Simple
-        }).setView([0, 0], mapMaxZoom);
-
-        var mapBounds = new L.LatLngBounds(
-                map.unproject([0, 3584], mapMaxZoom),
-                map.unproject([2560, 0], mapMaxZoom));
-
-        map.fitBounds(mapBounds);
-        L.tileLayer('/documenten/2015/134/plattegrond/{z}/{x}/{y}.png', {
-            minZoom: mapMinZoom, maxZoom: mapMaxZoom,
-            bounds: mapBounds,
-            noWrap: true,
-            tms: false
-        }).addTo(map);
-
-
-
-
-
-        map.on('click', function(e){
-            //alert(e.latlng);
-            $('#position').val(e.latlng.lat + '|' + e.latlng.lng);
-            var marker = new L.marker(e.latlng, {draggable: 'true'});
-            map.addLayer(marker);
-
-            marker.on('dragend', function(e){
-                var marker = e.target;
-                var position = marker.getLatLng();
-                $('#position').val(position.lat + '|' + position.lng);
-                //alert(position);
-            });
-        });
-
-
-
-
-</script>-->
-
+<script src="/plattegrond-js/{{ $project->id }}/{{ $log->locatie_id }}/{{ $floor }}/0/{{ $log->id }}"></script>
 @endpush

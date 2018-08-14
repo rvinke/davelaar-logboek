@@ -124,7 +124,7 @@ class FloorplanController extends Controller
         return view('floorplan.list')->withProject($project);
     }
 
-    public function download($project_id, $location_id, $floor_id)
+    public function download($project_id, $location_id, $floor_id, $number)
     {
         $project = Project::with('logs')
             ->with('logs.passthroughs')
@@ -136,7 +136,13 @@ class FloorplanController extends Controller
 
         $year = date("Y", strtotime($project->created_at));
 
-        $location = public_path().'/documenten/'.$year.'/'.$project_id.'/plattegrond/'.$location_id.'/'.$floor_id.'/plattegrond.png';
+        if($number == 0) {
+            $floor_element = $floor_id;
+        } else {
+            $floor_element = $floor_id.'_'.$number;
+        }
+
+        $location = public_path().'/documenten/'.$year.'/'.$project_id.'/plattegrond/'.$location_id.'/'.$floor_element.'/plattegrond.png';
         $img = Image::make($location);
 
         //bepaal de grootte van de marker
@@ -174,7 +180,7 @@ class FloorplanController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function javascript($id, $location_id, $floor_id, $editable = false, $log_id = '')
+    public function javascript($project_id, $location_id, $floor_id, $number, $editable = false, $log_id = '')
     {
 
         \Debugbar::disable();
@@ -185,9 +191,9 @@ class FloorplanController extends Controller
             ->with('logs.floor')
             ->with('logs.system')
             ->with('logs.location')
-            ->findOrFail($id);
+            ->findOrFail($project_id);
 
-        $floorplan = $project->maps()->where('location_id', $location_id)->where('floor_id', $floor_id)->first();
+        $floorplan = $project->maps()->where('location_id', $location_id)->where('floor_id', $floor_id)->where('number', $number)->first();
 
         if (!$floorplan) {
             return response('');
@@ -195,13 +201,19 @@ class FloorplanController extends Controller
 
         $year = date("Y", strtotime($project->created_at));
 
+        if($number == 0) {
+            $floor_element = $floor_id;
+        } else {
+            $floor_element = $floor_id.'_'.$number;
+        }
+
         //@TODO: $editable echt zo maken dat het over editable gaat en niet over een log-id
         if ($editable) {
             $log = Log::findOrFail($editable);
 
             return \View::make('project.floorplanJS')->withProject($project)
                 ->withFloorplan($floorplan)
-                ->withFloor($floor_id)
+                ->withFloor($floor_element)
                 ->withYear($year)
                 ->withEditable($editable)
                 ->withLog($log);
@@ -212,7 +224,7 @@ class FloorplanController extends Controller
 
             return \View::make('project.floorplanJS')->withProject($project)
                 ->withFloorplan($floorplan)
-                ->withFloor($floor_id)
+                ->withFloor($floor_element)
                 ->withYear($year)
                 ->withEditable($editable)
                 ->withLat($log->lat)
@@ -222,7 +234,7 @@ class FloorplanController extends Controller
 
         return \View::make('project.floorplanJS')->withProject($project)
             ->withFloorplan($floorplan)
-            ->withFloor($floor_id)
+            ->withFloor($floor_element)
             ->withYear($year)
             ->withEditable($editable)
             ->withLog(false);

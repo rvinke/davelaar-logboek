@@ -152,7 +152,12 @@
 @stop
 
 @push('styles')
-<link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.6.4/leaflet.css" />
+<link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css" />
+<style>
+    .leaflet-container {
+        background-color: #ffffff;
+    }
+</style>
 @endpush
 
 
@@ -160,6 +165,6 @@
 <script src="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script>
 <script src="/js/rastercoords.js"></script>
 @if($log->lat != 0.00)
-<script src="/plattegrond-js/{{ $project->id }}/{{ $log->locatie_id }}/{{ $log->bouwlaag_id }}/0/{{ $log->id }}"></script>
+<script src="/plattegrond-js/{{ $project->id }}/{{ $log->locatie_id }}/{{ $log->bouwlaag_id }}/{{ $number }}/{{ $log->id }}"></script>
 @endif
 @endpush
