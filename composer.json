@@ -59,7 +59,7 @@
     },
     "scripts": {
         "post-install-cmd": [
-            "Illuminate\\Foundation\\ComposerScripts::postInstall",
+            "Illuminate\\Foundation\\ComposerScripts::postInstall"
         ],
         "post-root-package-install": [
             "php -r \"copy('.env.example', '.env');\""
