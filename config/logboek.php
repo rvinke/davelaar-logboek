@@ -2,6 +2,6 @@
 
 return [
 
-    'app_version' => '1.7.0',
+    'app_version' => '1.7.1',
 
     ];

@@ -232,7 +232,8 @@ class FloorplanController extends Controller
                 ->withLog($log);
         }
 
-        return \View::make('project.floorplanJS')->withProject($project)
+        return \View::make('project.floorplanJS')
+            ->withProject($project)
             ->withFloorplan($floorplan)
             ->withFloor($floor_element)
             ->withYear($year)

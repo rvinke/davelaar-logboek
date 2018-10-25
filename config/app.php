@@ -161,7 +161,6 @@ return [
          */
 
         Yajra\Datatables\DatatablesServiceProvider::class,
-        Barryvdh\Debugbar\ServiceProvider::class,
         Zizaco\Entrust\EntrustServiceProvider::class,
         Nathanmac\Utilities\Parser\ParserServiceProvider::class,
         SimpleSoftwareIO\QrCode\QrCodeServiceProvider::class,
@@ -225,7 +224,6 @@ return [
         'QrCode' => SimpleSoftwareIO\QrCode\Facades\QrCode::class,
         'Bugsnag' => Bugsnag\BugsnagLaravel\BugsnagFacade::class,
 
-        'Debugbar' => Barryvdh\Debugbar\Facade::class,
 
 
     ],

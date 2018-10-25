@@ -82,7 +82,7 @@ attribution: 'Plattegrond (c) Davelaarbouw B.V.',
 
 @if(!$editable)
     @foreach($project->logs as $logitem)
-        @if(!empty($logitem->lat) && $logitem->bouwlaag_id == $floorplan->floor_id && $logitem->floorplan_id == $floorplan->id)
+        @if(!empty($logitem->lat) && $logitem->bouwlaag_id == $floorplan->floor_id && ($logitem->floorplan_id == $floorplan->id || $logitem->floorplan_id === 0))
             var marker_{{ $logitem->id }} = L.circleMarker(rc.unproject([{{ $logitem->lat }}, {{ $logitem->lng }}])).bindPopup('<b>Doorvoer {{ $logitem->code }}</b><br/>@if(isset($logitem->photo->id))<img  width="200" height="200" src="/photoM/{{ $logitem->photo->id }}" />@endif').addTo(layerBounds);
         @endif
     @endforeach
