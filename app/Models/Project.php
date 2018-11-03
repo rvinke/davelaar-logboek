@@ -7,6 +7,17 @@ use Illuminate\Database\Eloquent\Model;
 class Project extends Model
 {
 
+    public function scopeWithAll($query)
+    {
+        return $query->with(
+            'logs',
+            'logs.passthroughs',
+            'logs.passthroughs.passthrough_type',
+            'logs.floor',
+            'logs.system',
+            'logs.location'
+        );
+    }
 
     public function locations()
     {

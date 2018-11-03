@@ -17,15 +17,6 @@ use League\Flysystem\Filesystem;
 
 class FloorplanController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        //
-    }
 
     /**
      * Show the form for creating a new resource.
@@ -49,7 +40,6 @@ class FloorplanController extends Controller
         $floor_id = $request->input('floor_id');
         $location_id = $request->input('location_id');
 
-
         //controleren of deze combinatie floor/location voorkomt
         $existing_floorplans = Floorplan::where('project_id', $project_id)
             ->where('floor_id', $floor_id)
@@ -58,10 +48,9 @@ class FloorplanController extends Controller
 
         $number = $existing_floorplans->count();
 
+        $floor_element = $floor_id.'_'.$number;
         if ($number == 0) {
             $floor_element = $floor_id;
-        } else {
-            $floor_element = $floor_id.'_'.$number;
         }
 
         $project = Project::findOrFail($project_id);
@@ -111,35 +100,26 @@ class FloorplanController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  int  $project_id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($project_id)
     {
-        $project = Project::findOrFail($id);
-
-
-
+        $project = Project::findOrFail($project_id);
 
         return view('floorplan.list')->withProject($project);
     }
 
     public function download($project_id, $location_id, $floor_id, $number)
     {
-        $project = Project::with('logs')
-            ->with('logs.passthroughs')
-            ->with('logs.passthroughs.passthrough_type')
-            ->with('logs.floor')
-            ->with('logs.system')
-            ->with('logs.location')
+        $project = Project::withAll()
             ->findOrFail($project_id);
 
         $year = date("Y", strtotime($project->created_at));
 
-        if($number == 0) {
+        $floor_element = $floor_id.'_'.$number;
+        if ($number == 0) {
             $floor_element = $floor_id;
-        } else {
-            $floor_element = $floor_id.'_'.$number;
         }
 
         $location = public_path().'/documenten/'.$year.'/'.$project_id.'/plattegrond/'.$location_id.'/'.$floor_element.'/plattegrond.png';
@@ -185,15 +165,14 @@ class FloorplanController extends Controller
 
         \Debugbar::disable();
 
-        $project = Project::with('logs')
-            ->with('logs.passthroughs')
-            ->with('logs.passthroughs.passthrough_type')
-            ->with('logs.floor')
-            ->with('logs.system')
-            ->with('logs.location')
+        $project = Project::withAll()
             ->findOrFail($project_id);
 
-        $floorplan = $project->maps()->where('location_id', $location_id)->where('floor_id', $floor_id)->where('number', $number)->first();
+        $floorplan = $project->maps()
+            ->where('location_id', $location_id)
+            ->where('floor_id', $floor_id)
+            ->where('number', $number)
+            ->first();
 
         if (!$floorplan) {
             return response('');
@@ -201,10 +180,9 @@ class FloorplanController extends Controller
 
         $year = date("Y", strtotime($project->created_at));
 
-        if($number == 0) {
+        $floor_element = $floor_id.'_'.$number;
+        if ($number == 0) {
             $floor_element = $floor_id;
-        } else {
-            $floor_element = $floor_id.'_'.$number;
         }
 
         //@TODO: $editable echt zo maken dat het over editable gaat en niet over een log-id
@@ -239,29 +217,6 @@ class FloorplanController extends Controller
             ->withYear($year)
             ->withEditable($editable)
             ->withLog(false);
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
     }
 
     /**
