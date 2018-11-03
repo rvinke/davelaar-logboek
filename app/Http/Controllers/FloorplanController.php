@@ -163,8 +163,6 @@ class FloorplanController extends Controller
     public function javascript($project_id, $location_id, $floor_id, $number, $editable = false, $log_id = '')
     {
 
-        \Debugbar::disable();
-
         $project = Project::withAll()
             ->findOrFail($project_id);
 
