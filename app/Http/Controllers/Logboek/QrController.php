@@ -62,7 +62,7 @@ class QrController extends Controller
 
         return \View::make('qr.select-project')
             ->withCode($code)
-            ->withProjectId($project_id)
+            ->with('project_id', $project_id)
             ->with('actieve_projecten', $actieve_projecten);
     }
 

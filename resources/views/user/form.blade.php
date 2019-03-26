@@ -28,13 +28,23 @@
             </div>
         </div>
 
-        <div class="form-group">
-            <label class="col-lg-2 control-label">e-Mailadres</label>
-            <div class="col-lg-4">
-                {!! Form::email('email', NULL, array('class' => 'form-control')) !!}
-                <span class="help-block m-b-none">Het e-mailadres is ook de gebruikersnaam</span>
+        @if($is_new)
+            <div class="form-group">
+                <label class="col-lg-2 control-label">e-Mailadres</label>
+                <div class="col-lg-4">
+                    {!! Form::email('email', NULL, array('class' => 'form-control')) !!}
+                    <span class="help-block m-b-none">Het e-mailadres is ook de gebruikersnaam</span>
+                </div>
             </div>
-        </div>
+        @else
+            <div class="form-group">
+                <label class="col-lg-2 control-label">e-Mailadres</label>
+                <div class="col-lg-4">
+                    {!! Form::email('email', NULL, array('class' => 'form-control', 'disabled' => 'disabled')) !!}
+                    <span class="help-block m-b-none">Het e-mailadres is ook de gebruikersnaam, en kan na aanmaken niet aangepast worden.</span>
+                </div>
+            </div>
+        @endif
 
         @if(!$limited)
         <div class="form-group">
@@ -87,7 +97,7 @@
             <div class="col-lg-offset-2 col-lg-10">
 
                 <span class="pull-right">
-                    @if(!$is_new)
+                    @if(!$is_new && Auth::user()->hasRole('admin'))
                         <button class="btn btn-outline btn-danger delete-button" type="button">Schakel deze gebruiker uit</button>
                     @endif
                     <button class="btn btn-primary" type="submit">Bewaar</button>

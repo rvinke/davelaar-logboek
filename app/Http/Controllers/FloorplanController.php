@@ -172,6 +172,8 @@ class FloorplanController extends Controller
             ->where('number', $number)
             ->first();
 
+
+
         if (!$floorplan) {
             return response('');
         }

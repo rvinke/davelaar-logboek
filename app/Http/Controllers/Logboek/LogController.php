@@ -4,6 +4,7 @@ namespace app\Http\Controllers\Logboek;
 
 use App\Models\File;
 use App\Models\FireDamper;
+use App\Models\Floor;
 use App\Models\Floorplan;
 use App\Models\Log;
 use App\Models\Passthrough;
@@ -106,9 +107,11 @@ class LogController extends Controller
     {
         $log = new Log();
 
+        $floorplan = Floorplan::findOrFail($request->input('floorplan_id'));
+
         $log->project_id = $request->input('project_id');
         $log->locatie_id = $request->input('locatie_id');
-        $log->bouwlaag_id = $request->input('bouwlaag_id');
+        $log->bouwlaag_id = $floorplan->floor_id;
         $log->floorplan_id = $request->input('floorplan_id');
         $log->oppervlak_type_id = $request->input('oppervlak_type_id');
         $log->eis = $request->input('eis');
@@ -139,8 +142,6 @@ class LogController extends Controller
             $passthrough->save();
         }
 
-        $floorplan = Floorplan::findOrFail($request->input('floorplan_id'));
-
         return redirect()->route('log.map', [$log->id, $log->bouwlaag_id, $floorplan->number]);
     }
 
@@ -168,6 +169,13 @@ class LogController extends Controller
     public function edit($id)
     {
         $log = Log::with('passthroughs')->findOrFail($id);
+        $floorplan_id = $log->floorplan_id;
+        if ($log->floorplan_id == 0) {
+            $floorplan = Floorplan::where('floor_id', '=', $log->bouwlaag_id)
+                ->where('project_id', $log->project_id)
+                ->first();
+            $floorplan_id = $floorplan->id;
+        }
         $project = Project::findOrFail($log->project_id);
         $locations = $project->locations->pluck('naam', 'id');
         $products = System::selectRaw('CONCAT(productnummer, " ", naam) as naam, id')->orderBy('naam')->pluck('naam', 'id');
@@ -177,6 +185,7 @@ class LogController extends Controller
         return \View::make('logboek.edit')
             ->withLog($log)
             ->withProject($project)
+            ->with('floorplan_id', $floorplan_id)
             ->withLocations($locations)
             ->withProducts($products)
             ->withBrandkleppen($brandkleppen)
@@ -195,9 +204,11 @@ class LogController extends Controller
     {
         $log = Log::findOrFail($id);
 
+        $floorplan = Floorplan::findOrFail($request->input('floorplan_id'));
+
         $log->project_id = $request->input('project_id');
         $log->locatie_id = $request->input('locatie_id');
-        $log->bouwlaag_id = $request->input('bouwlaag_id');
+        $log->bouwlaag_id = $floorplan->floor_id;
         $log->floorplan_id = $request->input('floorplan_id');
         $log->oppervlak_type_id = $request->input('oppervlak_type_id');
         $log->eis = $request->input('eis');
@@ -228,8 +239,6 @@ class LogController extends Controller
 
             $passthrough->save();
         }
-
-        $floorplan = Floorplan::findOrFail($request->input('floorplan_id'));
 
         return redirect()->route('log.map', [$log->id, $log->bouwlaag_id, $floorplan->number]);
     }
@@ -292,10 +301,9 @@ class LogController extends Controller
         $log = Log::findOrFail($id);
         $project = Project::findOrFail($log->project_id);
 
-        if($number == 0) {
-            $floor_element = $floor_id;
-        } else {
-            $floor_element = $floor_id.'_'.$number;
+        $floor_element = $floor_id.'/'.$number;
+        if ($number == 0) {
+            $floor_element = $floor_id.'/0';
         }
 
         return \View::make('logboek.map')

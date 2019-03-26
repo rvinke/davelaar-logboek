@@ -27,9 +27,8 @@ class StoreUser extends FormRequest
         return [
             'first_name'            => 'required|between:1,80',
             'last_name'             => 'required|between:3,80',
-            'email'                 => 'required|between:5,64|email|unique:users,email,'.Auth::user()->id,
-            'password'              => 'min:6|confirmed',
-            'password_confirmation' => 'required_with:password|min:6',
+            'email'                 => 'required|between:5,64|email|sometimes|unique:users,email,'.Auth::user()->id,
+            'password'              => 'min:6|confirmed'
         ];
     }
 }

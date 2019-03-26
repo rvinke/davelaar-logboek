@@ -22,17 +22,17 @@
         </div>
 
 
-        <div class="form-group">
+        <!--<div class="form-group">
             <label class="col-lg-2 control-label">Bouwlaag</label>
             <div class="col-lg-4">
                 {!! Form::select('bouwlaag_id', App\Models\Floor::orderBy('naam')->pluck('naam', 'id'), NULL, array('class' => 'form-control')) !!}
             </div>
-        </div>
+        </div>-->
 
         <div class="form-group">
             <label class="col-lg-2 control-label">Plattegrond</label>
             <div class="col-lg-4">
-                {!! Form::select('floorplan_id', $project->maps->pluck('name', 'id'), NULL, array('class' => 'form-control')) !!}
+                {!! Form::select('floorplan_id', $project->maps->pluck('name', 'id'), @$floorplan_id, array('class' => 'form-control')) !!}
             </div>
         </div>
 

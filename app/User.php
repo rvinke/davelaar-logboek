@@ -60,16 +60,6 @@ class User extends Model implements
         'password_confirmation' => 'required_with:password|min:6',
     ];*/
 
-    public function beforeSave()
-    {
-        // if there's a new password, hash it
-        if ($this->isDirty('password')) {
-            $this->password = bcrypt($this->password);
-        }
-
-        return true;
-        //or don't return nothing, since only a boolean false will halt the operation
-    }
 
     public function client()
     {

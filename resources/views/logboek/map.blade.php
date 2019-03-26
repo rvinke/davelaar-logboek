@@ -59,5 +59,5 @@
 @push('scripts')
 <script src="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script>
 <script src="/js/rastercoords.js"></script>
-<script src="/plattegrond-js/{{ $project->id }}/{{ $log->locatie_id }}/{{ $floor }}/0/{{ $log->id }}"></script>
+<script src="/plattegrond-js/{{ $project->id }}/{{ $log->locatie_id }}/{{ $floor }}/1/{{ $log->id }}"></script>
 @endpush

@@ -71,7 +71,7 @@ class UserController extends Controller
         $user->first_name = $request->input('first_name');
         $user->last_name = $request->input('last_name');
         $user->email = $request->input('email');
-        $user->password = $request->input('password');
+        $user->password = bcrypt($request->input('password'));
         $user->client_id = $request->input('client_id');
 
 
@@ -129,10 +129,8 @@ class UserController extends Controller
 
         $user->first_name = $request->input('first_name');
         $user->last_name = $request->input('last_name');
-        $user->email = $request->input('email');
         if (!empty($request->input('password'))) {
-            $user->password = $request->input('password');
-            $user->password_confirmation = $request->input('password_confirmation');
+            $user->password = bcrypt($request->input('password'));
         } else {
             unset($user->password);
         }
